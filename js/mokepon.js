@@ -32,7 +32,8 @@ function seleccionarMascotaJugador(){
         //Setea primera mayuscula
         mascota = mascota[0].charAt(0).toUpperCase()+mascota[0].substring(1);
         console.log('Has seleccionado a ' + mascota)
-        alert('Has seleccionado a ' + mascota)
+        // modifica el HTML de forma dinamica
+        document.getElementById('mascota-jugador').innerHTML = mascota;
     }
 }
 

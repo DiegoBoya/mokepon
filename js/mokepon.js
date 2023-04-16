@@ -20,9 +20,13 @@ const MIN_ARRAY_MOKE = 1;
 
 // ataques
 let ataqueJugador;
+let ataquePC;
 const FUEGO = 'FUEGO';
 const AGUA = 'AGUA';
 const TIERRA = 'TIERRA';
+const ATAQUES = [FUEGO, AGUA, TIERRA];
+const MAX_ATAQUES = ATAQUES.length;
+const MIN_ATAQUES = 1;
 
 function iniciarJuego() {
     console.log('cargo OK el juego')
@@ -61,6 +65,24 @@ function seleccionarMascotaJugador() {
     }
 }
 
+function ataqueFuego(){
+    ataqueJugador = FUEGO;
+    console.log('elegiste FUEGO')
+    seleccionarAtaquesPC();
+}
+
+function ataqueAgua(){
+    ataqueJugador = AGUA;
+    console.log('elegiste AGUAS')
+    seleccionarAtaquesPC();
+}
+
+function ataqueTierra(){
+    ataqueJugador = TIERRA;
+    console.log('elegiste TIERRA')
+    seleccionarAtaquesPC();
+}
+
 function formatearNombre(mascota) {
     return mascota.charAt(0).toUpperCase() + mascota.substring(1);
 }
@@ -73,16 +95,11 @@ function seleccionarMascotaPC() {
     document.getElementById('mascota-PC').innerHTML = mascotaPC;
 }
 
-function ataqueFuego(){
-    ataqueJugador = FUEGO;
-}
-
-function ataqueAgua(){
-    ataqueJugador = AGUA;
-}
-
-function ataqueTierra(){
-    ataqueJugador = TIERRA;
+function seleccionarAtaquesPC(){
+    console.log('la PC esta elegiendo sus ataques');
+    let numRandom = Math.floor(Math.random()*(MAX_ATAQUES - MIN_ATAQUES + 1));
+    ataquePC = ATAQUES[numRandom];
+    console.log('la PC elegio de ataque:', ataquePC)
 }
 
 // luego de que se carga todo el HTML, inicia el juego

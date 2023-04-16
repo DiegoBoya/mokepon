@@ -73,7 +73,7 @@ function ataqueFuego(){
 
 function ataqueAgua(){
     ataqueJugador = AGUA;
-    console.log('elegiste AGUAS')
+    console.log('elegiste AGUA')
     seleccionarAtaquesPC();
 }
 
@@ -100,6 +100,18 @@ function seleccionarAtaquesPC(){
     let numRandom = Math.floor(Math.random()*(MAX_ATAQUES - MIN_ATAQUES + 1));
     ataquePC = ATAQUES[numRandom];
     console.log('la PC elegio de ataque:', ataquePC)
+
+    // crea elemento con texto del combate
+    crearMensajeCombate();
+}
+
+function crearMensajeCombate(){
+    // creamos el elemento p
+    let parrafo = document.createElement('p');
+    parrafo.innerHTML =`Atacas con ${ataqueJugador}, y el enemigo se defiende con ${ataquePC}`;
+    // insertamos el elemento en el HTML
+    let sectionMensajes = document.getElementById('mensajes-combate');
+    sectionMensajes.appendChild(parrafo);
 }
 
 // luego de que se carga todo el HTML, inicia el juego

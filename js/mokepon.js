@@ -23,23 +23,11 @@ function iniciarJuego(){
 }
 
 function seleccionarMascotaJugador(){
-    //let mascota = MOKEPONES_ID.filter(element => document.getElementById(element).checked === true);
-    let mascota = determinarMascotaSeleccionada();
+    let mascota = MOKEPONES_ID.filter(element => document.getElementById(element).checked === true);
     console.log(mascota)
     alert('Has seleccionado a ' + mascota)
 }
 
-function determinarMascotaSeleccionada(){
-    let mascota = null;
-    MOKEPONES_ID.forEach(element => {
-        let mokeponSeleccionado = document.getElementById(element).checked
-        if (mokeponSeleccionado){
-            console.log('se elige a ' +element)
-            mascota = element;
-        }
-    });
-    return mascota;
-}
 
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)

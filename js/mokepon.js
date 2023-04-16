@@ -24,10 +24,17 @@ function iniciarJuego(){
 
 function seleccionarMascotaJugador(){
     let mascota = MOKEPONES_ID.filter(element => document.getElementById(element).checked === true);
-    console.log(mascota)
-    alert('Has seleccionado a ' + mascota)
+    
+    if (mascota.length == 0){
+        console.error("No se ha elegido un Mokepon")
+        alert("Debes seleccionar un Mokepon!")
+    } else {
+        //Setea primera mayuscula
+        mascota = mascota[0].charAt(0).toUpperCase()+mascota[0].substring(1);
+        console.log('Has seleccionado a ' + mascota)
+        alert('Has seleccionado a ' + mascota)
+    }
 }
-
 
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)

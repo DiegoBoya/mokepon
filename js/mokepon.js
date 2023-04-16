@@ -14,8 +14,15 @@ const LANGOSTELVIS_ID = "langostelvis";
 const TUCAPALMA_ID = "tucapalma";
 const PYDOS_ID = "pydos";
 const MOKEPONES_ID = [HIPODOGE_ID, CAPIPEPO_ID, RATIGUEYA_ID, LANGOSTELVIS_ID, TUCAPALMA_ID, PYDOS_ID];
+// para seleccionar el Mokepon de la PC
 const MAX_ARRAY_MOKE = MOKEPONES_ID.length;
 const MIN_ARRAY_MOKE = 1;
+
+// ataques
+let ataqueJugador;
+const FUEGO = 'FUEGO';
+const AGUA = 'AGUA';
+const TIERRA = 'TIERRA';
 
 function iniciarJuego() {
     console.log('cargo OK el juego')
@@ -23,6 +30,17 @@ function iniciarJuego() {
     // reacciona al elegir al mokepon
     let botonMascotaJugador = document.getElementById('boton-seleccionar-mascota');
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
+
+    //se setea el valor de la variable ataqueJugador segun la funcion invocada
+    let botonAtaqueFuego = document.getElementById('boton-fuego');
+    botonAtaqueFuego.addEventListener('click', ataqueFuego);
+
+    let botonAtaqueAgua = document.getElementById('boton-agua');
+    botonAtaqueAgua.addEventListener('click', ataqueAgua);
+
+    let botonAtaqueTierra = document.getElementById('boton-tierra');
+    botonAtaqueTierra.addEventListener('click', ataqueTierra);
+    
 }
 
 function seleccionarMascotaJugador() {
@@ -53,6 +71,18 @@ function seleccionarMascotaPC() {
     console.log('numero random', numRandom, ', mokepon=', MOKEPONES_ID[numRandom])
     let mascotaPC = formatearNombre(MOKEPONES_ID[numRandom]);
     document.getElementById('mascota-PC').innerHTML = mascotaPC;
+}
+
+function ataqueFuego(){
+    ataqueJugador = FUEGO;
+}
+
+function ataqueAgua(){
+    ataqueJugador = AGUA;
+}
+
+function ataqueTierra(){
+    ataqueJugador = TIERRA;
 }
 
 // luego de que se carga todo el HTML, inicia el juego

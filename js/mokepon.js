@@ -18,6 +18,15 @@ const MOKEPONES_ID = [HIPODOGE_ID, CAPIPEPO_ID, RATIGUEYA_ID, LANGOSTELVIS_ID, T
 const MAX_ARRAY_MOKE = MOKEPONES_ID.length;
 const MIN_ARRAY_MOKE = 1;
 
+// vidas 
+const INICIO_VIDAS = 3;
+let vidasPC = INICIO_VIDAS;
+let vidasPlayer = INICIO_VIDAS;
+
+// contadores
+let contadorRachasDerrotas = 0;
+let contadorRachasVictorias = 0;
+
 // ataques
 let ataqueJugador;
 let ataquePC;
@@ -27,6 +36,11 @@ const TIERRA = 'TIERRA';
 const ATAQUES = [FUEGO, AGUA, TIERRA];
 const MAX_ATAQUES = ATAQUES.length;
 const MIN_ATAQUES = 1;
+
+//resultados
+const EMPATE = 'empate 😐';
+const GANASTE = 'ganaste! 😎';
+const PERDISTE = 'perdiste 😕';
 
 function iniciarJuego() {
     console.log('cargo OK el juego')
@@ -44,7 +58,10 @@ function iniciarJuego() {
 
     let botonAtaqueTierra = document.getElementById('boton-tierra');
     botonAtaqueTierra.addEventListener('click', ataqueTierra);
-    
+
+    let botonReiniciar = document.getElementById('boton-reiniciar');
+    botonReiniciar.addEventListener('click', reiniciarJuego);
+
 }
 
 function seleccionarMascotaJugador() {
@@ -65,19 +82,19 @@ function seleccionarMascotaJugador() {
     }
 }
 
-function ataqueFuego(){
+function ataqueFuego() {
     ataqueJugador = FUEGO;
     console.log('elegiste FUEGO')
     seleccionarAtaquesPC();
 }
 
-function ataqueAgua(){
+function ataqueAgua() {
     ataqueJugador = AGUA;
     console.log('elegiste AGUA')
     seleccionarAtaquesPC();
 }
 
-function ataqueTierra(){
+function ataqueTierra() {
     ataqueJugador = TIERRA;
     console.log('elegiste TIERRA')
     seleccionarAtaquesPC();
@@ -95,23 +112,100 @@ function seleccionarMascotaPC() {
     document.getElementById('mascota-PC').innerHTML = mascotaPC;
 }
 
-function seleccionarAtaquesPC(){
+function seleccionarAtaquesPC() {
     console.log('la PC esta elegiendo sus ataques');
-    let numRandom = Math.floor(Math.random()*(MAX_ATAQUES - MIN_ATAQUES + 1));
+    let numRandom = Math.floor(Math.random() * (MAX_ATAQUES - MIN_ATAQUES + 1));
     ataquePC = ATAQUES[numRandom];
     console.log('la PC elegio de ataque:', ataquePC)
 
-    // crea elemento con texto del combate
-    crearMensajeCombate();
+    // realizar el combate
+    realizarCombate();
 }
 
-function crearMensajeCombate(){
+function realizarCombate() {
+    let resultado;
+
+    if (ataqueJugador == ataquePC) {
+        resultado = EMPATE;
+    } else if ((ataqueJugador == FUEGO && ataquePC == TIERRA)
+        || (ataqueJugador == AGUA && ataquePC == FUEGO)
+        || (ataqueJugador == TIERRA && ataquePC == AGUA)) {
+        resultado = GANASTE;
+        actualizarVidasPC();
+    } else {
+        resultado = PERDISTE;
+        actualizarVidasPlayer();
+    }
+    // crea elemento con texto del combate
+    crearMensajeCombate(resultado);
+
+    if (vidasPC == 0) {
+        // mostrar animacion que ganaste
+        crearMensajeFinDeJuego(GANASTE);
+    }
+
+    if (vidasPlayer == 0) {
+        // mostrar animacion que perdiste
+        crearMensajeFinDeJuego(PERDISTE);
+    }
+}
+
+function actualizarVidasPC() {
+    vidasPC--;
+    let vidas = document.getElementById('vidas-PC');
+    vidas.innerHTML = vidasPC;
+}
+
+function actualizarVidasPlayer() {
+    vidasPlayer--;
+    let vidas = document.getElementById('vidas-jugador');
+    vidas.innerHTML = vidasPlayer;
+}
+
+function crearMensajeFinDeJuego(mensaje) {
+    let mensajeFinal = document.createElement('p');
+    if (mensaje == GANASTE) {
+        mensajeFinal.innerHTML = 'VAMOOO GANASTE!!'
+        contadorRachasVictorias++;
+    } else if (mensaje == PERDISTE) {
+        mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
+        contadorRachasDerrotas++;
+    } else {
+        console.error('entro aca, no deberia....')
+        mensajeFinal.innerHTML = 'ERROR!!!!'
+    }
+    deshabilitarBotonesDeAtaque();
+    let seccion = document.getElementById('mensajes-combate')
+    seccion.appendChild(mensajeFinal)
+}
+
+/**
+ * Al finalizar el juego, inhabilita a todos los botones de ataques
+ */
+function deshabilitarBotonesDeAtaque(){
+    console.warn('se inhabilitan los botones de ataque')
+    let botonAtaqueFuego = document.getElementById('boton-fuego');
+    botonAtaqueFuego.disabled = true;
+
+    let botonAtaqueAgua = document.getElementById('boton-agua');
+    botonAtaqueAgua.disabled = true;
+
+    let botonAtaqueTierra = document.getElementById('boton-tierra');
+    botonAtaqueTierra.disabled = true;
+
+}
+
+function crearMensajeCombate(resultado) {
     // creamos el elemento p
     let parrafo = document.createElement('p');
-    parrafo.innerHTML =`Atacas con ${ataqueJugador}, y el enemigo se defiende con ${ataquePC}`;
+    parrafo.innerHTML = `Atacas con ${ataqueJugador}, y el enemigo se defiende con ${ataquePC} --> ${resultado}`;
     // insertamos el elemento en el HTML
     let sectionMensajes = document.getElementById('mensajes-combate');
     sectionMensajes.appendChild(parrafo);
+}
+
+function reiniciarJuego(){
+    location.reload();
 }
 
 // luego de que se carga todo el HTML, inicia el juego

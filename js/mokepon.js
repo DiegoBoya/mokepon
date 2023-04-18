@@ -1,12 +1,3 @@
-
-const HIPODOGE = "Hipodoge";
-const CAPIPEPO = "Capipepo";
-const RATIGUEYA = "Ratigueya";
-const LANGOSTELVIS = "Langostelvis";
-const TUCAPALMA = "Tucapalma";
-const PYDOS = "Pydos";
-
-
 const HIPODOGE_ID = "hipodoge";
 const CAPIPEPO_ID = "capipepo";
 const RATIGUEYA_ID = "ratigueya";
@@ -42,6 +33,7 @@ const EMPATE = 'empate 😐';
 const GANASTE = 'ganaste! 😎';
 const PERDISTE = 'perdiste 😕';
 
+
 function iniciarJuego() {
     console.log('cargo OK el juego')
 
@@ -59,8 +51,14 @@ function iniciarJuego() {
     let botonAtaqueTierra = document.getElementById('boton-tierra');
     botonAtaqueTierra.addEventListener('click', ataqueTierra);
 
+    // boton de reiniciar oculto por defecto
     let botonReiniciar = document.getElementById('boton-reiniciar');
+    botonReiniciar.style.display = 'none';
     botonReiniciar.addEventListener('click', reiniciarJuego);
+
+    // seccion de ataques oculta por defecto
+    let seccionAtaques = document.getElementById('seleccionar-ataque');
+    seccionAtaques.style.display = 'none';
 
 }
 
@@ -77,8 +75,17 @@ function seleccionarMascotaJugador() {
         // modifica el HTML de forma dinamica
         document.getElementById('mascota-jugador').innerHTML = mascota;
 
+        // oculto seccion elegit masctoa
+        let seccionElegirMascota = document.getElementById('seleccionar-mascota');
+        seccionElegirMascota.style.display ='none';
+        
         // PC elige mokepon
         seleccionarMascotaPC();
+
+        // habilito seccion para elegir ataques
+        let seccionAtaques = document.getElementById('seleccionar-ataque');
+        seccionAtaques.style.display = 'block';
+
     }
 }
 
@@ -177,6 +184,10 @@ function crearMensajeFinDeJuego(mensaje) {
     deshabilitarBotonesDeAtaque();
     let seccion = document.getElementById('mensajes-combate')
     seccion.appendChild(mensajeFinal)
+
+    // habilito boton reiniciar
+    let botonReiniciar = document.getElementById('boton-reiniciar');
+    botonReiniciar.style.display = 'block';
 }
 
 /**

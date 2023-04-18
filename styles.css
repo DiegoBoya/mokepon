@@ -1,0 +1,19 @@
+* {
+    background-color: darkgray;
+}
+
+#titulo-principal{
+    color:darkblue;
+    width: 310px;
+    height: 50px;
+    background-color: yellowgreen;
+
+}
+
+#seleccionar-mascota{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

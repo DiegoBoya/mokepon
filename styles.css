@@ -1,5 +1,6 @@
 * {
-    background-color: darkgray;
+    background-color: rebeccapurple;
+    box-sizing: border-box;
 }
 
 #titulo-principal{
@@ -16,4 +17,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.tarjeta-mokepon {
+    width: 100px;
+    height: 100px;
+    background-color: aqua;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid blue;
+}
+
+.input-tarjeta-mokepon {
+    display: none;
+}
+
+#boton-seleccionar-mascota {
+    width: 100px;
+    height: 40px;
+    margin: 15px;
+    color: hotpink;
+    background: repeating-radial-gradient(grey, transparent 100px);
 }

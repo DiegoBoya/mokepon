@@ -1,31 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@500&family=Kalam:wght@300&family=Press+Start+2P&family=Rubik+Wet+Paint&display=swap');
+
+/*
+Fuentes
+font-family: 'DynaPuff', cursive;
+font-family: 'Kalam', cursive;
+font-family: 'Press Start 2P', cursive; // retro
+font-family: 'Rubik Wet Paint', cursive; // sangriento
+*/
+
+
 * {
-    background-color: rebeccapurple;
     box-sizing: border-box;
 }
 
+body{
+    background-color: rebeccapurple;
+    background-image: url('./assets/img/escenarios/santuarioDS1.png');
+    background-repeat: no-repeat, repeat;
+    background-size: 100vw  100vh ;
+    font-family: 'Kalam', cursive;
+}
+
+body img{
+    align-items: center;
+}
 #titulo-principal{
     color:darkblue;
-    width: 310px;
-    height: 50px;
+    width: 625px;
+    height: 80px;
     background-color: yellowgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    /*
+    font-family: 'Rubik Wet Paint', cursive;
+    */
+    font-family: 'Press Start 2P', cursive; 
+    font-size: 48px;
 
+}
+
+.subtitulo {
+    background-color: black;
+    color: white;
+    padding: 10px;
 }
 
 #seleccionar-mascota{
     display: flex;
-    height: 100vh;
+    height: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 220px;
+}
+
+.bloque-tarjetas{
+    display: flex;
+    gap: 10px;
 }
 
 .tarjeta-mokepon {
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
+    width: 160px;
+    height: 290px;
+    background-color: transparent;
     padding: 10px;
     margin: 5px;
-    border: 1px solid blue;
+    border: 2px solid white;
+    border-radius: 10px;
+    text-align: center;
+    
+}
+
+.tarjeta-mokepon img{
+    width: 120px;
+    height: 170px;
+    margin: 10px;
+}
+
+.tarjeta-mokepon p{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    background-color: black;
+    color: white;
+    border-radius: 13px;
 }
 
 .input-tarjeta-mokepon {
@@ -33,9 +94,14 @@
 }
 
 #boton-seleccionar-mascota {
-    width: 100px;
-    height: 40px;
-    margin: 15px;
-    color: hotpink;
-    background: repeating-radial-gradient(grey, transparent 100px);
+    width: 190px;
+    height: 50px;
+    margin-top: 50px;
+    color: darkblue;
+    border-radius: 20px;
+    border: solid 2px white;
+    background: yellowgreen;
+    font-family: 'Press Start 2P', cursive; 
+    font-size: 15px;
+    
 }

@@ -4,7 +4,7 @@ const RATIGUEYA_ID = "ratigueya";
 const LANGOSTELVIS_ID = "langostelvis";
 const TUCAPALMA_ID = "tucapalma";
 const PYDOS_ID = "pydos";
-const MOKEPONES_ID = [HIPODOGE_ID, CAPIPEPO_ID, RATIGUEYA_ID, LANGOSTELVIS_ID, TUCAPALMA_ID, PYDOS_ID];
+const MOKEPONES_ID = [HIPODOGE_ID, CAPIPEPO_ID, RATIGUEYA_ID];
 // para seleccionar el Mokepon de la PC
 const MAX_ARRAY_MOKE = MOKEPONES_ID.length;
 const MIN_ARRAY_MOKE = 1;
@@ -63,6 +63,7 @@ function iniciarJuego() {
 }
 
 function seleccionarMascotaJugador() {
+    console.log('seleccionados')
     let mascota = MOKEPONES_ID.filter(element => document.getElementById(element).checked === true);
 
     if (mascota.length == 0) {
@@ -221,3 +222,4 @@ function reiniciarJuego(){
 
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)
+

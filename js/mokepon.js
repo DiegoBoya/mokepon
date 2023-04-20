@@ -144,8 +144,13 @@ function realizarCombate() {
         resultado = PERDISTE;
         actualizarVidasPlayer();
     }
+
+    // TODO: el suceso es la convinacion de los dos movimientos seleccionados. 
+    // pendiente, funcion que compara ataques y determina que suceso salio.
+    let suceso = 'espadazo OK';
+
     // crea elemento con texto del combate
-    crearMensajeCombate(resultado);
+    crearMensajeCombate(resultado, suceso);
 
     if (vidasPC == 0) {
         // mostrar animacion que ganaste
@@ -207,13 +212,35 @@ function deshabilitarBotonesDeAtaque(){
 
 }
 
-function crearMensajeCombate(resultado) {
+function crearMensajeCombate(resultado, suceso) {
+    //editamos el relato
+    console.log(suceso)
+    let relato = document.getElementById('relato')
+    relato.innerHTML = obtenerFraseSegunSuceso(suceso)
+
     // creamos el elemento p
     let parrafo = document.createElement('p');
     parrafo.innerHTML = `Atacas con ${ataqueJugador}, y el enemigo se defiende con ${ataquePC} --> ${resultado}`;
     // insertamos el elemento en el HTML
     let sectionMensajes = document.getElementById('mensajes-combate');
     sectionMensajes.appendChild(parrafo);
+}
+
+function obtenerFraseSegunSuceso(suceso){
+    let relato;
+    if (suceso == 'rodo OK'){
+        relato = 'Esquivaste justo! sigue asi!!';
+    } else if (suceso == 'defensa efectiva'){
+        relato = 'El escudo te salvo justo! Ten cuidado!!'
+    } else if (suceso == 'espadazo OK'){
+        relato = 'Como entro esa estocada!';
+    } else if (suceso == 'espadazo-no-OK'){
+        relato = 'La anticipaste mucho, te vieron venir...'
+    } else {
+        relato = 'siga !! sigaaa!!! '
+    }
+    console.log(relato)
+    return relato;
 }
 
 function reiniciarJuego(){

@@ -117,7 +117,7 @@ function seleccionarMascotaPC() {
     let numRandom = Math.floor(Math.random() * (MAX_ARRAY_MOKE - MIN_ARRAY_MOKE - 1) + MIN_ARRAY_MOKE)
     console.log('numero random', numRandom, ', mokepon=', MOKEPONES_ID[numRandom])
     let mascotaPC = formatearNombre(MOKEPONES_ID[numRandom]);
-    document.getElementById('mascota-PC').innerHTML = mascotaPC;
+    document.getElementById('mascota-enemigo').innerHTML = mascotaPC;
 }
 
 function seleccionarAtaquesPC() {
@@ -165,14 +165,17 @@ function realizarCombate() {
 
 function actualizarVidasPC() {
     vidasPC--;
-    let vidas = document.getElementById('vidas-PC');
+
+    vidas = document.getElementById('barra-vidas-enemigo');
     vidas.innerHTML = vidasPC;
 }
 
 function actualizarVidasPlayer() {
     vidasPlayer--;
-    let vidas = document.getElementById('vidas-jugador');
+
+    vidas = document.getElementById('barra-vidas-jugador');
     vidas.innerHTML = vidasPlayer;
+
 }
 
 function crearMensajeFinDeJuego(mensaje) {
@@ -213,6 +216,13 @@ function deshabilitarBotonesDeAtaque(){
 }
 
 function crearMensajeCombate(resultado, suceso) {
+    // actualiza valors tablas grid
+    let parrafoAtaqueJugador = document.getElementById('ataque-jugador');
+    parrafoAtaqueJugador.innerHTML = ataqueJugador;
+
+    let parrafoAtaqueEnemigo = document.getElementById('ataque-enemigo');
+    parrafoAtaqueEnemigo.innerHTML = ataquePC;
+
     //editamos el relato
     console.log(suceso)
     let relato = document.getElementById('relato')

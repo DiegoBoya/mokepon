@@ -70,17 +70,26 @@
             <button class="boton-ataque" id="boton-agua">Agua 💦</button>
             <button class="boton-ataque" id="boton-tierra">Tierra 🌱</button>
         </div>
-
-        <p>La mascota del enemigo es <span id="mascota-PC"></span> tiene <span id="vidas-PC">3</span> vidas</p>
-        <p>Tu mascota <span id="mascota-jugador"></span> tiene <span id="vidas-jugador">3</span> vidas</p>
-    </section>
-
-    <section id="mensajes-combate">
-        <!-- este mensaje lo vamos a generar de forma dinamica con js mas adelante-->
-        <div id="resultado"></div>
-        <div id="ataques-jugador"></div>
-        <div id="ataques-enemigo"></div>
-    </section>
+       <div id="grid-datos">
+           <!-- tabla Enemigo  -->
+           <div id="grid-enemigo">
+               <p id="barra-vidas-enemigo">3</p>
+               <p id="mascota-enemigo"></p>
+               <div id="ataque-enemigo"></div>
+            </div>
+            <!-- tabla Jugador -->
+            <div id="grid-jugador">
+                <p id="barra-vidas-jugador">3</p>
+                <p id="mascota-jugador"></p>
+                <div id="ataque-jugador"></div>
+            </div>
+        </div>
+        
+        <section id="mensajes-combate">
+            <!-- este mensaje lo vamos a generar de forma dinamica con js mas adelante-->
+            
+        </section>
+    </section> <!-- fin section seleccionar-ataque -->
 
  
    

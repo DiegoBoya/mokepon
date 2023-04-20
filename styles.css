@@ -24,6 +24,16 @@ body{
 body img{
     align-items: center;
 }
+
+#seleccionar-mascota{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 165px;
+}
+
 #titulo-principal{
     color:darkblue;
     width: 625px;
@@ -47,25 +57,18 @@ body img{
     padding: 10px;
 }
 
-#seleccionar-mascota{
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 220px;
-}
-
 .bloque-tarjetas{
     display: flex;
     gap: 10px;
 }
 
 .tarjeta-mokepon {
-    width: 160px;
-    height: 290px;
+    width: 180px;
+    height: 350px;
     background-color: transparent;
+    /*
     padding: 10px;
+    */
     margin: 5px;
     border: 2px solid white;
     border-radius: 10px;
@@ -86,7 +89,7 @@ body img{
     width: 100%;
     background-color: black;
     color: white;
-    border-radius: 13px;
+   
 }
 
 .input-tarjeta-mokepon {
@@ -103,5 +106,25 @@ body img{
     background: yellowgreen;
     font-family: 'Press Start 2P', cursive; 
     font-size: 15px;
-    
+}
+
+/* step 2 styles*/
+#seleccionar-ataque {
+    /* display: flex; lo toma del js*/
+    flex-direction: column;
+    align-items: center;
+}
+.botones-ataques-jugador{
+    display: flex;
+}
+/* igual que el 'p' del personaje de step1*/
+.boton-ataque{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100px;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    font-family: 'Press Start 2P', cursive; 
 }

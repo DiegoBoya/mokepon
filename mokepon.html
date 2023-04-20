@@ -5,33 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mokepon!</title>
+    <title>StaticSouls!</title>
     <script src='./js/mokepon.js'></script>
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
     
     <section id="seleccionar-mascota">
-        <h1 id="titulo-principal">PlatziSouls</h1>
+        <h1 id="titulo-principal">StaticSouls</h1>
        
         <h2 class="subtitulo">Elige tu personaje</h2>
 
         <div class="bloque-tarjetas">
             <label class="tarjeta-mokepon" for="hipodoge">
                 <img src="./assets/img/personajes/caballero-real.png" alt="gwin">
-                <p>Caballero Real</p>    
+                <p>Caballero Real</p>
+                <p>estadisticas</p>    
             </label>
             <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="hipodoge">
             
             <label class="tarjeta-mokepon" for="capipepo">
                 <img src="./assets/img/personajes/caballero-negro.png" alt="">
-                <p>Caballero Negro</p>    
+                <p>Caballero Negro</p> 
+                <p>estadisticas</p>       
             </label>
             <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="capipepo">
             
             <label class="tarjeta-mokepon" for="ratigueya">
                 <img src="./assets/img/personajes/caballero_templario.png" alt="">
-                <p>Caballero Templario</p>    
+                <p>Caballero Templario</p>
+                <p>estadisticas</p>    
+                 ⚔🗡🔪🛡🏹🛡🔄☄⚡🔥🌟🌀☄🌠🎇🎆
             </label>
             <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="ratigueya">
         </div>
@@ -50,17 +54,25 @@
     </section>
 
     <section id="seleccionar-ataque">
-        <h1 id="titulo-principal">MOKEPON 🔥💦🌱</h1>
+        <h1 id="titulo-principal">StaticSouls</h1>
 
-        <h2>Elige tu ataque:</h2>
+        <h2>Pelea!!</h2>
         <br>
+        <section id="reiniciar">
+            <button id="boton-reiniciar">reiniciar</button>
+            <br>
+        </section>
+        <div class="botones-ataques-jugador">
+            <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button>
+            <button class="boton-ataque" id="boton-agua">Agua 💦</button>
+            <button class="boton-ataque" id="boton-tierra">Tierra 🌱</button>
+            <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button>
+            <button class="boton-ataque" id="boton-agua">Agua 💦</button>
+            <button class="boton-ataque" id="boton-tierra">Tierra 🌱</button>
+        </div>
+
         <p>Tu mascota <span id="mascota-jugador"></span> tiene <span id="vidas-jugador">3</span> vidas</p>
         <p>La mascota del enemigo es <span id="mascota-PC"></span> tiene <span id="vidas-PC">3</span> vidas</p>
-        <p>
-            <button id="boton-fuego">Fuego 🔥</button>
-            <button id="boton-agua">Agua 💦</button>
-            <button id="boton-tierra">Tierra 🌱</button>
-        </p>
     </section>
 
     <section id="mensajes-combate">
@@ -68,9 +80,7 @@
         
     </section>
 
-    <section id="reiniciar">
-        <button id="boton-reiniciar">reiniciar</button>
-    </section>
+ 
    
 </body>
 

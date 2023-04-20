@@ -84,8 +84,8 @@ function seleccionarMascotaJugador() {
         seleccionarMascotaPC();
 
         // habilito seccion para elegir ataques
-        let seccionAtaques = document.getElementById('seleccionar-ataque');
-        seccionAtaques.style.display = 'block';
+        let seleccionAtaques = document.getElementById('seleccionar-ataque');
+        seleccionAtaques.style.display = 'flex';
 
     }
 }

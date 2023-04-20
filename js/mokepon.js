@@ -33,31 +33,44 @@ const EMPATE = 'empate 😐';
 const GANASTE = 'ganaste! 😎';
 const PERDISTE = 'perdiste 😕';
 
+// elementos manipulables
+const botonMascotaJugador = document.getElementById('boton-seleccionar-mascota');
+const botonAtaqueFuego = document.getElementById('boton-fuego');
+const botonAtaqueAgua = document.getElementById('boton-agua');
+const botonAtaqueTierra = document.getElementById('boton-tierra');
+const botonReiniciar = document.getElementById('boton-reiniciar');
+const seccionAtaques = document.getElementById('seleccionar-ataque');
+const seccionElegirMascota = document.getElementById('seleccionar-mascota');
+const seleccionAtaques = document.getElementById('seleccionar-ataque');
+const mascotaEnemigo = document.getElementById('mascota-enemigo');
+const mascotaJugador = document.getElementById('mascota-jugador');
+const vidasEnemigo = document.getElementById('barra-vidas-enemigo');
+const vidasJugador = document.getElementById('barra-vidas-jugador');
+const seccionMensajeFinal = document.getElementById('mensaje-final')
+const parrafoAtaqueJugador = document.getElementById('ataque-jugador');
+const parrafoAtaqueEnemigo = document.getElementById('ataque-enemigo');
+const relato = document.getElementById('relato')
+const mensajesCombate = document.getElementById('mensajes-combate');
+
+// luego de que se carga todo el HTML, inicia el juego
+window.addEventListener('load', iniciarJuego)
 
 function iniciarJuego() {
     console.log('cargo OK el juego')
 
     // reacciona al elegir al mokepon
-    let botonMascotaJugador = document.getElementById('boton-seleccionar-mascota');
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
 
     //se setea el valor de la variable ataqueJugador segun la funcion invocada
-    let botonAtaqueFuego = document.getElementById('boton-fuego');
     botonAtaqueFuego.addEventListener('click', ataqueFuego);
-
-    let botonAtaqueAgua = document.getElementById('boton-agua');
     botonAtaqueAgua.addEventListener('click', ataqueAgua);
-
-    let botonAtaqueTierra = document.getElementById('boton-tierra');
     botonAtaqueTierra.addEventListener('click', ataqueTierra);
 
     // boton de reiniciar oculto por defecto
-    let botonReiniciar = document.getElementById('boton-reiniciar');
     botonReiniciar.style.display = 'none';
     botonReiniciar.addEventListener('click', reiniciarJuego);
 
     // seccion de ataques oculta por defecto
-    let seccionAtaques = document.getElementById('seleccionar-ataque');
     seccionAtaques.style.display = 'none';
 
 }
@@ -74,17 +87,15 @@ function seleccionarMascotaJugador() {
         mascota = formatearNombre(mascota[0]);
         console.log('Has seleccionado a ' + mascota)
         // modifica el HTML de forma dinamica
-        document.getElementById('mascota-jugador').innerHTML = mascota;
+        mascotaJugador.innerHTML = mascota;
 
         // oculto seccion elegit masctoa
-        let seccionElegirMascota = document.getElementById('seleccionar-mascota');
         seccionElegirMascota.style.display ='none';
         
         // PC elige mokepon
         seleccionarMascotaPC();
 
         // habilito seccion para elegir ataques
-        let seleccionAtaques = document.getElementById('seleccionar-ataque');
         seleccionAtaques.style.display = 'flex';
 
     }
@@ -117,7 +128,7 @@ function seleccionarMascotaPC() {
     let numRandom = Math.floor(Math.random() * (MAX_ARRAY_MOKE - MIN_ARRAY_MOKE - 1) + MIN_ARRAY_MOKE)
     console.log('numero random', numRandom, ', mokepon=', MOKEPONES_ID[numRandom])
     let mascotaPC = formatearNombre(MOKEPONES_ID[numRandom]);
-    document.getElementById('mascota-enemigo').innerHTML = mascotaPC;
+    mascotaEnemigo.innerHTML = mascotaPC;
 }
 
 function seleccionarAtaquesPC() {
@@ -165,16 +176,12 @@ function realizarCombate() {
 
 function actualizarVidasPC() {
     vidasPC--;
-
-    vidas = document.getElementById('barra-vidas-enemigo');
-    vidas.innerHTML = vidasPC;
+    vidasEnemigo.innerHTML = vidasPC;
 }
 
 function actualizarVidasPlayer() {
     vidasPlayer--;
-
-    vidas = document.getElementById('barra-vidas-jugador');
-    vidas.innerHTML = vidasPlayer;
+    vidasJugador.innerHTML = vidasPlayer;
 
 }
 
@@ -191,12 +198,10 @@ function crearMensajeFinDeJuego(mensaje) {
         mensajeFinal.innerHTML = 'ERROR!!!!'
     }
     deshabilitarBotonesDeAtaque();
-    let seccion = document.getElementById('mensaje-final')
-    seccion.appendChild(mensajeFinal)
+    seccionMensajeFinal.appendChild(mensajeFinal)
     
 
     // habilito boton reiniciar
-    let botonReiniciar = document.getElementById('boton-reiniciar');
     botonReiniciar.style.display = 'block';
 }
 
@@ -205,36 +210,25 @@ function crearMensajeFinDeJuego(mensaje) {
  */
 function deshabilitarBotonesDeAtaque(){
     console.warn('se inhabilitan los botones de ataque')
-    let botonAtaqueFuego = document.getElementById('boton-fuego');
     botonAtaqueFuego.disabled = true;
-
-    let botonAtaqueAgua = document.getElementById('boton-agua');
     botonAtaqueAgua.disabled = true;
-
-    let botonAtaqueTierra = document.getElementById('boton-tierra');
     botonAtaqueTierra.disabled = true;
-
 }
 
 function crearMensajeCombate(resultado, suceso) {
     // actualiza valors tablas grid
-    let parrafoAtaqueJugador = document.getElementById('ataque-jugador');
     parrafoAtaqueJugador.innerHTML = ataqueJugador;
-
-    let parrafoAtaqueEnemigo = document.getElementById('ataque-enemigo');
     parrafoAtaqueEnemigo.innerHTML = ataquePC;
 
     //editamos el relato
     console.log(suceso)
-    let relato = document.getElementById('relato')
     relato.innerHTML = obtenerFraseSegunSuceso(suceso)
 
     // creamos el elemento p
     let parrafo = document.createElement('p');
     parrafo.innerHTML = `Atacas con ${ataqueJugador}, y el enemigo se defiende con ${ataquePC} --> ${resultado}`;
     // insertamos el elemento en el HTML
-    let sectionMensajes = document.getElementById('mensajes-combate');
-    sectionMensajes.appendChild(parrafo);
+    mensajesCombate.appendChild(parrafo);
 }
 
 function obtenerFraseSegunSuceso(suceso){
@@ -258,6 +252,5 @@ function reiniciarJuego(){
     location.reload();
 }
 
-// luego de que se carga todo el HTML, inicia el juego
-window.addEventListener('load', iniciarJuego)
+
 

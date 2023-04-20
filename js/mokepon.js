@@ -191,8 +191,9 @@ function crearMensajeFinDeJuego(mensaje) {
         mensajeFinal.innerHTML = 'ERROR!!!!'
     }
     deshabilitarBotonesDeAtaque();
-    let seccion = document.getElementById('mensajes-combate')
+    let seccion = document.getElementById('mensaje-final')
     seccion.appendChild(mensajeFinal)
+    
 
     // habilito boton reiniciar
     let botonReiniciar = document.getElementById('boton-reiniciar');

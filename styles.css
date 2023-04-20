@@ -15,10 +15,10 @@ font-family: 'Rubik Wet Paint', cursive; // sangriento
 
 body{
     background-color: rebeccapurple;
-  /*  background-image: url('./assets/img/escenarios/santuarioDS1.png');
+    background-image: url('./assets/img/escenarios/santuarioDS1.png');
     background-repeat: no-repeat, repeat;
     background-size: 100vw  100vh ;
-    */
+    
     font-family: 'Press Start 2P', cursive;
 }
 
@@ -60,7 +60,9 @@ body img{
 
 .bloque-tarjetas{
     display: flex;
+    flex-direction: row;
     gap: 10px;
+
 }
 
 .tarjeta-mokepon {
@@ -74,8 +76,8 @@ body img{
     border: 2px solid white;
     border-radius: 10px;
     text-align: center;
-    
 }
+
 
 .tarjeta-mokepon img{
     width: 120px;
@@ -90,17 +92,41 @@ body img{
     width: 100%;
     background-color: black;
     color: white;
-   
 }
 
 .input-tarjeta-mokepon {
     display: none;
 }
 
+input:checked + label{
+    background-color: rgb(63, 25, 170);
+    border-color: rgb(21, 21, 112);
+}
+
+.tarjeta-mokepon:hover {
+    width: 220px;
+    height: 385px;
+    margin: 0px;
+}
+
+.tarjeta-mokepon:hover p{
+    color: yellow;
+}
+
+.tarjeta-mokepon:hover img{
+    width: 140px;
+    height: 190px;
+    margin: 10px;
+}
+
 #boton-seleccionar-mascota {
+  
+}
+
+.boton-tipo-1 {
     width: 190px;
     height: 50px;
-    margin-top: 50px;
+    margin: 15px;
     color: darkblue;
     border-radius: 20px;
     border: solid 2px white;
@@ -127,6 +153,7 @@ body img{
 
 .botones-ataques-jugador{
     display: flex;
+    margin: 20px;
 }
 /* igual que el 'p' del personaje de step1*/
 .boton-ataque{
@@ -145,4 +172,16 @@ body img{
     grid-template-columns: 200px 200px;
     text-align: center;
     margin: 25px;
+}
+
+.grid-enemigo, .grid-jugador{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 550px){
+    .bloque-tarjetas, .botones-ataques-jugador{
+        flex-direction: column;
+    }
 }

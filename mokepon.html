@@ -17,27 +17,27 @@
         <h2 class="subtitulo">Elige tu personaje</h2>
 
         <div class="bloque-tarjetas">
+            <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="hipodoge">
             <label class="tarjeta-mokepon" for="hipodoge">
-                <img src="./assets/img/personajes/caballero-real.png" alt="gwin">
+                <img src="./assets/img/personajes/caballero1.gif" alt="gwin">
                 <p>Caballero Real</p>
                 <p>estadisticas</p>    
             </label>
-            <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="hipodoge">
             
+            <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="capipepo">
             <label class="tarjeta-mokepon" for="capipepo">
                 <img src="./assets/img/personajes/caballero-negro.png" alt="">
                 <p>Caballero Negro</p> 
                 <p>estadisticas</p>       
             </label>
-            <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="capipepo">
             
+            <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="ratigueya">
             <label class="tarjeta-mokepon" for="ratigueya">
                 <img src="./assets/img/personajes/caballero_templario.png" alt="">
                 <p>Caballero Templario</p>
                 <p>estadisticas</p>    
                  ⚔🗡🔪🛡🏹🛡🔄☄⚡🔥🌟🌀☄🌠🎇🎆
             </label>
-            <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="ratigueya">
         </div>
         <!-- <div class="bloque-tarjetas">
             <label class="tarjeta-mokepon" for="langostelvis">Langostelvis</label>
@@ -50,7 +50,7 @@
             <input class="input-tarjeta-mokepon" type="radio" name="mascota" id="pydos">
         </div> -->
             
-        <button id="boton-seleccionar-mascota">seleccionar</button>
+        <button id="boton-seleccionar-mascota" class="boton-tipo-1">seleccionar</button>
     </section>
 
     <section id="seleccionar-ataque">
@@ -58,10 +58,7 @@
 
         <h2 id="relato">Que comience el combate!!</h2>
         <br>
-        <section id="reiniciar">
-            <button id="boton-reiniciar">reiniciar</button>
-            <br>
-        </section>
+       
         <div class="botones-ataques-jugador">
             <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button>
             <button class="boton-ataque" id="boton-agua">Agua 💦</button>
@@ -70,12 +67,13 @@
             <button class="boton-ataque" id="boton-agua">Agua 💦</button>
             <button class="boton-ataque" id="boton-tierra">Tierra 🌱</button>
         </div>
-       <div id="grid-datos">
-           <!-- tabla Enemigo  -->
-           <div id="grid-enemigo">
-               <p id="barra-vidas-enemigo">3</p>
-               <p id="mascota-enemigo"></p>
-               <div id="ataque-enemigo"></div>
+       
+        <div id="grid-datos">
+            <!-- tabla Enemigo  -->
+            <div id="grid-enemigo">
+                <p id="barra-vidas-enemigo">3</p>
+                <p id="mascota-enemigo"></p>
+                <div id="ataque-enemigo"></div>
             </div>
             <!-- tabla Jugador -->
             <div id="grid-jugador">
@@ -85,10 +83,20 @@
             </div>
         </div>
         
+        <section id="mensaje-final">
+            <!--  VAMOOO GANASTE!! o Te derrotaron, vuelve a intentarlo, no te rindas!-->
+        </section>
+        
+        <section id="reiniciar">
+            <button id="boton-reiniciar" class="boton-tipo-1">reiniciar</button>
+            <br>
+        </section>
+
         <section id="mensajes-combate">
             <!-- este mensaje lo vamos a generar de forma dinamica con js mas adelante-->
-            
+            <!-- Atacas con FUEGO, y el enemigo se defiende con AGUA : perdiste 😕 -->
         </section>
+      
     </section> <!-- fin section seleccionar-ataque -->
 
  

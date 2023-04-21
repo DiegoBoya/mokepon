@@ -1,3 +1,6 @@
+import {Personaje} from './personaje.js';
+import {Constants} from './constants.js'
+
 const HIPODOGE_ID = "hipodoge";
 const CAPIPEPO_ID = "capipepo";
 const RATIGUEYA_ID = "ratigueya";
@@ -54,6 +57,15 @@ const mensajesCombate = document.getElementById('mensajes-combate');
 
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)
+
+let caballeroNegro = new Personaje('Caballero Negro', 120, './../assets/img/personajes/caballero-negro.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+
+let caballeroReal = new Personaje('Caballero Real', 100, './../assets/img/personajes/caballero-real.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+
+let caballeroTemplario = new Personaje('Caballero Templario', 110, './../assets/img/personajes/caballero_templario.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+
+let personajes = [caballeroNegro, caballeroReal, caballeroTemplario];
+console.log(personajes);
 
 function iniciarJuego() {
     console.log('cargo OK el juego')

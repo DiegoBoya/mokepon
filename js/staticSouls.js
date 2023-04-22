@@ -1,8 +1,16 @@
 import { Personaje } from './personaje.js';
 import { Constants } from './constants.js'
 
+
+const ID_CABALLERO_NEGRO = "caballeroNegro";
+const ID_CABALLERO_REAL = "caballeroReal";
+const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
+const PIROMANTICO = "piromantico";
+const ID_HECHICERO_BADASS = "hechicero-badass"
+const HECHICERO_BLANCO = "hechiceroBlanco"
+const HECHICERO_NEGRO = "hechiceroNegro";
 // constantes dinamicas
-let PERSONAJES_ID = [];
+let PERSONAJES_ID = []
 let personajes = [];
 let objPersonajeEnemigo;
 let objPersonajeJugador;
@@ -20,8 +28,9 @@ let contadorRachasDerrotas = 0;
 let contadorRachasVictorias = 0;
 
 // ataques
-let ataqueJugador;
-let ataquePC;
+let ataqueTurnoJugador;
+let ataqueTurnoEnemigo;
+let ataquesCaballeroNegro;
 const FUEGO = 'FUEGO';
 const AGUA = 'AGUA';
 const TIERRA = 'TIERRA';
@@ -45,9 +54,6 @@ const contenedorPersonajes = document.getElementById('contenedor-personajes');
 const seccionSeleccionarAtaques = document.getElementById('seleccionar-ataque');
 const relato = document.getElementById('relato')
 const seccionBotonesAtaquesJugador = document.getElementById('seccion-botones-ataques-jugador');
-const botonAtaqueFuego = document.getElementById('boton-fuego');
-const botonAtaqueAgua = document.getElementById('boton-agua');
-const botonAtaqueTierra = document.getElementById('boton-tierra');
 const nombrePersonajeEnemigoDOM = document.getElementById('personaje-enemigo');
 const nombrePersonajeJugadorDOM = document.getElementById('personaje-jugador');
 const vidasEnemigo = document.getElementById('barra-vidas-enemigo');
@@ -61,10 +67,10 @@ const mensajesCombate = document.getElementById('mensajes-combate');
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)
 
-function iniciarJuego() {
+async function iniciarJuego() {
     //step 1
     console.log('cargo OK el juego')
-    crearPersonajes();
+    await crearPersonajes();
 
     // inyecta el js en el DOM
     personajes.forEach((personaje) => {
@@ -81,11 +87,6 @@ function iniciarJuego() {
 
     // reacciona al elegir al Guerrero
     botonpersonajeJugador.addEventListener('click', seleccionarPersonajeJugador)
-
-    //se setea el valor de la variable ataqueJugador segun la funcion invocada
-    botonAtaqueFuego.addEventListener('click', ataqueFuego);
-    botonAtaqueAgua.addEventListener('click', ataqueAgua);
-    botonAtaqueTierra.addEventListener('click', ataqueTierra);
 
     // boton de reiniciar oculto por defecto
     botonReiniciar.style.display = 'none';
@@ -114,7 +115,7 @@ function seleccionarPersonajeJugador() {
         console.log('Has seleccionado a', objPersonajeJugador)
 
         cargarAtaquesJugadorEnPantalla();
-      
+
         // oculto seccion elegir personaje
         seccionElegirpersonaje.style.display = 'none';
 
@@ -125,24 +126,6 @@ function seleccionarPersonajeJugador() {
         seccionSeleccionarAtaques.style.display = 'flex';
 
     }
-}
-
-function ataqueFuego() {
-    ataqueJugador = FUEGO;
-    console.log('elegiste FUEGO')
-    seleccionarAtaquesPC();
-}
-
-function ataqueAgua() {
-    ataqueJugador = AGUA;
-    console.log('elegiste AGUA')
-    seleccionarAtaquesPC();
-}
-
-function ataqueTierra() {
-    ataqueJugador = TIERRA;
-    console.log('elegiste TIERRA')
-    seleccionarAtaquesPC();
 }
 
 function formatearNombre(personaje) {
@@ -158,24 +141,14 @@ function seleccionarpersonajePC() {
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
 }
 
-function seleccionarAtaquesPC() {
-    console.log('la PC esta elegiendo sus ataques');
-    let numRandom = Math.floor(Math.random() * (MAX_ATAQUES - MIN_ATAQUES + 1));
-    ataquePC = ATAQUES[numRandom];
-    console.log('la PC elegio de ataque:', ataquePC)
-
-    // realizar el combate
-    realizarCombate();
-}
-
 function realizarCombate() {
     let resultado;
 
-    if (ataqueJugador == ataquePC) {
+    if (ataqueTurnoJugador == ataqueTurnoEnemigo) {
         resultado = EMPATE;
-    } else if ((ataqueJugador == FUEGO && ataquePC == TIERRA)
-        || (ataqueJugador == AGUA && ataquePC == FUEGO)
-        || (ataqueJugador == TIERRA && ataquePC == AGUA)) {
+    } else if ((ataqueTurnoJugador == FUEGO && ataqueTurnoEnemigo == TIERRA)
+        || (ataqueTurnoJugador == AGUA && ataqueTurnoEnemigo == FUEGO)
+        || (ataqueTurnoJugador == TIERRA && ataqueTurnoEnemigo == AGUA)) {
         resultado = GANASTE;
         actualizarVidasPC();
     } else {
@@ -237,15 +210,13 @@ function crearMensajeFinDeJuego(mensaje) {
  */
 function deshabilitarBotonesDeAtaque() {
     console.warn('se inhabilitan los botones de ataque')
-    botonAtaqueFuego.disabled = true;
-    botonAtaqueAgua.disabled = true;
-    botonAtaqueTierra.disabled = true;
+    seccionBotonesAtaquesJugador.style.display = 'none';
 }
 
 function crearMensajeCombate(resultado, suceso) {
     // actualiza valors tablas grid
-    parrafoAtaqueJugador.innerHTML = ataqueJugador;
-    parrafoAtaqueEnemigo.innerHTML = ataquePC;
+    parrafoAtaqueJugador.innerHTML = ataqueTurnoJugador;
+    parrafoAtaqueEnemigo.innerHTML = ataqueTurnoEnemigo;
 
     //editamos el relato
     console.log(suceso)
@@ -253,7 +224,7 @@ function crearMensajeCombate(resultado, suceso) {
 
     // creamos el elemento p
     let parrafo = document.createElement('p');
-    parrafo.innerHTML = `Atacas con ${ataqueJugador}, y el enemigo se defiende con ${ataquePC} --> ${resultado}`;
+    parrafo.innerHTML = `Atacas con ${ataqueTurnoJugador}, y el enemigo se defiende con ${ataqueTurnoEnemigo} --> ${resultado}`;
     // insertamos el elemento en el HTML
     mensajesCombate.appendChild(parrafo);
 }
@@ -279,61 +250,95 @@ function reiniciarJuego() {
     location.reload();
 }
 
-function cargarAtaquesJugadorEnPantalla(){
-      // step 2
-      objPersonajeJugador.ataques.forEach((atack) => {
+// step 2
+function cargarAtaquesJugadorEnPantalla() {
+    // creacion de botones de ataque en el front
+    objPersonajeJugador.ataques.forEach((atack) => {
         let botonDeAtaque = `
         <button class="boton-ataque" id="${atack.id}">${atack.icon + atack.name} </button> 
         `
         arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesJugador.innerHTML += botonDeAtaque;
     })
-    // todo: aca van los getElemenById de los botones de ataque
-    // todo: aca van los addEventListener para los botones de ataque, no arriba
-    console.log('arra',arrayIDsBotonesDeAtaqueEnPantalla)
+    //PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
+    // llamado a funcion que crea y asocia los botones del front con las funciones de JS
+    let _id = objPersonajeJugador.id;
+    switch (_id) {
+        case ID_CABALLERO_NEGRO:
+            asociarBotonesCaballeroNegro();
+            break;
+        case ID_CABALLERO_TEMPLARIO:
+            asociarBotonesCaballeroTemplario();
+            break;
+        case ID_CABALLERO_REAL:
+            asociarBotonesCaballeroReal();
+            break;
+        case ID_HECHICERO_BADASS:
+            asociarBotonesHechiceroBadass();
+            break;
+
+    }
 }
 
-function crearPersonajes() {
-    // todo: recibir de parametro cuantos guerreros diferentes crear
-    const ID_CABALLERO_NEGRO = "caballeroNegro";
-    const ID_CABALLERO_REAL = "caballeroReal";
-    const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
-    const PIROMANTICO = "piromantico";
-    const ID_HECHICERO_BADASS = "hechicero-badass"
-    const HECHICERO_BLANCO = "hechiceroBlanco"
-    const HECHICERO_NEGRO = "hechiceroNegro";
-    PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
+function asociarBotonesCaballeroNegro() {
+    // todo: aca van los getElemenById de los botones de ataque
+    const botonAtaqueDebil1 = document.getElementById('ataque-debil-1');
+    const botonAtaqueDebil2 = document.getElementById('ataque-daga');
+    const botonAtaqueFuerte1 = document.getElementById('ataque-fuerte-1');
+    const botonAtaqueFuerte2 = document.getElementById('ataque-fuerte-2');
 
-    let ataquesCaballeroNegro = [
-        {
-            id: 'espada-simple',
-            name: 'Estocada',
-            damage: 10,
-            icon: '🗡',
-            specialEffect: null
-        },
-        {
-            id: 'atack-2',
-            name: 'Ataque 2',
-            damage: 20,
-            icon: '🗡',
-            specialEffect: null
-        },
-        {
-            id: 'atack-2',
-            name: 'Ataque 2',
-            damage: 20,
-            icon: '⚔',
-            specialEffect: null
-        },
-        {
-            id: 'daga',
-            name: 'Apuñalada de carne',
-            damage: 10,
-            icon: '🔪',
-            specialEffect: null
-        }
-    ]
+    // todo: aca van los addEventListener para los botones de ataque, no arriba
+    botonAtaqueDebil1.addEventListener('click', ataqueFuego);
+    botonAtaqueDebil2.addEventListener('click', ataqueDaga)
+    botonAtaqueFuerte1.addEventListener('click', ataqueAgua);
+    botonAtaqueFuerte2.addEventListener('click', ataqueTierra);
+}
+
+function ataqueFuego() {
+    ataqueTurnoJugador = FUEGO;
+    console.log('elegiste FUEGO')
+    seleccionarAtaquesPC();
+}
+
+function ataqueAgua() {
+    ataqueTurnoJugador = AGUA;
+    console.log('elegiste AGUA')
+    seleccionarAtaquesPC();
+}
+
+function ataqueTierra() {
+    ataqueTurnoJugador = TIERRA;
+    console.log('elegiste TIERRA')
+    seleccionarAtaquesPC();
+}
+
+function ataqueDaga() {
+    ataqueTurnoJugador = TIERRA;
+    console.log('elegiste TIERRA')
+    seleccionarAtaquesPC();
+}
+
+function seleccionarAtaquesPC() {
+    console.log('la PC esta elegiendo sus ataques');
+    let numRandom = Math.floor(Math.random() * (MAX_ATAQUES - MIN_ATAQUES + 1));
+    ataqueTurnoEnemigo = ATAQUES[numRandom];
+    console.log('la PC elegio de ataque:', ataqueTurnoEnemigo)
+
+    // realizar el combate
+    realizarCombate();
+}
+
+async function crearPersonajes() {
+    // todo: recibir de parametro cuantos guerreros diferentes crear
+    PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
+   
+    
+
+     await fetch('./../assets/img/personajes/caballero-negro/ataques/ataques-caballero-negro.json')
+     .then( response => response.json())
+     .then( json => {
+        ataquesCaballeroNegro = json.atacks;
+     })
 
     let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO, 'Caballero Negro', 120,
         './../assets/img/personajes/caballero-negro.png', ataquesCaballeroNegro, Constants.defensasCaballeroNegro);

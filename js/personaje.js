@@ -6,6 +6,8 @@ export class Personaje{
     this.foto = foto;
     this.ataques = ataques;
     this.defensas = defensas;
+    this.resistencias = null;
+    this.debilidades = null;
    }
 
 }

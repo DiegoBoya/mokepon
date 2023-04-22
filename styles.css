@@ -102,6 +102,11 @@ body img{
 input:checked + label{
     background-color: rgb(63, 25, 170);
     border-color: rgb(21, 21, 112);
+    color: yellow;
+}
+
+.tarjeta-personaje:checked {
+    color: yellow;
 }
 
 .tarjeta-personaje:hover {

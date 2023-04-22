@@ -4,6 +4,8 @@ import { Constants } from './constants.js'
 // constantes dinamicas
 let PERSONAJES_ID = [];
 let personajes = [];
+let objPersonajeEnemigo;
+let objPersonajeJugador;
 // para seleccionar el Personaje de la PC
 let TOTAL_GUERREROS;
 const MINIMO = 1;
@@ -26,6 +28,7 @@ const TIERRA = 'TIERRA';
 const ATAQUES = [FUEGO, AGUA, TIERRA];
 const MAX_ATAQUES = ATAQUES.length;
 const MIN_ATAQUES = 1;
+let arrayIDsBotonesDeAtaqueEnPantalla = [];
 
 //resultados
 const EMPATE = 'empate 😐';
@@ -41,11 +44,12 @@ const contenedorPersonajes = document.getElementById('contenedor-personajes');
 //seccion2
 const seccionSeleccionarAtaques = document.getElementById('seleccionar-ataque');
 const relato = document.getElementById('relato')
+const seccionBotonesAtaquesJugador = document.getElementById('seccion-botones-ataques-jugador');
 const botonAtaqueFuego = document.getElementById('boton-fuego');
 const botonAtaqueAgua = document.getElementById('boton-agua');
 const botonAtaqueTierra = document.getElementById('boton-tierra');
-const personajeEnemigo = document.getElementById('personaje-enemigo');
-const personajeJugador = document.getElementById('personaje-jugador');
+const nombrePersonajeEnemigoDOM = document.getElementById('personaje-enemigo');
+const nombrePersonajeJugadorDOM = document.getElementById('personaje-jugador');
 const vidasEnemigo = document.getElementById('barra-vidas-enemigo');
 const vidasJugador = document.getElementById('barra-vidas-jugador');
 const parrafoAtaqueJugador = document.getElementById('ataque-jugador');
@@ -58,6 +62,7 @@ const mensajesCombate = document.getElementById('mensajes-combate');
 window.addEventListener('load', iniciarJuego)
 
 function iniciarJuego() {
+    //step 1
     console.log('cargo OK el juego')
     crearPersonajes();
 
@@ -75,7 +80,7 @@ function iniciarJuego() {
     })
 
     // reacciona al elegir al Guerrero
-    botonpersonajeJugador.addEventListener('click', seleccionarpersonajeJugador)
+    botonpersonajeJugador.addEventListener('click', seleccionarPersonajeJugador)
 
     //se setea el valor de la variable ataqueJugador segun la funcion invocada
     botonAtaqueFuego.addEventListener('click', ataqueFuego);
@@ -91,24 +96,26 @@ function iniciarJuego() {
 
 }
 
-function seleccionarpersonajeJugador() {
+function seleccionarPersonajeJugador() {
     let personaje = PERSONAJES_ID.filter(element => document.getElementById(element).checked === true);
-    console.log(personaje)
-    console.log(personajes)
+
     if (personaje.length == 0) {
         console.error("No se ha elegido un guerrero")
         alert("Debes seleccionar un Guerrero!")
     } else {
         //obtengo el elemento filtrado
         let personajeID = personaje[0];
-        
+
         // comparo el id del elemento filtrado vs el id de los personjes disponibles
         personaje = personajes.filter(per => per.id == personajeID)
-        console.log('Has seleccionado a ', personaje[0].nombre)
         // modifica el HTML de forma dinamica
-        personajeJugador.innerHTML = personaje[0].nombre;
+        objPersonajeJugador = personaje[0];
+        nombrePersonajeJugadorDOM.innerHTML = objPersonajeJugador.nombre;
+        console.log('Has seleccionado a', objPersonajeJugador)
 
-        // oculto seccion elegit masctoa
+        cargarAtaquesJugadorEnPantalla();
+      
+        // oculto seccion elegir personaje
         seccionElegirpersonaje.style.display = 'none';
 
         // PC elige personaje
@@ -145,10 +152,10 @@ function formatearNombre(personaje) {
 function seleccionarpersonajePC() {
     console.log('Se elige el guerrero de la PC de entre ', TOTAL_GUERREROS, ' disponibles.');
     let numRandom = Math.floor(Math.random() * (TOTAL_GUERREROS - MINIMO + 1))
-   /*  console.log('numero random', numRandom, ', guerrero=', PERSONAJES_ID[numRandom], personajes[numRandom].nombre) */
-    let personajePC = personajes[numRandom].nombre;
-    console.log('Tu enemigo sera el', personajePC)
-    personajeEnemigo.innerHTML = personajePC;
+    let personajePC = personajes[numRandom];
+    nombrePersonajeEnemigoDOM.innerHTML = personajePC.nombre;
+    objPersonajeEnemigo = personajePC;
+    console.log('Tu enemigo sera el', objPersonajeEnemigo)
 }
 
 function seleccionarAtaquesPC() {
@@ -272,26 +279,76 @@ function reiniciarJuego() {
     location.reload();
 }
 
+function cargarAtaquesJugadorEnPantalla(){
+      // step 2
+      objPersonajeJugador.ataques.forEach((atack) => {
+        let botonDeAtaque = `
+        <button class="boton-ataque" id="${atack.id}">${atack.icon + atack.name} </button> 
+        `
+        arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
+        seccionBotonesAtaquesJugador.innerHTML += botonDeAtaque;
+    })
+    // todo: aca van los getElemenById de los botones de ataque
+    // todo: aca van los addEventListener para los botones de ataque, no arriba
+    console.log('arra',arrayIDsBotonesDeAtaqueEnPantalla)
+}
+
 function crearPersonajes() {
     // todo: recibir de parametro cuantos guerreros diferentes crear
     const ID_CABALLERO_NEGRO = "caballeroNegro";
     const ID_CABALLERO_REAL = "caballeroReal";
     const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
     const PIROMANTICO = "piromantico";
-    const HECHICERO_BLANCO = "hechiceroBlanco";
+    const ID_HECHICERO_BADASS = "hechicero-badass"
+    const HECHICERO_BLANCO = "hechiceroBlanco"
     const HECHICERO_NEGRO = "hechiceroNegro";
-    PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO];
+    PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
+
+    let ataquesCaballeroNegro = [
+        {
+            id: 'espada-simple',
+            name: 'Estocada',
+            damage: 10,
+            icon: '🗡',
+            specialEffect: null
+        },
+        {
+            id: 'atack-2',
+            name: 'Ataque 2',
+            damage: 20,
+            icon: '🗡',
+            specialEffect: null
+        },
+        {
+            id: 'atack-2',
+            name: 'Ataque 2',
+            damage: 20,
+            icon: '⚔',
+            specialEffect: null
+        },
+        {
+            id: 'daga',
+            name: 'Apuñalada de carne',
+            damage: 10,
+            icon: '🔪',
+            specialEffect: null
+        }
+    ]
 
     let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO, 'Caballero Negro', 120,
-        './../assets/img/personajes/caballero-negro.png', [Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+        './../assets/img/personajes/caballero-negro.png', ataquesCaballeroNegro, Constants.defensasCaballeroNegro);
 
     let caballeroReal = new Personaje(ID_CABALLERO_REAL, 'Caballero Real', 100,
-        './../assets/img/personajes/caballero-real.png', [Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+        './../assets/img/personajes/caballero-real.png', Constants.ataquesCaballeroReal, Constants.defensasCaballeroReal);
 
     let caballeroTemplario = new Personaje(ID_CABALLERO_TEMPLARIO, 'Caballero Templario', 110,
-        './../assets/img/personajes/caballero_templario.png', [Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+        './../assets/img/personajes/caballero_templario.png', Constants.ataquesCaballeroTemplario, Constants.defensasCaballeroTemplario);
 
-    personajes = [caballeroNegro, caballeroReal, caballeroTemplario];
+    let hechiceroBadass = new Personaje(ID_HECHICERO_BADASS, 'Hechicero Badass', 90,
+        './../assets/img/personajes/hechicero-badass.png', Constants.ataquesHechiceroBadass, Constants.defensasHechiceroBadass);
+
+
+    personajes = [caballeroNegro, caballeroReal, caballeroTemplario, hechiceroBadass];
     TOTAL_GUERREROS = personajes.length;
 
     console.log('Los guerreros esperan su destino...', personajes);

@@ -1,16 +1,12 @@
-import {Personaje} from './personaje.js';
-import {Constants} from './constants.js'
+import { Personaje } from './personaje.js';
+import { Constants } from './constants.js'
 
-const ID_CABALLERO_NEGRO = "caballeroNegro";
-const ID_CABALLERO_REAL = "caballeroReal";
-const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
-const PIROMANTICO = "piromantico";
-const HECHICERO_BLANCO = "hechiceroBlanco";
-const HECHICERO_NEGRO = "hechiceroNegro";
-const PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO];
+// constantes dinamicas
+let PERSONAJES_ID = [];
+let personajes = [];
 // para seleccionar el Personaje de la PC
-const MAX_ARRAY_MOKE = PERSONAJES_ID.length;
-const MIN_ARRAY_MOKE = 1;
+let TOTAL_GUERREROS;
+const MINIMO = 1;
 
 // vidas 
 const INICIO_VIDAS = 3;
@@ -37,40 +33,33 @@ const GANASTE = 'ganaste! 😎';
 const PERDISTE = 'perdiste 😕';
 
 // elementos manipulables
-const botonMascotaJugador = document.getElementById('boton-seleccionar-mascota');
+//seccion 1
+const botonpersonajeJugador = document.getElementById('boton-seleccionar-personaje');
+const seccionElegirpersonaje = document.getElementById('seleccionar-personaje');
+const contenedorPersonajes = document.getElementById('contenedor-personajes');
+
+//seccion2
+const seccionSeleccionarAtaques = document.getElementById('seleccionar-ataque');
+const relato = document.getElementById('relato')
 const botonAtaqueFuego = document.getElementById('boton-fuego');
 const botonAtaqueAgua = document.getElementById('boton-agua');
 const botonAtaqueTierra = document.getElementById('boton-tierra');
-const botonReiniciar = document.getElementById('boton-reiniciar');
-const seccionAtaques = document.getElementById('seleccionar-ataque');
-const seccionElegirMascota = document.getElementById('seleccionar-mascota');
-const seleccionAtaques = document.getElementById('seleccionar-ataque');
-const mascotaEnemigo = document.getElementById('mascota-enemigo');
-const mascotaJugador = document.getElementById('mascota-jugador');
+const personajeEnemigo = document.getElementById('personaje-enemigo');
+const personajeJugador = document.getElementById('personaje-jugador');
 const vidasEnemigo = document.getElementById('barra-vidas-enemigo');
 const vidasJugador = document.getElementById('barra-vidas-jugador');
-const seccionMensajeFinal = document.getElementById('mensaje-final')
 const parrafoAtaqueJugador = document.getElementById('ataque-jugador');
 const parrafoAtaqueEnemigo = document.getElementById('ataque-enemigo');
-const relato = document.getElementById('relato')
+const seccionMensajeFinal = document.getElementById('mensaje-final')
+const botonReiniciar = document.getElementById('boton-reiniciar');
 const mensajesCombate = document.getElementById('mensajes-combate');
-const contenedorPersonajes = document.getElementById('contenedor-personajes');
 
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)
 
-let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO,'Caballero Negro', 120, './../assets/img/personajes/caballero-negro.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
-
-let caballeroReal = new Personaje(ID_CABALLERO_REAL,'Caballero Real', 100, './../assets/img/personajes/caballero-real.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
-
-let caballeroTemplario = new Personaje(ID_CABALLERO_TEMPLARIO, 'Caballero Templario', 110, './../assets/img/personajes/caballero_templario.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
-
-
-let personajes = [caballeroNegro, caballeroReal, caballeroTemplario];
-console.log(personajes);
-
 function iniciarJuego() {
     console.log('cargo OK el juego')
+    crearPersonajes();
 
     // inyecta el js en el DOM
     personajes.forEach((personaje) => {
@@ -86,7 +75,7 @@ function iniciarJuego() {
     })
 
     // reacciona al elegir al Guerrero
-    botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
+    botonpersonajeJugador.addEventListener('click', seleccionarpersonajeJugador)
 
     //se setea el valor de la variable ataqueJugador segun la funcion invocada
     botonAtaqueFuego.addEventListener('click', ataqueFuego);
@@ -98,32 +87,35 @@ function iniciarJuego() {
     botonReiniciar.addEventListener('click', reiniciarJuego);
 
     // seccion de ataques oculta por defecto
-    seccionAtaques.style.display = 'none';
+    seccionSeleccionarAtaques.style.display = 'none';
 
 }
 
-function seleccionarMascotaJugador() {
-    console.log('seleccionados')
-    let mascota = PERSONAJES_ID.filter(element => document.getElementById(element).checked === true);
-
-    if (mascota.length == 0) {
+function seleccionarpersonajeJugador() {
+    let personaje = PERSONAJES_ID.filter(element => document.getElementById(element).checked === true);
+    console.log(personaje)
+    console.log(personajes)
+    if (personaje.length == 0) {
         console.error("No se ha elegido un guerrero")
         alert("Debes seleccionar un Guerrero!")
     } else {
-        //Setea primera mayuscula
-        mascota = formatearNombre(mascota[0]);
-        console.log('Has seleccionado a ' + mascota)
+        //obtengo el elemento filtrado
+        let personajeID = personaje[0];
+        
+        // comparo el id del elemento filtrado vs el id de los personjes disponibles
+        personaje = personajes.filter(per => per.id == personajeID)
+        console.log('Has seleccionado a ', personaje[0].nombre)
         // modifica el HTML de forma dinamica
-        mascotaJugador.innerHTML = mascota;
+        personajeJugador.innerHTML = personaje[0].nombre;
 
         // oculto seccion elegit masctoa
-        seccionElegirMascota.style.display ='none';
-        
+        seccionElegirpersonaje.style.display = 'none';
+
         // PC elige personaje
-        seleccionarMascotaPC();
+        seleccionarpersonajePC();
 
         // habilito seccion para elegir ataques
-        seleccionAtaques.style.display = 'flex';
+        seccionSeleccionarAtaques.style.display = 'flex';
 
     }
 }
@@ -146,16 +138,17 @@ function ataqueTierra() {
     seleccionarAtaquesPC();
 }
 
-function formatearNombre(mascota) {
-    return mascota.charAt(0).toUpperCase() + mascota.substring(1);
+function formatearNombre(personaje) {
+    return personaje.charAt(0).toUpperCase() + personaje.substring(1);
 }
 
-function seleccionarMascotaPC() {
-    console.log('Se elige el guerrero de la PC');
-    let numRandom = Math.floor(Math.random() * (MAX_ARRAY_MOKE - MIN_ARRAY_MOKE - 1) + MIN_ARRAY_MOKE)
-    console.log('numero random', numRandom, ', guerrero=', PERSONAJES_ID[numRandom])
-    let mascotaPC = formatearNombre(PERSONAJES_ID[numRandom]);
-    mascotaEnemigo.innerHTML = mascotaPC;
+function seleccionarpersonajePC() {
+    console.log('Se elige el guerrero de la PC de entre ', TOTAL_GUERREROS, ' disponibles.');
+    let numRandom = Math.floor(Math.random() * (TOTAL_GUERREROS - MINIMO + 1))
+   /*  console.log('numero random', numRandom, ', guerrero=', PERSONAJES_ID[numRandom], personajes[numRandom].nombre) */
+    let personajePC = personajes[numRandom].nombre;
+    console.log('Tu enemigo sera el', personajePC)
+    personajeEnemigo.innerHTML = personajePC;
 }
 
 function seleccionarAtaquesPC() {
@@ -226,7 +219,7 @@ function crearMensajeFinDeJuego(mensaje) {
     }
     deshabilitarBotonesDeAtaque();
     seccionMensajeFinal.appendChild(mensajeFinal)
-    
+
 
     // habilito boton reiniciar
     botonReiniciar.style.display = 'block';
@@ -235,7 +228,7 @@ function crearMensajeFinDeJuego(mensaje) {
 /**
  * Al finalizar el juego, inhabilita a todos los botones de ataques
  */
-function deshabilitarBotonesDeAtaque(){
+function deshabilitarBotonesDeAtaque() {
     console.warn('se inhabilitan los botones de ataque')
     botonAtaqueFuego.disabled = true;
     botonAtaqueAgua.disabled = true;
@@ -258,15 +251,15 @@ function crearMensajeCombate(resultado, suceso) {
     mensajesCombate.appendChild(parrafo);
 }
 
-function obtenerFraseSegunSuceso(suceso){
+function obtenerFraseSegunSuceso(suceso) {
     let relato;
-    if (suceso == 'rodo OK'){
+    if (suceso == 'rodo OK') {
         relato = 'Esquivaste justo! sigue asi!!';
-    } else if (suceso == 'defensa efectiva'){
+    } else if (suceso == 'defensa efectiva') {
         relato = 'El escudo te salvo justo! Ten cuidado!!'
-    } else if (suceso == 'espadazo OK'){
+    } else if (suceso == 'espadazo OK') {
         relato = 'Como entro esa estocada!';
-    } else if (suceso == 'espadazo-no-OK'){
+    } else if (suceso == 'espadazo-no-OK') {
         relato = 'La anticipaste mucho, te vieron venir...'
     } else {
         relato = 'siga !! sigaaa!!! '
@@ -275,9 +268,32 @@ function obtenerFraseSegunSuceso(suceso){
     return relato;
 }
 
-function reiniciarJuego(){
+function reiniciarJuego() {
     location.reload();
 }
 
+function crearPersonajes() {
+    // todo: recibir de parametro cuantos guerreros diferentes crear
+    const ID_CABALLERO_NEGRO = "caballeroNegro";
+    const ID_CABALLERO_REAL = "caballeroReal";
+    const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
+    const PIROMANTICO = "piromantico";
+    const HECHICERO_BLANCO = "hechiceroBlanco";
+    const HECHICERO_NEGRO = "hechiceroNegro";
+    PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO];
 
+    let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO, 'Caballero Negro', 120,
+        './../assets/img/personajes/caballero-negro.png', [Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
 
+    let caballeroReal = new Personaje(ID_CABALLERO_REAL, 'Caballero Real', 100,
+        './../assets/img/personajes/caballero-real.png', [Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+
+    let caballeroTemplario = new Personaje(ID_CABALLERO_TEMPLARIO, 'Caballero Templario', 110,
+        './../assets/img/personajes/caballero_templario.png', [Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+
+    personajes = [caballeroNegro, caballeroReal, caballeroTemplario];
+    TOTAL_GUERREROS = personajes.length;
+
+    console.log('Los guerreros esperan su destino...', personajes);
+
+}

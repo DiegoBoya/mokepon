@@ -26,7 +26,7 @@ body img{
     align-items: center;
 }
 
-#seleccionar-mascota{
+#seleccionar-personaje{
     display: flex;
     height: 100%;
     flex-direction: column;

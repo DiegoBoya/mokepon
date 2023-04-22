@@ -1,5 +1,6 @@
 export class Personaje{
-   constructor(nombre, salud, foto, ataques, defensas){
+   constructor(id, nombre, salud, foto, ataques, defensas){
+    this.id = id;
     this.nombre = nombre;
     this.salud = salud;
     this.foto = foto;

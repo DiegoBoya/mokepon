@@ -5,9 +5,7 @@ export class Constants {
     }
 }
 
-function constantes(){
-    this.espada = 'espada';
-}
+
 
 Constants.espadaSimple = 'espada 🗡';
 Constants.espadaDoble = 'espada doble ⚔';

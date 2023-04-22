@@ -65,7 +65,7 @@ body img{
 
 }
 
-.tarjeta-mokepon {
+.tarjeta-personaje {
     width: 200px;
     height: 350px;
     background-color: transparent;
@@ -79,13 +79,13 @@ body img{
 }
 
 
-.tarjeta-mokepon img{
+.tarjeta-personaje img{
     width: 120px;
     height: 170px;
     margin: 10px;
 }
 
-.tarjeta-mokepon p{
+.tarjeta-personaje p{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -94,7 +94,8 @@ body img{
     color: white;
 }
 
-.input-tarjeta-mokepon {
+.input-tarjeta-personaje {
+    /* oculta el radio */
     display: none;
 }
 
@@ -103,17 +104,17 @@ input:checked + label{
     border-color: rgb(21, 21, 112);
 }
 
-.tarjeta-mokepon:hover {
+.tarjeta-personaje:hover {
     width: 220px;
     height: 385px;
     margin: 0px;
 }
 
-.tarjeta-mokepon:hover p{
+.tarjeta-personaje:hover p{
     color: yellow;
 }
 
-.tarjeta-mokepon:hover img{
+.tarjeta-personaje:hover img{
     width: 140px;
     height: 190px;
     margin: 10px;

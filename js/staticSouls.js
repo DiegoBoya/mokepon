@@ -1,15 +1,15 @@
 import {Personaje} from './personaje.js';
 import {Constants} from './constants.js'
 
-const HIPODOGE_ID = "hipodoge";
-const CAPIPEPO_ID = "capipepo";
-const RATIGUEYA_ID = "ratigueya";
-const LANGOSTELVIS_ID = "langostelvis";
-const TUCAPALMA_ID = "tucapalma";
-const PYDOS_ID = "pydos";
-const MOKEPONES_ID = [HIPODOGE_ID, CAPIPEPO_ID, RATIGUEYA_ID];
-// para seleccionar el Mokepon de la PC
-const MAX_ARRAY_MOKE = MOKEPONES_ID.length;
+const ID_CABALLERO_NEGRO = "caballeroNegro";
+const ID_CABALLERO_REAL = "caballeroReal";
+const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
+const PIROMANTICO = "piromantico";
+const HECHICERO_BLANCO = "hechiceroBlanco";
+const HECHICERO_NEGRO = "hechiceroNegro";
+const PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO];
+// para seleccionar el Personaje de la PC
+const MAX_ARRAY_MOKE = PERSONAJES_ID.length;
 const MIN_ARRAY_MOKE = 1;
 
 // vidas 
@@ -54,15 +54,17 @@ const parrafoAtaqueJugador = document.getElementById('ataque-jugador');
 const parrafoAtaqueEnemigo = document.getElementById('ataque-enemigo');
 const relato = document.getElementById('relato')
 const mensajesCombate = document.getElementById('mensajes-combate');
+const contenedorPersonajes = document.getElementById('contenedor-personajes');
 
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)
 
-let caballeroNegro = new Personaje('Caballero Negro', 120, './../assets/img/personajes/caballero-negro.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO,'Caballero Negro', 120, './../assets/img/personajes/caballero-negro.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
 
-let caballeroReal = new Personaje('Caballero Real', 100, './../assets/img/personajes/caballero-real.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+let caballeroReal = new Personaje(ID_CABALLERO_REAL,'Caballero Real', 100, './../assets/img/personajes/caballero-real.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
 
-let caballeroTemplario = new Personaje('Caballero Templario', 110, './../assets/img/personajes/caballero_templario.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+let caballeroTemplario = new Personaje(ID_CABALLERO_TEMPLARIO, 'Caballero Templario', 110, './../assets/img/personajes/caballero_templario.png',[Constants.ataquesCaballeroNegro], [Constants.defensasCaballeroNegro])
+
 
 let personajes = [caballeroNegro, caballeroReal, caballeroTemplario];
 console.log(personajes);
@@ -70,7 +72,20 @@ console.log(personajes);
 function iniciarJuego() {
     console.log('cargo OK el juego')
 
-    // reacciona al elegir al mokepon
+    // inyecta el js en el DOM
+    personajes.forEach((personaje) => {
+        let tarjetaPersonaje = `
+        <input class="input-tarjeta-personaje" type="radio" name="character" id=${personaje.id}>
+        <label class="tarjeta-personaje" for="${personaje.id}">
+            <img src=${personaje.foto} alt="${personaje.nombre}">
+            <p>${personaje.nombre}</p>
+            <p>estadisticas</p>    
+        </label>
+        `
+        contenedorPersonajes.innerHTML += tarjetaPersonaje;
+    })
+
+    // reacciona al elegir al Guerrero
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
 
     //se setea el valor de la variable ataqueJugador segun la funcion invocada
@@ -89,11 +104,11 @@ function iniciarJuego() {
 
 function seleccionarMascotaJugador() {
     console.log('seleccionados')
-    let mascota = MOKEPONES_ID.filter(element => document.getElementById(element).checked === true);
+    let mascota = PERSONAJES_ID.filter(element => document.getElementById(element).checked === true);
 
     if (mascota.length == 0) {
-        console.error("No se ha elegido un Mokepon")
-        alert("Debes seleccionar un Mokepon!")
+        console.error("No se ha elegido un guerrero")
+        alert("Debes seleccionar un Guerrero!")
     } else {
         //Setea primera mayuscula
         mascota = formatearNombre(mascota[0]);
@@ -104,7 +119,7 @@ function seleccionarMascotaJugador() {
         // oculto seccion elegit masctoa
         seccionElegirMascota.style.display ='none';
         
-        // PC elige mokepon
+        // PC elige personaje
         seleccionarMascotaPC();
 
         // habilito seccion para elegir ataques
@@ -136,10 +151,10 @@ function formatearNombre(mascota) {
 }
 
 function seleccionarMascotaPC() {
-    console.log('Se elige el Mokepon de la PC');
+    console.log('Se elige el guerrero de la PC');
     let numRandom = Math.floor(Math.random() * (MAX_ARRAY_MOKE - MIN_ARRAY_MOKE - 1) + MIN_ARRAY_MOKE)
-    console.log('numero random', numRandom, ', mokepon=', MOKEPONES_ID[numRandom])
-    let mascotaPC = formatearNombre(MOKEPONES_ID[numRandom]);
+    console.log('numero random', numRandom, ', guerrero=', PERSONAJES_ID[numRandom])
+    let mascotaPC = formatearNombre(PERSONAJES_ID[numRandom]);
     mascotaEnemigo.innerHTML = mascotaPC;
 }
 

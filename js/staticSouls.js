@@ -5,8 +5,8 @@ import { Constants } from './constants.js'
 const ID_CABALLERO_NEGRO = "caballeroNegro";
 const ID_CABALLERO_REAL = "caballeroReal";
 const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
-const PIROMANTICO = "piromantico";
 const ID_HECHICERO_BADASS = "hechicero-badass"
+const PIROMANTICO = "piromantico";
 const HECHICERO_BLANCO = "hechiceroBlanco"
 const HECHICERO_NEGRO = "hechiceroNegro";
 // constantes dinamicas
@@ -516,52 +516,52 @@ async function crearPersonajes() {
 async function obtenerAtaquesDefensas() {
 
     // Caballero Negro
-    await fetch('./../assets/caballero-negro/ataques/ataques-caballero-negro.json')
+    await fetch('./../assets/caballero-negro/ataques-caballero-negro.json')
         .then(response => response.json())
         .then(json => {
             ataquesCaballeroNegro = json.atacks;
         })
 
-    await fetch('./../assets/caballero-negro/defensas/defensas-caballero-negro.json')
+    await fetch('./../assets/caballero-negro/defensas-caballero-negro.json')
         .then(response => response.json())
         .then(json => {
             defensasCaballeroNegro = json.defense;
         })
 
     // Caballero Real
-    await fetch('./../assets/caballero-real/ataques/ataques-caballero-real.json')
+    await fetch('./../assets/caballero-real/ataques-caballero-real.json')
         .then(response => response.json())
         .then(json => {
             ataquesCaballeroReal = json.atacks;
         })
 
-    await fetch('./../assets/caballero-real/defensas/defensas-caballero-real.json')
+    await fetch('./../assets/caballero-real/defensas-caballero-real.json')
         .then(response => response.json())
         .then(json => {
             defensasCaballeroReal = json.defense;
         })
 
     // Hechicero Badass
-    await fetch('./../assets/caballero-templario/ataques/ataques-caballero-templario.json')
+    await fetch('./../assets/caballero-templario/ataques-caballero-templario.json')
         .then(response => response.json())
         .then(json => {
             ataquesCaballeroTemplario = json.atacks;
         })
 
-    await fetch('./../assets/caballero-templario/defensas/defensas-caballero-templario.json')
+    await fetch('./../assets/caballero-templario/defensas-caballero-templario.json')
         .then(response => response.json())
         .then(json => {
             defensasCaballeroTemplario = json.defense;
         })
 
     // Hechicero Badass
-    await fetch('./../assets/hechicero-badass/ataques/ataques-hechicero-badass.json')
+    await fetch('./../assets/hechicero-badass/ataques-hechicero-badass.json')
         .then(response => response.json())
         .then(json => {
             ataquesHechiceroBadass = json.atacks;
         })
 
-    await fetch('./../assets/hechicero-badass/defensas/defensas-hechicero-badass.json')
+    await fetch('./../assets/hechicero-badass/defensas-hechicero-badass.json')
         .then(response => response.json())
         .then(json => {
             defensasHechiceroBadass = json.defense;

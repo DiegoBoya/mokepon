@@ -27,10 +27,17 @@ let vidasPlayer = INICIO_VIDAS;
 let contadorRachasDerrotas = 0;
 let contadorRachasVictorias = 0;
 
-// ataques
+// ataques traidos de los JSON
 let ataqueTurnoJugador;
 let ataqueTurnoEnemigo;
 let ataquesCaballeroNegro;
+let defensasCaballeroNegro;
+let ataquesCaballeroReal;
+let defensasCaballeroReal;
+let ataquesCaballeroTemplario;
+let defensasCaballeroTemplario;
+let ataquesHechiceroBadass;
+let defensasHechiceroBadass;
 const FUEGO = 'FUEGO';
 const AGUA = 'AGUA';
 const TIERRA = 'TIERRA';
@@ -332,23 +339,19 @@ async function crearPersonajes() {
     // todo: recibir de parametro cuantos guerreros diferentes crear
     PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
    
-     await fetch('./../assets/caballero-negro/ataques/ataques-caballero-negro.json')
-     .then( response => response.json())
-     .then( json => {
-        ataquesCaballeroNegro = json.atacks;
-     })
+    await obtenerAtaquesDefensas();
 
     let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO, 'Caballero Negro', 120,
-        './../assets/img/personajes/caballero-negro.png', ataquesCaballeroNegro, Constants.defensasCaballeroNegro);
+        './../assets/img/personajes/caballero-negro.png', ataquesCaballeroNegro, defensasCaballeroNegro);
 
     let caballeroReal = new Personaje(ID_CABALLERO_REAL, 'Caballero Real', 100,
-        './../assets/img/personajes/caballero-real.png', Constants.ataquesCaballeroReal, Constants.defensasCaballeroReal);
+        './../assets/img/personajes/caballero-real.png', ataquesCaballeroReal, defensasCaballeroReal);
 
     let caballeroTemplario = new Personaje(ID_CABALLERO_TEMPLARIO, 'Caballero Templario', 110,
-        './../assets/img/personajes/caballero_templario.png', Constants.ataquesCaballeroTemplario, Constants.defensasCaballeroTemplario);
+        './../assets/img/personajes/caballero_templario.png', ataquesCaballeroTemplario, defensasCaballeroTemplario);
 
     let hechiceroBadass = new Personaje(ID_HECHICERO_BADASS, 'Hechicero Badass', 90,
-        './../assets/img/personajes/hechicero-badass.png', Constants.ataquesHechiceroBadass, Constants.defensasHechiceroBadass);
+        './../assets/img/personajes/hechicero-badass.png', ataquesHechiceroBadass, defensasHechiceroBadass);
 
 
     personajes = [caballeroNegro, caballeroReal, caballeroTemplario, hechiceroBadass];
@@ -357,3 +360,61 @@ async function crearPersonajes() {
     console.log('Los guerreros esperan su destino...', personajes);
 
 }
+
+async function obtenerAtaquesDefensas(){
+
+    // Caballero Negro
+   await fetch('./../assets/caballero-negro/ataques/ataques-caballero-negro.json')
+    .then( response => response.json())
+    .then( json => {
+       ataquesCaballeroNegro = json.atacks;
+    })
+
+    await fetch('./../assets/caballero-negro/defensas/defensas-caballero-negro.json')
+    .then( response => response.json())
+    .then( json => {
+       defensasCaballeroNegro = json.defense;
+    })
+    console.log('ataque y defensa CN ok')
+    // Caballero Real
+    await fetch('./../assets/caballero-real/ataques/ataques-caballero-real.json')
+    .then( response => response.json())
+    .then( json => {
+       ataquesCaballeroReal = json.atacks;
+    })
+
+    await fetch('./../assets/caballero-real/defensas/defensas-caballero-real.json')
+    .then( response => response.json())
+    .then( json => {
+        defensasCaballeroReal = json.defense;
+    })
+    console.log('ataque y defensa CR ok')
+    // Hechicero Badass
+    await fetch('./../assets/caballero-templario/ataques/ataques-caballero-templario.json')
+    .then( response => response.json())
+    .then( json => {
+        ataquesCaballeroTemplario = json.atacks;
+    })
+
+    await fetch('./../assets/caballero-templario/defensas/defensas-caballero-templario.json')
+    .then( response => response.json())
+    .then( json => {
+        defensasCaballeroTemplario = json.defense;
+    })
+    console.log('ataque y defensa CT ok')
+    // Hechicero Badass
+    await fetch('./../assets/hechicero-badass/ataques/ataques-hechicero-badass.json')
+    .then( response => response.json())
+    .then( json => {
+       ataquesHechiceroBadass = json.atacks;
+    })
+
+    await fetch('./../assets/hechicero-badass/defensas/defensas-hechicero-badass.json')
+    .then( response => response.json())
+    .then( json => {
+        defensasHechiceroBadass = json.defense;
+    })
+    console.log('ataque y defensa HB ok')
+}
+
+

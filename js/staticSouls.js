@@ -71,6 +71,8 @@ const seccionMensajeFinal = document.getElementById('mensaje-final')
 const botonReiniciar = document.getElementById('boton-reiniciar');
 const mensajesCombate = document.getElementById('mensajes-combate');
 
+// todos los botones de ataque en un array
+let arrayBotonesDeAtaque = [];
 //botones de ataque compartidos
 let botonAtaqueDaga;
 let botonAtaqueFuerte;
@@ -286,7 +288,10 @@ function cargarAtaquesJugadorEnPantalla() {
         arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesJugador.innerHTML += botonDeAtaque;
     })
-    //PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
+
+    arrayBotonesDeAtaque = document.querySelectorAll('.boton-ataque');
+
+
     // llamado a funcion que crea y asocia los botones del front con las funciones de JS
     let _id = objPersonajeJugador.id;
     switch (_id) {
@@ -307,25 +312,37 @@ function cargarAtaquesJugadorEnPantalla() {
 }
 
 function asociarBotonesCaballeroNegro() {
-    botonAtaqueDebil = document.getElementById('ataque-debil');
-    botonAtaqueFuerte = document.getElementById('ataque-fuerte');
-    botonAtaqueDosManos = document.getElementById('dos-manos');
-    botonAtaqueDaga = document.getElementById('ataque-daga');
-    botonAtaqueFuego = document.getElementById('ataque-piromancia');
-    
-    botonAtaqueDebil.addEventListener('click', ataqueDebil);
-    botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
-    botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
-    botonAtaqueDaga.addEventListener('click', ataqueDaga)
-    botonAtaqueFuego.addEventListener('click', ataquePiromancia);
-    
+// eventListener dinamico y llamado a su funcion de ataque segun corresponda
+    arrayBotonesDeAtaque.forEach(boton => {
+        boton.addEventListener('click', (event) => {
+            console.log(event)
+            let idAtaque = event.target.id;
+            switch (idAtaque) {
+                case 'ataque-debil':
+                    ataqueDebil(boton);
+                    break;
+                case 'ataque-fuerte':
+                    ataqueFuerte(boton);
+                    break;
+                case 'ataque-daga':
+                    ataqueDaga(boton);
+                    break;
+                case 'dos-manos':
+                    ataqueA2Manos(boton);
+                    break;
+                case 'ataque-piromancia':
+                    ataquePiromancia(boton);
+                    break;
+            }
+        })
+    })
 }
 
 function asociarBotonesCaballeroReal() {
     botonAtaqueRayo = document.getElementById('ataque-rayo');
     botonAtaqueDobleRayo = document.getElementById('doble-rayo');
     botonAtaqueFuerte = document.getElementById('ataque-fuerte');
-    
+
     botonAtaqueRayo.addEventListener('click', ataqueRayo);
     botonAtaqueDobleRayo.addEventListener('click', ataqueDobleRayo)
     botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
@@ -336,7 +353,7 @@ function asociarBotonesCaballeroTemplario() {
     botonAtaqueDaga = document.getElementById('ataque-daga');
     botonAtaqueFuerte = document.getElementById('ataque-fuerte');
     botonAtaqueDosManos = document.getElementById('dos-manos');
-    
+
     botonAtaqueDebil.addEventListener('click', ataqueDebil);
     botonAtaqueDaga.addEventListener('click', ataqueDaga)
     botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
@@ -353,13 +370,13 @@ function asociarBotonesHechiceroBadass() {
     botonAtaqueDaga.addEventListener('click', ataqueDaga);
 
 }
-function ataquePiromancia() {
+function ataquePiromancia(botonPiro) {
     let objAtaque = objPersonajeJugador.getAtackById('ataque-piromancia');
     ataqueTurnoJugador = objAtaque.name
     console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
     if (objAtaque.cant == 0) {
-        botonAtaqueFuego.disabled = true;
+        botonPiro.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
@@ -395,13 +412,13 @@ function ataqueDobleRayo() {
     }
 }
 
-function ataqueA2Manos() {
+function ataqueA2Manos(boton2Manos) {
     let objAtaque = objPersonajeJugador.getAtackById('dos-manos');
     ataqueTurnoJugador = objAtaque.name
     console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
     if (objAtaque.cant == 0) {
-        botonAtaqueDosManos.disabled = true;
+        boton2Manos.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
@@ -409,26 +426,26 @@ function ataqueA2Manos() {
     }
 }
 
-function ataqueFuerte() {
+function ataqueFuerte(botonAF) {
     let objAtaque = objPersonajeJugador.getAtackById('ataque-fuerte');
     ataqueTurnoJugador = objAtaque.name
     console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
     if (objAtaque.cant == 0) {
-        botonAtaqueFuerte.disabled = true;
+        botonAF.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
         //checkIfAllAtacksAreDisabled()
     }
 }
-function ataqueDebil() {
+function ataqueDebil(botonAD) {
     let objAtaque = objPersonajeJugador.getAtackById('ataque-debil');
     ataqueTurnoJugador = objAtaque.name
     console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
     if (objAtaque.cant == 0) {
-        botonAtaqueDebil.disabled = true;
+        botonAD.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
@@ -461,14 +478,14 @@ function ataqueRafagaMagica() {
         //checkIfAllAtacksAreDisabled()
     }
 }
-function ataqueDaga() {
+function ataqueDaga(botonDaga) {
 
     let objAtaque = objPersonajeJugador.getAtackById('ataque-daga');
     ataqueTurnoJugador = objAtaque.name
     console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
     if (objAtaque.cant == 0) {
-        botonAtaqueDaga.disabled = true;
+        botonDaga.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final

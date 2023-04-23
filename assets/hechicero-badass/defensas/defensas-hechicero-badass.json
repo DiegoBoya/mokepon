@@ -1,0 +1,46 @@
+{
+    "defense": [
+        {
+            "id": "escudo-madera",
+            "name": "Escudo Madera",
+            "damage": 10,
+            "icon": "🛡",
+            "specialEffect": null
+        },
+        {
+            "id": "rodar",
+            "name": "Rodar",
+            "damage": 10,
+            "icon": "🔄",
+            "specialEffect": null
+        },
+        {
+            "id": "rodar",
+            "name": "Rodar",
+            "damage": 10,
+            "icon": "🔄",
+            "specialEffect": null
+        },
+        {
+            "id": "rodar",
+            "name": "Rodar",
+            "damage": 10,
+            "icon": "🔄",
+            "specialEffect": null
+        },
+        {
+            "id": "defensa-magica-1",
+            "name": "Escudo magico",
+            "damage": 20,
+            "icon": "🌀",
+            "specialEffect": null
+        },
+        {
+            "id": "defensa-magica-1",
+            "name": "Escudo magico",
+            "damage": 20,
+            "icon": "🌀",
+            "specialEffect": null
+        }
+    ]
+}

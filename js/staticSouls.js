@@ -332,9 +332,7 @@ async function crearPersonajes() {
     // todo: recibir de parametro cuantos guerreros diferentes crear
     PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
    
-    
-
-     await fetch('./../assets/img/personajes/caballero-negro/ataques/ataques-caballero-negro.json')
+     await fetch('./../assets/caballero-negro/ataques/ataques-caballero-negro.json')
      .then( response => response.json())
      .then( json => {
         ataquesCaballeroNegro = json.atacks;

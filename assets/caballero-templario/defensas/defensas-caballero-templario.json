@@ -1,0 +1,46 @@
+{
+    "defense": [
+        {
+            "id": "escudo-madera",
+            "name": "Escudo Madera",
+            "damage": 10,
+            "icon": "🛡",
+            "specialEffect": null
+        },
+        {
+            "id": "escudo-madera",
+            "name": "Escudo Madera",
+            "damage": 10,
+            "icon": "🛡",
+            "specialEffect": null
+        },
+        {
+            "id": "escudo-madera",
+            "name": "Escudo Madera",
+            "damage": 10,
+            "icon": "🛡",
+            "specialEffect": null
+        },
+        {
+            "id": "rodar",
+            "name": "Rodar",
+            "damage": 10,
+            "icon": "🔄",
+            "specialEffect": null
+        },
+        {
+            "id": "rodar",
+            "name": "Rodar",
+            "damage": 10,
+            "icon": "🔄",
+            "specialEffect": null
+        },
+        {
+            "id": "rodar",
+            "name": "Rodar",
+            "damage": 10,
+            "icon": "🔄",
+            "specialEffect": null
+        }
+    ]
+}

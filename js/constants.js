@@ -1,7 +1,7 @@
 //ataques sueltos
 export class Constants {
-    constructor(){  
-       this.espada;
+    constructor() {
+        this.espada;
     }
 }
 
@@ -26,19 +26,41 @@ Constants.escudoMagicoOscuro = 'escudo magico oscuro 🎆';
 Constants.ataquesBase = [Constants.espadaSimple, Constants.espadaSimple, Constants.daga]
 Constants.defensaBase = [Constants.rodar, Constants.rodar, Constants.escudoMadera, Constants.escudoMadera]
 
-/* CONCATENACIONES DE ARRAYS */
-// Caballero Negro    
-Constants.ataquesCaballeroNegro = Constants.ataquesBase.concat([Constants.espadaDoble, Constants.piromancia]);
-Constants.defensasCaballeroNegro = Constants.defensaBase.concat([Constants.escudoMagicoOscuro, Constants.escudoMagico]);
 
 // Caballero Real    
 Constants.ataquesCaballeroReal = Constants.ataquesBase.concat([Constants.espada, Constants.rayo, Constants.milagro, Constants.arcoFlecha]);
 Constants.defensasCaballeroReal = Constants.defensaBase.concat([Constants.milagro2, Constants.escudoMagico]);
 
-// Caballero Real    
+// Caballero Templario    
 Constants.ataquesCaballeroTemplario = Constants.ataquesBase.concat([Constants.espadaDoble, Constants.espadaDoble, Constants.arcoFlecha, Constants.arcoFlecha, Constants.daga]);
 Constants.defensasCaballeroTemplario = Constants.defensaBase.concat([Constants.rodar, Constants.escudoMadera, Constants.escudoMagico]);
 
 // Caballero Hechicero
 Constants.ataquesHechiceroBadass = Constants.ataquesBase.concat([Constants.flechaMagica, Constants.flechaMagica, Constants.flechaMagica, Constants.daga, Constants.daga]);
-Constants.defensasHechiceroBadass = Constants.defensaBase.concat([Constants.rodar, Constants.rodar,  Constants.escudoMadera, Constants.escudoMagico, Constants.escudoMagico]);
+Constants.defensasHechiceroBadass = Constants.defensaBase.concat([Constants.rodar, Constants.rodar, Constants.escudoMadera, Constants.escudoMagico, Constants.escudoMagico]);
+
+// ids de los botones
+/* 
+
+ataques
+   "id": "ataque-rayo-1",
+    "id": "ataque-rayo-2",
+       "id": "ataque-fuerte-1",
+          "id": "ataque-fuerte-2
+ "id": "ataque-daga",
+ rafaga-magica
+ "id": "flecha-magica",
+
+defensas
+"id": "defensa-magica-1"
+"id": "rodar",
+"id": "escudo-madera",
+"id": "milagro-salud",
+"id": "milagro-1", 
+
+
+
+
+
+
+*/

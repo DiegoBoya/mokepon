@@ -1,0 +1,33 @@
+{
+    "atacks": [
+        {
+            "id": "ataque-rayo-1",
+            "name": "Rayo",
+            "damage": 10,
+            "icon": "⚡",
+            "specialEffect": null
+        },
+        {
+            "id": "ataque-rayo-2",
+            "name": "Doble Rayo",
+            "damage": 10,
+            "icon": "⚡⚡",
+            "specialEffect": null
+        },
+        {
+            "id": "ataque-fuerte-1",
+            "name": "Ataque 2",
+            "damage": 20,
+            "icon": "🗡",
+            "specialEffect": null
+        },
+        {
+            "id": "ataque-fuerte-2",
+            "name": "Ataque 2",
+            "damage": 20,
+            "icon": "⚔",
+            "specialEffect": null
+        }
+    
+    ]
+}

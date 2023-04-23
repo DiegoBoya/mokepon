@@ -45,6 +45,7 @@ const ATAQUES = [FUEGO, AGUA, TIERRA];
 const MAX_ATAQUES = ATAQUES.length;
 const MIN_ATAQUES = 1;
 let arrayIDsBotonesDeAtaqueEnPantalla = [];
+let arrayIDsBotonesDeDefensaEnPantalla = [];
 
 //resultados
 const EMPATE = 'empate 😐';
@@ -53,7 +54,7 @@ const PERDISTE = 'perdiste 😕';
 
 // elementos manipulables
 //seccion 1
-const botonpersonajeJugador = document.getElementById('boton-seleccionar-personaje');
+const botonPersonajeJugador = document.getElementById('boton-seleccionar-personaje');
 const seccionElegirpersonaje = document.getElementById('seleccionar-personaje');
 const contenedorPersonajes = document.getElementById('contenedor-personajes');
 
@@ -61,6 +62,9 @@ const contenedorPersonajes = document.getElementById('contenedor-personajes');
 const seccionSeleccionarAtaques = document.getElementById('seleccionar-ataque');
 const relato = document.getElementById('relato')
 const seccionBotonesAtaquesJugador = document.getElementById('seccion-botones-ataques-jugador');
+const seccionBotonesDefensaJugador = document.getElementById('seccion-botones-defensa-jugador');
+const seccionBotonesAtaquesEnemigo = document.getElementById('seccion-botones-ataques-enemigo');
+const seccionBotonesDefensaEnemigo = document.getElementById('seccion-botones-defensa-enemigo');
 const nombrePersonajeEnemigoDOM = document.getElementById('personaje-enemigo');
 const nombrePersonajeJugadorDOM = document.getElementById('personaje-jugador');
 const vidasEnemigo = document.getElementById('barra-vidas-enemigo');
@@ -111,13 +115,13 @@ async function iniciarJuego() {
     })
 
     // reacciona al elegir al Guerrero
-    botonpersonajeJugador.addEventListener('click', seleccionarPersonajeJugador)
+    botonPersonajeJugador.addEventListener('click', seleccionarPersonajeJugador)
 
     // boton de reiniciar oculto por defecto
     botonReiniciar.style.display = 'none';
     botonReiniciar.addEventListener('click', reiniciarJuego);
 
-    // seccion de ataques oculta por defecto
+    // STEP 2 oculta por defecto
     seccionSeleccionarAtaques.style.display = 'none';
 
 }
@@ -138,154 +142,66 @@ function seleccionarPersonajeJugador() {
         objPersonajeJugador = personaje[0];
         nombrePersonajeJugadorDOM.innerHTML = objPersonajeJugador.nombre;
         console.log('Has seleccionado a', objPersonajeJugador)
-
-        cargarAtaquesJugadorEnPantalla();
-
         // oculto seccion elegir personaje
         seccionElegirpersonaje.style.display = 'none';
-
+        
         // PC elige personaje
         seleccionarpersonajePC();
-
+        
         // habilito seccion para elegir ataques
         seccionSeleccionarAtaques.style.display = 'flex';
-
     }
-}
-
-function formatearNombre(personaje) {
-    return personaje.charAt(0).toUpperCase() + personaje.substring(1);
 }
 
 function seleccionarpersonajePC() {
     console.log('Se elige el guerrero de la PC de entre ', TOTAL_GUERREROS, ' disponibles.');
     let numRandom = Math.floor(Math.random() * (TOTAL_GUERREROS - MINIMO + 1))
-    let personajePC = personajes[numRandom];
-    nombrePersonajeEnemigoDOM.innerHTML = personajePC.nombre;
-    objPersonajeEnemigo = personajePC;
+    objPersonajeEnemigo = personajes[numRandom];
+    nombrePersonajeEnemigoDOM.innerHTML = objPersonajeEnemigo.nombre;
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
-}
 
-// todo: modificar esta logica por completo, segun ataques y defensas
-function realizarCombate() {
-    let resultado;
-
-    if (ataqueTurnoJugador == ataqueTurnoEnemigo) {
-        resultado = EMPATE;
-    } else if ((ataqueTurnoJugador == FUEGO && ataqueTurnoEnemigo == TIERRA)
-        || (ataqueTurnoJugador == AGUA && ataqueTurnoEnemigo == FUEGO)
-        || (ataqueTurnoJugador == TIERRA && ataqueTurnoEnemigo == AGUA)) {
-        resultado = GANASTE;
-        // actualizarVidasPC();
-    } else {
-        resultado = PERDISTE;
-        //actualizarVidasPlayer();
-    }
-
-    // TODO: el suceso es la convinacion de los dos movimientos seleccionados. 
-    // pendiente, funcion que compara ataques y determina que suceso salio.
-    let suceso = 'espadazo OK';
-
-    // crea elemento con texto del combate
-    crearMensajeCombate(resultado, suceso);
-
-    if (vidasPC == 0) {
-        // mostrar animacion que ganaste
-        crearMensajeFinDeJuego(GANASTE);
-    }
-
-    if (vidasPlayer == 0) {
-        // mostrar animacion que perdiste
-        crearMensajeFinDeJuego(PERDISTE);
-    }
-}
-
-function actualizarVidasPC() {
-    vidasPC--;
-    vidasEnemigo.innerHTML = vidasPC;
-}
-
-function actualizarVidasPlayer() {
-    vidasPlayer--;
-    vidasJugador.innerHTML = vidasPlayer;
-
-}
-
-function crearMensajeFinDeJuego(mensaje) {
-    let mensajeFinal = document.createElement('p');
-    if (mensaje == GANASTE) {
-        mensajeFinal.innerHTML = 'VAMOOO GANASTE!!'
-        contadorRachasVictorias++;
-    } else if (mensaje == PERDISTE) {
-        mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
-        contadorRachasDerrotas++;
-    } else {
-        console.error('entro aca, no deberia....')
-        mensajeFinal.innerHTML = 'ERROR!!!!'
-    }
-    deshabilitarBotonesDeAtaque();
-    seccionMensajeFinal.appendChild(mensajeFinal)
-
-
-    // habilito boton reiniciar
-    botonReiniciar.style.display = 'block';
-}
-
-/**
- * Al finalizar el juego, inhabilita a todos los botones de ataques
- */
-function deshabilitarBotonesDeAtaque() {
-    console.warn('se inhabilitan los botones de ataque')
-    seccionBotonesAtaquesJugador.style.display = 'none';
-}
-
-function crearMensajeCombate(resultado, suceso) {
-    // actualiza valors tablas grid
-    parrafoAtaqueJugador.innerHTML = ataqueTurnoJugador;
-    parrafoAtaqueEnemigo.innerHTML = ataqueTurnoEnemigo;
-
-    //editamos el relato
-    console.log(suceso)
-    relato.innerHTML = obtenerFraseSegunSuceso(suceso)
-
-    // creamos el elemento p
-    let parrafo = document.createElement('p');
-    parrafo.innerHTML = `Atacas con ${ataqueTurnoJugador}, y el enemigo se defiende con ${ataqueTurnoEnemigo} --> ${resultado}`;
-    // insertamos el elemento en el HTML
-    mensajesCombate.appendChild(parrafo);
-}
-
-function obtenerFraseSegunSuceso(suceso) {
-    let relato;
-    if (suceso == 'rodo OK') {
-        relato = 'Esquivaste justo! sigue asi!!';
-    } else if (suceso == 'defensa efectiva') {
-        relato = 'El escudo te salvo justo! Ten cuidado!!'
-    } else if (suceso == 'espadazo OK') {
-        relato = 'Como entro esa estocada!';
-    } else if (suceso == 'espadazo-no-OK') {
-        relato = 'La anticipaste mucho, te vieron venir...'
-    } else {
-        relato = 'siga !! sigaaa!!! '
-    }
-    console.log(relato)
-    return relato;
-}
-
-function reiniciarJuego() {
-    location.reload();
+    cargarAtaquesDefensasEnPantalla();
 }
 
 // step 2
-function cargarAtaquesJugadorEnPantalla() {
+function cargarAtaquesDefensasEnPantalla() {
     // creacion de botones de ataque en el front
     objPersonajeJugador.ataques.forEach((atack) => {
         let botonDeAtaque = `
-        <button class="boton-ataque" id="${atack.id}">${atack.icon + atack.name} </button> 
+        <button class="boton-ataque" id="${atack.id}">${atack.icon}  ${atack.name} </button> 
         `
         arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesJugador.innerHTML += botonDeAtaque;
     })
+
+     // creacion de botones de ataque en el front
+     objPersonajeJugador.defensas.forEach((defense) => {
+        let botonDeDefensa = `
+        <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} </button> 
+        `
+        arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
+        seccionBotonesDefensaJugador.innerHTML += botonDeDefensa;
+    })
+
+    // creacion de botones de ataque en el front
+    objPersonajeEnemigo.ataques.forEach((atack) => {
+        let botonDeAtaque = `
+        <button class="boton-enemigo boton-ataque" id="${atack.id} disabled" >${atack.icon}  ${atack.name}  </button> 
+        `
+        arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
+        seccionBotonesAtaquesEnemigo.innerHTML += botonDeAtaque;
+    })
+
+     // creacion de botones de ataque en el front
+     objPersonajeEnemigo.defensas.forEach((defense) => {
+        let botonDeDefensa = `
+        <button class="boton-defensa" id="${defense.id} disabled">${defense.icon}  ${defense.name} </button> 
+        `
+        arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
+        seccionBotonesDefensaEnemigo.innerHTML += botonDeDefensa;
+    })
+    
+
     //PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
     // llamado a funcion que crea y asocia los botones del front con las funciones de JS
     let _id = objPersonajeJugador.id;
@@ -478,6 +394,7 @@ function ataqueDaga() {
 
 
 function seleccionarAtaquesPC() {
+    // DEBE INCORPORAR LOGICA SIMILAR A LA DE ataqueDaga()
     console.log('la PC esta elegiendo sus ataques');
     let numRandom = Math.floor(Math.random() * (MAX_ATAQUES - MIN_ATAQUES + 1));
     ataqueTurnoEnemigo = ATAQUES[numRandom];
@@ -486,7 +403,50 @@ function seleccionarAtaquesPC() {
     // realizar el combate
     realizarCombate();
 }
+// todo: modificar esta logica por completo, segun ataques y defensas
+function realizarCombate() {
+    let resultado;
 
+    if (ataqueTurnoJugador == ataqueTurnoEnemigo) {
+        resultado = EMPATE;
+    } else if ((ataqueTurnoJugador == FUEGO && ataqueTurnoEnemigo == TIERRA)
+        || (ataqueTurnoJugador == AGUA && ataqueTurnoEnemigo == FUEGO)
+        || (ataqueTurnoJugador == TIERRA && ataqueTurnoEnemigo == AGUA)) {
+        resultado = GANASTE;
+        // actualizarVidasPC();
+    } else {
+        resultado = PERDISTE;
+        //actualizarVidasPlayer();
+    }
+
+    // TODO: el suceso es la convinacion de los dos movimientos seleccionados. 
+    // pendiente, funcion que compara ataques y determina que suceso salio.
+    let suceso = 'espadazo OK';
+
+    // crea elemento con texto del combate
+    crearMensajeCombate(resultado, suceso);
+
+    if (vidasPC == 0) {
+        // mostrar animacion que ganaste
+        crearMensajeFinDeJuego(GANASTE);
+    }
+
+    if (vidasPlayer == 0) {
+        // mostrar animacion que perdiste
+        crearMensajeFinDeJuego(PERDISTE);
+    }
+}
+
+function actualizarVidasPC() {
+    vidasPC--;
+    vidasEnemigo.innerHTML = vidasPC;
+}
+
+function actualizarVidasPlayer() {
+    vidasPlayer--;
+    vidasJugador.innerHTML = vidasPlayer;
+
+}
 async function crearPersonajes() {
     // todo: recibir de parametro cuantos guerreros diferentes crear
     PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
@@ -567,6 +527,71 @@ async function obtenerAtaquesDefensas() {
             defensasHechiceroBadass = json.defense;
         })
 
+}
+
+function crearMensajeFinDeJuego(mensaje) {
+    let mensajeFinal = document.createElement('p');
+    if (mensaje == GANASTE) {
+        mensajeFinal.innerHTML = 'VAMOOO GANASTE!!'
+        contadorRachasVictorias++;
+    } else if (mensaje == PERDISTE) {
+        mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
+        contadorRachasDerrotas++;
+    } else {
+        console.error('entro aca, no deberia....')
+        mensajeFinal.innerHTML = 'ERROR!!!!'
+    }
+    deshabilitarBotonesDeAtaque();
+    seccionMensajeFinal.appendChild(mensajeFinal)
+
+
+    // habilito boton reiniciar
+    botonReiniciar.style.display = 'block';
+}
+
+/**
+ * Al finalizar el juego, inhabilita a todos los botones de ataques
+ */
+function deshabilitarBotonesDeAtaque() {
+    console.warn('se inhabilitan los botones de ataque')
+    seccionBotonesAtaquesJugador.style.display = 'none';
+}
+
+function crearMensajeCombate(resultado, suceso) {
+    // actualiza valors tablas grid
+    parrafoAtaqueJugador.innerHTML = ataqueTurnoJugador;
+    parrafoAtaqueEnemigo.innerHTML = ataqueTurnoEnemigo;
+
+    //editamos el relato
+    console.log(suceso)
+    relato.innerHTML = obtenerFraseSegunSuceso(suceso)
+
+    // creamos el elemento p
+    let parrafo = document.createElement('p');
+    parrafo.innerHTML = `Atacas con ${ataqueTurnoJugador}, y el enemigo se defiende con ${ataqueTurnoEnemigo} --> ${resultado}`;
+    // insertamos el elemento en el HTML
+    mensajesCombate.appendChild(parrafo);
+}
+
+function obtenerFraseSegunSuceso(suceso) {
+    let relato;
+    if (suceso == 'rodo OK') {
+        relato = 'Esquivaste justo! sigue asi!!';
+    } else if (suceso == 'defensa efectiva') {
+        relato = 'El escudo te salvo justo! Ten cuidado!!'
+    } else if (suceso == 'espadazo OK') {
+        relato = 'Como entro esa estocada!';
+    } else if (suceso == 'espadazo-no-OK') {
+        relato = 'La anticipaste mucho, te vieron venir...'
+    } else {
+        relato = 'siga !! sigaaa!!! '
+    }
+    console.log(relato)
+    return relato;
+}
+
+function reiniciarJuego() {
+    location.reload();
 }
 
 

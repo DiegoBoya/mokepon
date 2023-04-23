@@ -5,35 +5,24 @@
             "name": "Flecha de Alma",
             "damage": 10,
             "icon": "🌠",
-            "specialEffect": null
-        },
-        {
-            "id": "flecha-magica",
-            "name": "Flecha de Alma",
-            "damage": 10,
-            "icon": "🌠",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2
         },
         {
             "id": "rafaga-magica",
             "name": "Rafaga Magica",
             "damage": 10,
             "icon": "🌠🌠🌠",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 1
         },
         {
             "id": "ataque-daga",
             "name": "Apuñalada de carne",
             "damage": 10,
             "icon": "🔪",
-            "specialEffect": null
-        },
-        {
-            "id": "ataque-daga",
-            "name": "Apuñalada de carne",
-            "damage": 10,
-            "icon": "🔪",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2
         }
     ]
 }

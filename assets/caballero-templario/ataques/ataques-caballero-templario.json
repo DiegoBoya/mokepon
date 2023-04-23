@@ -1,32 +1,36 @@
 {
     "atacks": [
         {
-            "id": "ataque-debil-1",
+            "id": "ataque-debil",
             "name": "Estocada",
             "damage": 10,
             "icon": "🗡",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2
         },
         {
-            "id": "ataque-fuerte-1",
-            "name": "Ataque 2",
+            "id": "ataque-fuerte",
+            "name": "A romperlo todo",
             "damage": 20,
             "icon": "🗡",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2
         },
         {
-            "id": "ataque-fuerte-2",
-            "name": "Ataque 2",
-            "damage": 20,
+            "id": "dos-manos",
+            "name": "A dos manos",
+            "damage": 30,
             "icon": "⚔",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2
         },
         {
             "id": "ataque-daga",
             "name": "Apuñalada de carne",
             "damage": 10,
             "icon": "🔪",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2
         }
     ]
 }

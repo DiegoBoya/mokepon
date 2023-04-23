@@ -15,10 +15,11 @@ font-family: 'Rubik Wet Paint', cursive; // sangriento
 
 body{
     background-color: rebeccapurple;
+   /*
     background-image: url('./assets/img/escenarios/santuarioDS1.png');
     background-repeat: no-repeat, repeat;
     background-size: 100vw  100vh ;
-    
+    */
     font-family: 'Press Start 2P', cursive;
 }
 
@@ -167,6 +168,10 @@ input:checked + label{
     color: white;
     border-radius: 3px;
     font-family: 'Press Start 2P', cursive; 
+}
+
+.boton-ataque:disabled {
+    background-color: grey;
 }
 
 #grid-datos {

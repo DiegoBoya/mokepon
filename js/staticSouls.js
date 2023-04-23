@@ -71,6 +71,24 @@ const seccionMensajeFinal = document.getElementById('mensaje-final')
 const botonReiniciar = document.getElementById('boton-reiniciar');
 const mensajesCombate = document.getElementById('mensajes-combate');
 
+//botones de ataque compartidos
+let botonAtaqueDaga;
+let botonAtaqueFuerte;
+let botonAtaqueDebil;
+let botonAtaqueDosManos;
+// botones de ataque HB
+let botonAtaqueFlechaMagica;
+let botonAtaqueRafagaMagica;
+// botones de ataque CT
+// .
+// botones de ataque CR
+let botonAtaqueRayo;
+let botonAtaqueDobleRayo;
+// botones de ataque CN
+let botonAtaqueRayo1;
+let botonAtaqueRayo2;
+let botonAtaqueFuego;
+
 // luego de que se carga todo el HTML, inicia el juego
 window.addEventListener('load', iniciarJuego)
 
@@ -148,6 +166,7 @@ function seleccionarpersonajePC() {
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
 }
 
+// todo: modificar esta logica por completo, segun ataques y defensas
 function realizarCombate() {
     let resultado;
 
@@ -157,10 +176,10 @@ function realizarCombate() {
         || (ataqueTurnoJugador == AGUA && ataqueTurnoEnemigo == FUEGO)
         || (ataqueTurnoJugador == TIERRA && ataqueTurnoEnemigo == AGUA)) {
         resultado = GANASTE;
-        actualizarVidasPC();
+        // actualizarVidasPC();
     } else {
         resultado = PERDISTE;
-        actualizarVidasPlayer();
+        //actualizarVidasPlayer();
     }
 
     // TODO: el suceso es la convinacion de los dos movimientos seleccionados. 
@@ -288,42 +307,175 @@ function cargarAtaquesJugadorEnPantalla() {
 }
 
 function asociarBotonesCaballeroNegro() {
-    // todo: aca van los getElemenById de los botones de ataque
-    const botonAtaqueDebil1 = document.getElementById('ataque-debil-1');
-    const botonAtaqueDebil2 = document.getElementById('ataque-daga');
-    const botonAtaqueFuerte1 = document.getElementById('ataque-fuerte-1');
-    const botonAtaqueFuerte2 = document.getElementById('ataque-fuerte-2');
-
-    // todo: aca van los addEventListener para los botones de ataque, no arriba
-    botonAtaqueDebil1.addEventListener('click', ataqueFuego);
-    botonAtaqueDebil2.addEventListener('click', ataqueDaga)
-    botonAtaqueFuerte1.addEventListener('click', ataqueAgua);
-    botonAtaqueFuerte2.addEventListener('click', ataqueTierra);
+    botonAtaqueDebil = document.getElementById('ataque-debil');
+    botonAtaqueFuerte = document.getElementById('ataque-fuerte');
+    botonAtaqueDosManos = document.getElementById('dos-manos');
+    botonAtaqueDaga = document.getElementById('ataque-daga');
+    botonAtaqueFuego = document.getElementById('ataque-piromancia');
+    
+    botonAtaqueDebil.addEventListener('click', ataqueDebil);
+    botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
+    botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
+    botonAtaqueDaga.addEventListener('click', ataqueDaga)
+    botonAtaqueFuego.addEventListener('click', ataquePiromancia);
+    
 }
 
-function ataqueFuego() {
-    ataqueTurnoJugador = FUEGO;
-    console.log('elegiste FUEGO')
+function asociarBotonesCaballeroReal() {
+    botonAtaqueRayo = document.getElementById('ataque-rayo');
+    botonAtaqueDobleRayo = document.getElementById('doble-rayo');
+    botonAtaqueFuerte = document.getElementById('ataque-fuerte');
+    
+    botonAtaqueRayo.addEventListener('click', ataqueRayo);
+    botonAtaqueDobleRayo.addEventListener('click', ataqueDobleRayo)
+    botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
+}
+
+function asociarBotonesCaballeroTemplario() {
+    botonAtaqueDebil = document.getElementById('ataque-debil');
+    botonAtaqueDaga = document.getElementById('ataque-daga');
+    botonAtaqueFuerte = document.getElementById('ataque-fuerte');
+    botonAtaqueDosManos = document.getElementById('dos-manos');
+    
+    botonAtaqueDebil.addEventListener('click', ataqueDebil);
+    botonAtaqueDaga.addEventListener('click', ataqueDaga)
+    botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
+    botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
+}
+
+function asociarBotonesHechiceroBadass() {
+    botonAtaqueFlechaMagica = document.getElementById('flecha-magica');
+    botonAtaqueRafagaMagica = document.getElementById('rafaga-magica');
+    botonAtaqueDaga = document.getElementById('ataque-daga');
+
+    botonAtaqueFlechaMagica.addEventListener('click', ataqueFlechaMagica);
+    botonAtaqueRafagaMagica.addEventListener('click', ataqueRafagaMagica);
+    botonAtaqueDaga.addEventListener('click', ataqueDaga);
+
+}
+function ataquePiromancia() {
+    let objAtaque = objPersonajeJugador.getAtackById('ataque-piromancia');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueFuego.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
 }
 
-function ataqueAgua() {
-    ataqueTurnoJugador = AGUA;
-    console.log('elegiste AGUA')
+function ataqueRayo() {
+    let objAtaque = objPersonajeJugador.getAtackById('ataque-rayo');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueRayo.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
 }
 
-function ataqueTierra() {
-    ataqueTurnoJugador = TIERRA;
-    console.log('elegiste TIERRA')
+function ataqueDobleRayo() {
+    let objAtaque = objPersonajeJugador.getAtackById('doble-rayo');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueDobleRayo.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
 }
 
+function ataqueA2Manos() {
+    let objAtaque = objPersonajeJugador.getAtackById('dos-manos');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
+    seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueDosManos.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
+}
+
+function ataqueFuerte() {
+    let objAtaque = objPersonajeJugador.getAtackById('ataque-fuerte');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
+    seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueFuerte.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
+}
+function ataqueDebil() {
+    let objAtaque = objPersonajeJugador.getAtackById('ataque-debil');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
+    seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueDebil.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
+}
+function ataqueFlechaMagica() {
+    let objAtaque = objPersonajeJugador.getAtackById('flecha-magica');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
+    seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueFlechaMagica.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
+}
+function ataqueRafagaMagica() {
+    let objAtaque = objPersonajeJugador.getAtackById('rafaga-magica');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
+    seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueRafagaMagica.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
+}
 function ataqueDaga() {
-    ataqueTurnoJugador = TIERRA;
-    console.log('elegiste TIERRA')
+
+    let objAtaque = objPersonajeJugador.getAtackById('ataque-daga');
+    ataqueTurnoJugador = objAtaque.name
+    console.log('elegiste', ataqueTurnoJugador)
     seleccionarAtaquesPC();
+    if (objAtaque.cant == 0) {
+        botonAtaqueDaga.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+
+        //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
+        //checkIfAllAtacksAreDisabled()
+    }
 }
+
 
 function seleccionarAtaquesPC() {
     console.log('la PC esta elegiendo sus ataques');
@@ -338,7 +490,7 @@ function seleccionarAtaquesPC() {
 async function crearPersonajes() {
     // todo: recibir de parametro cuantos guerreros diferentes crear
     PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
-   
+
     await obtenerAtaquesDefensas();
 
     let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO, 'Caballero Negro', 120,
@@ -361,60 +513,60 @@ async function crearPersonajes() {
 
 }
 
-async function obtenerAtaquesDefensas(){
+async function obtenerAtaquesDefensas() {
 
     // Caballero Negro
-   await fetch('./../assets/caballero-negro/ataques/ataques-caballero-negro.json')
-    .then( response => response.json())
-    .then( json => {
-       ataquesCaballeroNegro = json.atacks;
-    })
+    await fetch('./../assets/caballero-negro/ataques/ataques-caballero-negro.json')
+        .then(response => response.json())
+        .then(json => {
+            ataquesCaballeroNegro = json.atacks;
+        })
 
     await fetch('./../assets/caballero-negro/defensas/defensas-caballero-negro.json')
-    .then( response => response.json())
-    .then( json => {
-       defensasCaballeroNegro = json.defense;
-    })
-    console.log('ataque y defensa CN ok')
+        .then(response => response.json())
+        .then(json => {
+            defensasCaballeroNegro = json.defense;
+        })
+
     // Caballero Real
     await fetch('./../assets/caballero-real/ataques/ataques-caballero-real.json')
-    .then( response => response.json())
-    .then( json => {
-       ataquesCaballeroReal = json.atacks;
-    })
+        .then(response => response.json())
+        .then(json => {
+            ataquesCaballeroReal = json.atacks;
+        })
 
     await fetch('./../assets/caballero-real/defensas/defensas-caballero-real.json')
-    .then( response => response.json())
-    .then( json => {
-        defensasCaballeroReal = json.defense;
-    })
-    console.log('ataque y defensa CR ok')
+        .then(response => response.json())
+        .then(json => {
+            defensasCaballeroReal = json.defense;
+        })
+
     // Hechicero Badass
     await fetch('./../assets/caballero-templario/ataques/ataques-caballero-templario.json')
-    .then( response => response.json())
-    .then( json => {
-        ataquesCaballeroTemplario = json.atacks;
-    })
+        .then(response => response.json())
+        .then(json => {
+            ataquesCaballeroTemplario = json.atacks;
+        })
 
     await fetch('./../assets/caballero-templario/defensas/defensas-caballero-templario.json')
-    .then( response => response.json())
-    .then( json => {
-        defensasCaballeroTemplario = json.defense;
-    })
-    console.log('ataque y defensa CT ok')
+        .then(response => response.json())
+        .then(json => {
+            defensasCaballeroTemplario = json.defense;
+        })
+
     // Hechicero Badass
     await fetch('./../assets/hechicero-badass/ataques/ataques-hechicero-badass.json')
-    .then( response => response.json())
-    .then( json => {
-       ataquesHechiceroBadass = json.atacks;
-    })
+        .then(response => response.json())
+        .then(json => {
+            ataquesHechiceroBadass = json.atacks;
+        })
 
     await fetch('./../assets/hechicero-badass/defensas/defensas-hechicero-badass.json')
-    .then( response => response.json())
-    .then( json => {
-        defensasHechiceroBadass = json.defense;
-    })
-    console.log('ataque y defensa HB ok')
+        .then(response => response.json())
+        .then(json => {
+            defensasHechiceroBadass = json.defense;
+        })
+
 }
 
 

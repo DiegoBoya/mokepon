@@ -1,32 +1,28 @@
 {
     "atacks": [
         {
-            "id": "ataque-rayo-1",
+            "id": "ataque-rayo",
             "name": "Rayo",
-            "damage": 10,
+            "damage": 17,
             "icon": "⚡",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 3
         },
         {
-            "id": "ataque-rayo-2",
+            "id": "doble-rayo",
             "name": "Doble Rayo",
-            "damage": 10,
+            "damage": 45,
             "icon": "⚡⚡",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 1
         },
         {
-            "id": "ataque-fuerte-1",
-            "name": "Ataque 2",
+            "id": "ataque-fuerte",
+            "name": "Espadon Dorado",
             "damage": 20,
             "icon": "🗡",
-            "specialEffect": null
-        },
-        {
-            "id": "ataque-fuerte-2",
-            "name": "Ataque 2",
-            "damage": 20,
-            "icon": "⚔",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2
         }
     
     ]

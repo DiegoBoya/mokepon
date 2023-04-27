@@ -12,12 +12,10 @@ export class Personaje {
 
 
    getAtackById(_atackID) {
+      console.log('--+= ataques disponibles jugador:', this.ataques)
       console.log('se busca', _atackID)
       let ataque = this.ataques.find(atack => atack.id == _atackID)
-      //console.log('ataque obtenido:', ataque)
       ataque.cant --;
-      // this.removeFirst(ataque)
-      // console.log(this.ataques)
       return ataque;
    }
 

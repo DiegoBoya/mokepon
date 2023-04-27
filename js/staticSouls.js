@@ -44,8 +44,10 @@ const TIERRA = 'TIERRA';
 const ATAQUES = [FUEGO, AGUA, TIERRA];
 const MAX_ATAQUES = ATAQUES.length;
 const MIN_ATAQUES = 1;
-let arrayIDsBotonesDeAtaqueEnPantalla = [];
-let arrayIDsBotonesDeDefensaEnPantalla = [];
+/* let arrayIDsBotonesDeAtaqueEnPantalla = [];
+let arrayIDsBotonesDeDefensaEnPantalla = []; */
+const arrayBotonesAtaqueJugador = [];
+let arrayAtaquesEnemigo = [];
 let objAtaqueEnemigo;
 let objAtaqueJugador;
 
@@ -173,14 +175,14 @@ function cargarAtaquesDefensasEnPantalla() {
         let botonDeAtaque = `
         <button class="boton-ataque" id="${atack.id}">${atack.icon}  ${atack.name} </button> 
         `
-        arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
+        //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesJugador.innerHTML += botonDeAtaque;
 
         // contadores , estan estaticos TODO : corregir
         let cantidadDeAtaques = `
         <button class="boton-ataque" id="cant-ataques">${atack.icon}  ${atack.cant} </button> 
         `
-        arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
+        //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionCantidadAtaquesJugador.innerHTML += cantidadDeAtaques;
     })
 
@@ -198,7 +200,7 @@ function cargarAtaquesDefensasEnPantalla() {
         let botonDeAtaque = `
         <button class="boton-enemigo boton-ataque" id="enemigo-${atack.id}" >${atack.icon}  ${atack.name}  </button> 
         `
-        arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
+        //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesEnemigo.innerHTML += botonDeAtaque;
     })
 
@@ -245,6 +247,9 @@ function asociarBotonesCaballeroNegro() {
     botonAtaqueDaga.addEventListener('click', ataqueDaga)
     botonAtaqueFuego.addEventListener('click', ataquePiromancia);
 
+    arrayBotonesAtaqueJugador.push(botonAtaqueDaga, botonAtaqueDebil, botonAtaqueFuerte, botonAtaqueFuego, botonAtaqueDosManos);
+    console.log('diego',arrayBotonesAtaqueJugador);
+
 }
 
 function asociarBotonesCaballeroReal() {
@@ -255,6 +260,9 @@ function asociarBotonesCaballeroReal() {
     botonAtaqueRayo.addEventListener('click', ataqueRayo);
     botonAtaqueDobleRayo.addEventListener('click', ataqueDobleRayo)
     botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
+
+    arrayBotonesAtaqueJugador.push(botonAtaqueRayo, botonAtaqueDobleRayo, botonAtaqueFuerte);
+    console.log('diego',arrayBotonesAtaqueJugador);
 }
 
 function asociarBotonesCaballeroTemplario() {
@@ -267,6 +275,9 @@ function asociarBotonesCaballeroTemplario() {
     botonAtaqueDaga.addEventListener('click', ataqueDaga)
     botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
     botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
+
+    arrayBotonesAtaqueJugador.push(botonAtaqueDaga, botonAtaqueDebil, botonAtaqueFuerte, botonAtaqueDosManos);
+    console.log('diego',arrayBotonesAtaqueJugador);
 }
 
 function asociarBotonesHechiceroBadass() {
@@ -278,6 +289,8 @@ function asociarBotonesHechiceroBadass() {
     botonAtaqueRafagaMagica.addEventListener('click', ataqueRafagaMagica);
     botonAtaqueDaga.addEventListener('click', ataqueDaga);
 
+    arrayBotonesAtaqueJugador.push(botonAtaqueFlechaMagica, botonAtaqueRafagaMagica, botonAtaqueDaga);
+    console.log('diego',arrayBotonesAtaqueJugador);
 }
 function ataquePiromancia() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-piromancia');
@@ -289,7 +302,7 @@ function ataquePiromancia() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 
@@ -303,7 +316,7 @@ function ataqueRayo() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 
@@ -317,7 +330,7 @@ function ataqueDobleRayo() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 
@@ -331,7 +344,7 @@ function ataqueA2Manos() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 
@@ -345,7 +358,7 @@ function ataqueFuerte() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 function ataqueDebil() {
@@ -358,7 +371,7 @@ function ataqueDebil() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 function ataqueFlechaMagica() {
@@ -371,7 +384,7 @@ function ataqueFlechaMagica() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 function ataqueRafagaMagica() {
@@ -384,7 +397,7 @@ function ataqueRafagaMagica() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 function ataqueDaga() {
@@ -398,13 +411,13 @@ function ataqueDaga() {
         //botonAtaqueRafagaMagica.style.display = 'none';
 
         //si todos los ataques estan deshabilitados, perdes por cansancio o el otro te puede atacar y gana el que quede con mas vida al final
-        //checkIfAllAtacksAreDisabled()
+        checkIfAllAtacksAreDisabled()
     }
 }
 
 
 function seleccionarAtaquesPC() {
-    let arrayAtaquesEnemigo = objPersonajeEnemigo.ataques;
+    arrayAtaquesEnemigo = objPersonajeEnemigo.ataques;
 
     if (arrayAtaquesEnemigo.length != 0) {
 
@@ -412,32 +425,72 @@ function seleccionarAtaquesPC() {
 
         let numRandom = Math.floor(Math.random() * (arrayAtaquesEnemigo.length - MIN_ATAQUES + 1));
 
-        console.log('la PC esta elegiendo sus ataques');
+        //console.log('la PC esta elegiendo sus ataques');
         objAtaqueEnemigo = arrayAtaquesEnemigo[numRandom];
         objAtaqueEnemigo.cant--;
         ataqueTurnoEnemigo = objAtaqueEnemigo.name;
         if (objAtaqueEnemigo.cant == 0) {
             // saca elemento del array
             let ataqueEliminado = objPersonajeEnemigo.deleteElementById(objAtaqueEnemigo.id);
-            console.error('se borro a:', ataqueEliminado)
+            console.error('se borro el ataque del enemigo:', ataqueEliminado)
             // deshabilita boton 
             document.getElementById(`enemigo-${objAtaqueEnemigo.id}`).disabled = true;
         }
 
         console.log('la PC elegio de ataque:', ataqueTurnoEnemigo)
+        if (arrayAtaquesEnemigo.length == 0) {
+            console.warn('El enemigo se quedo sin ataques!')
+        }
     } else {
-        console.warn('El enemigo se quedo sin ataques!')
+        console.warn('enemigo pasa el turno')
         objAtaqueEnemigo = null;
     }
-
     realizarCombate(objAtaqueJugador, objAtaqueEnemigo);
+}
 
+function checkIfAllAtacksAreDisabled(){
+    // check si mis ataques estan agotados
+    let myMovements = arrayBotonesAtaqueJugador.every((button) => button.disabled == true)
+    
+    // check if all the enemy movements are disabled
+    let enemyMovements = arrayAtaquesEnemigo.length;
+    console.log('----result', myMovements, 'ataques dispo Enemigo:', enemyMovements)
 
-
+    if (myMovements && enemyMovements == 0){
+        determinateWhoWins();
+    } else if (myMovements) {
+        allowEnemyToAtackWithAllEnergy();
+        determinateWhoWins();
+    }
+}
+function determinateWhoWins (){
+    console.log('determinando quien gano...')
+    let resultado;
+    let saludEnemigo = objPersonajeEnemigo.salud; 
+    let saludJugador = objPersonajeJugador.salud;
+    if(saludEnemigo == saludJugador){
+        resultado = EMPATE;
+    } else if (saludJugador > saludEnemigo){
+        resultado = GANASTE;
+    } else {
+        resultado = PERDISTE;
+    }
+    crearMensajeFinDeJuego(resultado);
+}
+function allowEnemyToAtackWithAllEnergy(){
+    console.log('entro aca allowEnemyToAtackWithAllEnergy')
+    // meter en un while 
+    let i = 0;
+    while (objAtaqueEnemigo !== null){
+        console.log('----------------------------------------obj ataque', objAtaqueEnemigo)
+        console.log('************ataque extra numero: ', i)
+        i++;
+        seleccionarAtaquesPC();
+    }
 }
 // todo: modificar esta logica por completo, segun ataques y defensas
 function realizarCombate(objAtaquePlayer, objAtaqueEnemigo) {
-    console.log('arranca el combate!')
+    console.log('::::::::::::::::::arranca el combate!')
     let resultado;
 
     if (ataqueTurnoJugador == ataqueTurnoEnemigo) {
@@ -468,6 +521,7 @@ function realizarCombate(objAtaquePlayer, objAtaqueEnemigo) {
         // mostrar animacion que perdiste
         crearMensajeFinDeJuego(PERDISTE);
     }
+    console.log('===================siguiente ronda==================================')
 }
 
 function actualizarVidasPC() {
@@ -596,7 +650,7 @@ function crearMensajeCombate(resultado, suceso) {
     parrafoAtaqueEnemigo.innerHTML = ataqueTurnoEnemigo;
 
     //editamos el relato
-    console.log(suceso)
+   // console.log(suceso)
     relato.innerHTML = obtenerFraseSegunSuceso(suceso)
 
     // creamos el elemento p
@@ -619,7 +673,7 @@ function obtenerFraseSegunSuceso(suceso) {
     } else {
         relato = 'siga !! sigaaa!!! '
     }
-    console.log(relato)
+   // console.log(relato)
     return relato;
 }
 

@@ -11,7 +11,8 @@ const HECHICERO_BLANCO = "hechiceroBlanco"
 const HECHICERO_NEGRO = "hechiceroNegro";
 // constantes dinamicas
 let PERSONAJES_ID = []
-let personajes = [];
+let personajesJugador = [];
+let personajesEnemigo = [];
 let objPersonajeEnemigo;
 let objPersonajeJugador;
 // para seleccionar el Personaje de la PC
@@ -26,6 +27,7 @@ let vidasPlayer = INICIO_VIDAS;
 // contadores
 let contadorRachasDerrotas = 0;
 let contadorRachasVictorias = 0;
+let numRonda = 1;
 
 // ataques traidos de los JSON
 let ataqueTurnoJugador;
@@ -107,7 +109,7 @@ async function iniciarJuego() {
     await crearPersonajes();
 
     // inyecta el js en el DOM
-    personajes.forEach((personaje) => {
+    personajesJugador.forEach((personaje) => {
         let tarjetaPersonaje = `
         <input class="input-tarjeta-personaje" type="radio" name="character" id=${personaje.id}>
         <label class="tarjeta-personaje" for="${personaje.id}">
@@ -142,7 +144,7 @@ function seleccionarPersonajeJugador() {
         let personajeID = personaje[0];
 
         // comparo el id del elemento filtrado vs el id de los personjes disponibles
-        personaje = personajes.filter(per => per.id == personajeID)
+        personaje = personajesJugador.filter(per => per.id == personajeID)
         // modifica el HTML de forma dinamica
         objPersonajeJugador = personaje[0];
         nombrePersonajeJugadorDOM.innerHTML = objPersonajeJugador.nombre;
@@ -161,7 +163,10 @@ function seleccionarPersonajeJugador() {
 function seleccionarpersonajePC() {
     console.log('Se elige el guerrero de la PC de entre ', TOTAL_GUERREROS, ' disponibles.');
     let numRandom = Math.floor(Math.random() * (TOTAL_GUERREROS - MINIMO + 1))
-    objPersonajeEnemigo = personajes[numRandom];
+    objPersonajeEnemigo = personajesEnemigo[numRandom];
+    //diego
+    let enemigo = personajesEnemigo[1];
+    objPersonajeEnemigo = new Personaje(enemigo.id, enemigo.nombre, enemigo.salud, enemigo.foto, enemigo.ataques, enemigo.defensas)
     nombrePersonajeEnemigoDOM.innerHTML = objPersonajeEnemigo.nombre;
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
 
@@ -422,7 +427,7 @@ function seleccionarAtaquesPC() {
     if (arrayAtaquesEnemigo.length != 0) {
 
         console.warn('ataques array PC', arrayAtaquesEnemigo)
-
+        console.warn('================= ronda numero', numRonda,'=================================')
         let numRandom = Math.floor(Math.random() * (arrayAtaquesEnemigo.length - MIN_ATAQUES + 1));
 
         //console.log('la PC esta elegiendo sus ataques');
@@ -445,6 +450,7 @@ function seleccionarAtaquesPC() {
         console.warn('enemigo pasa el turno')
         objAtaqueEnemigo = null;
     }
+    numRonda++;
     realizarCombate(objAtaqueJugador, objAtaqueEnemigo);
 }
 
@@ -455,7 +461,7 @@ function checkIfAllAtacksAreDisabled(){
     // check if all the enemy movements are disabled
     let enemyMovements = arrayAtaquesEnemigo.length;
     console.log('----result', myMovements, 'ataques dispo Enemigo:', enemyMovements)
-
+// todo: mejorar logica, llamados repetidos
     if (myMovements && enemyMovements == 0){
         determinateWhoWins();
     } else if (myMovements) {
@@ -478,19 +484,17 @@ function determinateWhoWins (){
     crearMensajeFinDeJuego(resultado);
 }
 function allowEnemyToAtackWithAllEnergy(){
-    console.log('entro aca allowEnemyToAtackWithAllEnergy')
-    // meter en un while 
     let i = 0;
-    while (objAtaqueEnemigo !== null){
-        console.log('----------------------------------------obj ataque', objAtaqueEnemigo)
-        console.log('************ataque extra numero: ', i)
+    while (objAtaqueEnemigo !== null && i<10){ // i es un comodin por las dudas...
+        console.log('obj ataque', objAtaqueEnemigo)
+        console.log('ataque extra numero: ', i)
         i++;
         seleccionarAtaquesPC();
     }
 }
 // todo: modificar esta logica por completo, segun ataques y defensas
 function realizarCombate(objAtaquePlayer, objAtaqueEnemigo) {
-    console.log('::::::::::::::::::arranca el combate!')
+    console.log('arranca el combate!')
     let resultado;
 
     if (ataqueTurnoJugador == ataqueTurnoEnemigo) {
@@ -521,7 +525,6 @@ function realizarCombate(objAtaquePlayer, objAtaqueEnemigo) {
         // mostrar animacion que perdiste
         crearMensajeFinDeJuego(PERDISTE);
     }
-    console.log('===================siguiente ronda==================================')
 }
 
 function actualizarVidasPC() {
@@ -553,10 +556,13 @@ async function crearPersonajes() {
         './../assets/img/personajes/hechicero-badass.png', ataquesHechiceroBadass, defensasHechiceroBadass);
 
 
-    personajes = [caballeroNegro, caballeroReal, caballeroTemplario, hechiceroBadass];
-    TOTAL_GUERREROS = personajes.length;
+    personajesJugador = [caballeroNegro, caballeroReal, caballeroTemplario, hechiceroBadass];
+    // clono el array para evitar conflictos en el combate
+    //personajesEnemigo = structuredClone(personajesJugador);
+    personajesEnemigo = JSON.parse(JSON.stringify(personajesJugador))
+    TOTAL_GUERREROS = personajesJugador.length;
 
-    console.log('Los guerreros esperan su destino...', personajes);
+    console.log('Los guerreros esperan su destino...', personajesJugador, personajesEnemigo);
 
 }
 
@@ -623,6 +629,9 @@ function crearMensajeFinDeJuego(mensaje) {
         contadorRachasVictorias++;
     } else if (mensaje == PERDISTE) {
         mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
+        contadorRachasDerrotas++;
+    } else if (mensaje == EMPATE) {
+        mensajeFinal.innerHTML = 'qUE RESULTADO CULIAO!'
         contadorRachasDerrotas++;
     } else {
         console.error('entro aca, no deberia....')

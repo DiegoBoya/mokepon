@@ -8,6 +8,7 @@ export class Personaje {
       this.defensas = defensas;
       this.resistencias = null;
       this.debilidades = null;
+      //this.sepecialEffect
    }
 
 
@@ -17,6 +18,14 @@ export class Personaje {
       let ataque = this.ataques.find(atack => atack.id == _atackID)
       ataque.cant --;
       return ataque;
+   }
+
+   getDefenseById(_defenseID) {
+      console.log('defensas disponibles jugador:', this.defensas)
+      console.log('se busca', _defenseID)
+      let defense = this.defensas.find(def => def.id == _defenseID)
+      defense.cant --;
+      return defense;
    }
 
    deleteElementById(_atackID){

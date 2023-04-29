@@ -178,7 +178,7 @@ input:checked + label{
     margin : 1px;
 }
 
-.boton-ataque:disabled {
+.boton-ataque:disabled, .boton-defensa:disabled {
     background-color: grey;
 }
 

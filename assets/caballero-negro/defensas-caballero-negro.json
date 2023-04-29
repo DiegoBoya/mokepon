@@ -1,7 +1,7 @@
 {
     "defense": [
         {
-            "id": "defensa-debil",
+            "id": "defensa-magica",
             "name": "Escudo Magico",
             "icon": "🌀",
             "specialEffect": null,
@@ -23,7 +23,7 @@
             "weakness": null
         },
         {
-            "id": "defensa-fuerte",
+            "id": "defensa-oscura",
             "name": "Escudo magico oscuro",
             "icon": "🎆",
             "specialEffect": null,

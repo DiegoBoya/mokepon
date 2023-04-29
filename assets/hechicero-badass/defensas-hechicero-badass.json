@@ -8,35 +8,35 @@
             "specialEffect": null
         },
         {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
             "damage": 10,
             "icon": "🔄",
             "specialEffect": null
         },
         {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
             "damage": 10,
             "icon": "🔄",
             "specialEffect": null
         },
         {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
             "damage": 10,
             "icon": "🔄",
             "specialEffect": null
         },
         {
-            "id": "defensa-magica-1",
+            "id": "defensa-magica",
             "name": "Escudo magico",
             "damage": 20,
             "icon": "🌀",
             "specialEffect": null
         },
         {
-            "id": "defensa-magica-1",
+            "id": "defensa-magica",
             "name": "Escudo magico",
             "damage": 20,
             "icon": "🌀",

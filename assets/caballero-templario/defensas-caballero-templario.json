@@ -22,21 +22,21 @@
             "specialEffect": null
         },
         {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
             "damage": 10,
             "icon": "🔄",
             "specialEffect": null
         },
         {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
             "damage": 10,
             "icon": "🔄",
             "specialEffect": null
         },
         {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
             "damage": 10,
             "icon": "🔄",

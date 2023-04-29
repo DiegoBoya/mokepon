@@ -31,7 +31,7 @@ let numRonda = 1;
 
 // ataques traidos de los JSON
 let movimientoTurnoJugador;
-let ataqueTurnoEnemigo;
+let movimientoTurnoEnemigo;
 let ataquesCaballeroNegro;
 let defensasCaballeroNegro;
 let ataquesCaballeroReal;
@@ -49,8 +49,8 @@ const MIN_ATAQUES = 1;
 /* let arrayIDsBotonesDeAtaqueEnPantalla = [];
 let arrayIDsBotonesDeDefensaEnPantalla = []; */
 const arrayMovimientosJugador = [];
-let arrayAtaquesEnemigo = [];
-let objAtaqueEnemigo;
+let arrayMovimientosEnemigo = [];
+let objMovimientoEnemigo;
 let objAtaqueJugador;
 let objDefensaJugador;
 
@@ -181,6 +181,8 @@ function seleccionarpersonajePC() {
     nombrePersonajeEnemigoDOM.innerHTML = objPersonajeEnemigo.nombre;
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
 
+    arrayMovimientosEnemigo = objPersonajeEnemigo.movimientos;
+
     cargarAtaquesDefensasEnPantalla();
 }
 
@@ -189,7 +191,7 @@ function cargarAtaquesDefensasEnPantalla() {
     // creacion de botones de ataque en el front
     objPersonajeJugador.ataques.forEach((atack) => {
         let botonDeAtaque = `
-        <button class="boton-ataque" id="${atack.id}">${atack.icon}  ${atack.name} - ${atack.cant} </button> 
+        <button class="boton-ataque" id="${atack.id}">${atack.icon}  ${atack.name} | ${atack.cant} </button> 
         `
         //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesJugador.innerHTML += botonDeAtaque;
@@ -207,7 +209,7 @@ function cargarAtaquesDefensasEnPantalla() {
     // creacion de botones de defensa en el front
     objPersonajeJugador.defensas.forEach((defense) => {
        let botonDeDefensa = `
-       <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} - ${defense.cant} </button> 
+       <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} | ${defense.cant} </button> 
        `
        //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
        seccionBotonesDefensaJugador.innerHTML += botonDeDefensa;
@@ -216,7 +218,7 @@ function cargarAtaquesDefensasEnPantalla() {
     // creacion de botones de ataque en el front
     objPersonajeEnemigo.ataques.forEach((atack) => {
         let botonDeAtaque = `
-        <button class="boton-enemigo boton-ataque" id="enemigo-${atack.id}" >${atack.icon}  ${atack.name} - ${atack.cant} </button> 
+        <button class="boton-enemigo boton-ataque" id="enemigo-${atack.id}" >${atack.icon}  ${atack.name} | ${atack.cant} </button> 
         `
         //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesEnemigo.innerHTML += botonDeAtaque;
@@ -225,7 +227,7 @@ function cargarAtaquesDefensasEnPantalla() {
     // creacion de botones de defensa en el front
      objPersonajeEnemigo.defensas.forEach((defense) => {
         let botonDeDefensa = `
-        <button class="boton-defensa" id="${defense.id} disabled">${defense.icon}  ${defense.name} - ${defense.cant} </button> 
+        <button class="boton-defensa" id="enemigo-${defense.id}">${defense.icon}  ${defense.name} | ${defense.cant} </button> 
         `
         //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
         seccionBotonesDefensaEnemigo.innerHTML += botonDeDefensa;
@@ -265,7 +267,7 @@ function asociarBotonesCaballeroNegro() {
     botonAtaqueFuego.addEventListener('click', ataquePiromancia);
 
     botonDefensaEscudoMagico = document.getElementById('defensa-magica');
-    botonDefensaRodar = document.getElementById('rodar');
+    botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaEscudoMagicoOscuro = document.getElementById('defensa-oscura');
     botonDefensaEscudoMagico.addEventListener('click', defensaEscMagico)
     botonDefensaRodar.addEventListener('click', defensaRodar)
@@ -286,7 +288,7 @@ function asociarBotonesCaballeroReal() {
 
     botonDefensaEscudoMagico = document.getElementById('defensa-magica');
     botonDefensaEscudoMadera = document.getElementById('escudo-madera');
-    botonDefensaRodar = document.getElementById('rodar');
+    botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaEscudoMagico.addEventListener('click', defensaEscMagico)
     botonDefensaRodar.addEventListener('click', defensaRodar)
     botonDefensaEscudoMadera.addEventListener('click', defensaEscMadera)
@@ -306,7 +308,7 @@ function asociarBotonesCaballeroTemplario() {
     botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
 
     botonDefensaEscudoMadera = document.getElementById('escudo-madera');
-    botonDefensaRodar = document.getElementById('rodar');
+    botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaRodar.addEventListener('click', defensaRodar)
     botonDefensaEscudoMadera.addEventListener('click', defensaEscMadera)
 
@@ -324,7 +326,7 @@ function asociarBotonesHechiceroBadass() {
 
     botonDefensaEscudoMagico = document.getElementById('defensa-magica');
     botonDefensaEscudoMadera = document.getElementById('escudo-madera');
-    botonDefensaRodar = document.getElementById('rodar');
+    botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaEscudoMagico.addEventListener('click', defensaEscMagico)
     botonDefensaRodar.addEventListener('click', defensaRodar)
     botonDefensaEscudoMadera.addEventListener('click', defensaEscMadera)
@@ -333,12 +335,12 @@ function asociarBotonesHechiceroBadass() {
     console.log('diego',arrayMovimientosJugador);
 }
 function ataquePiromancia() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-piromancia');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('ataque-piromancia');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueFuego.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueFuego.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -349,12 +351,12 @@ function ataquePiromancia() {
 }
 
 function defensaEscMadera() {
-    objDefensaJugador = objPersonajeJugador.getDefenseById('escudo-madera');
+    objDefensaJugador = objPersonajeJugador.getMovementById('escudo-madera');
     let buttonText = ` ${objDefensaJugador.icon} ${objDefensaJugador.name} - ${objDefensaJugador.cant} `;
     botonDefensaEscudoMadera.innerHTML = buttonText; 
     movimientoTurnoJugador = objDefensaJugador.name;
     console.log('elegiste', objDefensaJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objDefensaJugador.cant == 0) {
         botonDefensaEscudoMadera.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -364,12 +366,12 @@ function defensaEscMadera() {
     }
 }
 function defensaEscMagico() {
-    objDefensaJugador = objPersonajeJugador.getDefenseById('defensa-magica');
+    objDefensaJugador = objPersonajeJugador.getMovementById('defensa-magica');
     let buttonText = ` ${objDefensaJugador.icon} ${objDefensaJugador.name} - ${objDefensaJugador.cant} `;
     botonDefensaEscudoMagico.innerHTML = buttonText; 
     movimientoTurnoJugador = objDefensaJugador.name;
     console.log('elegiste', objDefensaJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objDefensaJugador.cant == 0) {
         botonDefensaEscudoMagico.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -380,12 +382,12 @@ function defensaEscMagico() {
 }
 
 function defensaEscMagicoOscuro() {
-    objDefensaJugador = objPersonajeJugador.getDefenseById('defensa-oscura');
+    objDefensaJugador = objPersonajeJugador.getMovementById('defensa-oscura');
     let buttonText = ` ${objDefensaJugador.icon} ${objDefensaJugador.name} - ${objDefensaJugador.cant} `;
     botonDefensaEscudoMagicoOscuro.innerHTML = buttonText; 
     movimientoTurnoJugador = objDefensaJugador.name;
     console.log('elegiste', objDefensaJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objDefensaJugador.cant == 0) {
         botonDefensaEscudoMagicoOscuro.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -396,12 +398,12 @@ function defensaEscMagicoOscuro() {
 }
 
 function defensaRodar() {
-    objDefensaJugador = objPersonajeJugador.getDefenseById('rodar');
+    objDefensaJugador = objPersonajeJugador.getMovementById('defensa-rodar');
     let buttonText = ` ${objDefensaJugador.icon} ${objDefensaJugador.name} - ${objDefensaJugador.cant} `;
     botonDefensaRodar.innerHTML = buttonText; 
     movimientoTurnoJugador = objDefensaJugador.name;
     console.log('elegiste', objDefensaJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objDefensaJugador.cant == 0) {
         botonDefensaRodar.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -411,12 +413,12 @@ function defensaRodar() {
     }
 }
 function ataqueRayo() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-rayo');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('ataque-rayo');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueRayo.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueRayo.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -427,12 +429,12 @@ function ataqueRayo() {
 }
 
 function ataqueDobleRayo() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('doble-rayo');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('doble-rayo');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueDobleRayo.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDobleRayo.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -443,12 +445,12 @@ function ataqueDobleRayo() {
 }
 
 function ataqueA2Manos() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('dos-manos');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('dos-manos');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueDosManos.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDosManos.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -459,12 +461,12 @@ function ataqueA2Manos() {
 }
 
 function ataqueFuerte() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-fuerte');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('ataque-fuerte');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueFuerte.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueFuerte.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -474,12 +476,12 @@ function ataqueFuerte() {
     }
 }
 function ataqueDebil() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-debil');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('ataque-debil');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueDebil.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDebil.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -489,12 +491,12 @@ function ataqueDebil() {
     }
 }
 function ataqueFlechaMagica() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('flecha-magica');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('flecha-magica');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueFlechaMagica.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueFlechaMagica.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -504,12 +506,12 @@ function ataqueFlechaMagica() {
     }
 }
 function ataqueRafagaMagica() {
-    objAtaqueJugador = objPersonajeJugador.getAtackById('rafaga-magica');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('rafaga-magica');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueRafagaMagica.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueRafagaMagica.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -520,12 +522,12 @@ function ataqueRafagaMagica() {
 }
 function ataqueDaga() {
 
-    objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-daga');
+    objAtaqueJugador = objPersonajeJugador.getMovementById('ataque-daga');
     let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
     botonAtaqueDaga.innerHTML = buttonText; 
     movimientoTurnoJugador = objAtaqueJugador.name;
     console.log('elegiste', objAtaqueJugador.name)
-    seleccionarAtaquesPC();
+    seleccionarMovimientoEnemigo();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDaga.disabled = true;
         //botonAtaqueRafagaMagica.style.display = 'none';
@@ -536,37 +538,37 @@ function ataqueDaga() {
 }
 
 
-function seleccionarAtaquesPC() {
-    arrayAtaquesEnemigo = objPersonajeEnemigo.ataques;
+function seleccionarMovimientoEnemigo() {
 
-    if (arrayAtaquesEnemigo.length != 0) {
+    if (arrayMovimientosEnemigo.length != 0) {
 
-        console.warn('ataques array PC', arrayAtaquesEnemigo)
+        //console.warn('array movimientos enemigo', arrayMovimientosEnemigo)
         console.warn('================= ronda numero', numRonda,'=================================')
-        let numRandom = Math.floor(Math.random() * (arrayAtaquesEnemigo.length - MIN_ATAQUES + 1));
+        let numRandom = Math.floor(Math.random() * (arrayMovimientosEnemigo.length - MIN_ATAQUES + 1));
 
         //console.log('la PC esta elegiendo sus ataques');
-        objAtaqueEnemigo = arrayAtaquesEnemigo[numRandom];
-        objAtaqueEnemigo.cant--;
-        ataqueTurnoEnemigo = objAtaqueEnemigo.name;
-        if (objAtaqueEnemigo.cant == 0) {
+        objMovimientoEnemigo = arrayMovimientosEnemigo[numRandom];
+        objMovimientoEnemigo.cant--;
+        movimientoTurnoEnemigo = objMovimientoEnemigo.name;
+        if (objMovimientoEnemigo.cant == 0) {
             // saca elemento del array
-            let ataqueEliminado = objPersonajeEnemigo.deleteElementById(objAtaqueEnemigo.id);
-            console.error('se borro el ataque del enemigo:', ataqueEliminado)
+            let movEliminado = objPersonajeEnemigo.deleteElementById(objMovimientoEnemigo.id);
+            console.error('se borro el ataque del enemigo:', movEliminado)
+            console.error('ataques restantes enemigo', arrayMovimientosEnemigo.length)
             // deshabilita boton 
-            document.getElementById(`enemigo-${objAtaqueEnemigo.id}`).disabled = true;
+            document.getElementById(`enemigo-${objMovimientoEnemigo.id}`).disabled = true;
         }
 
-        console.log('la PC elegio de ataque:', ataqueTurnoEnemigo)
-        if (arrayAtaquesEnemigo.length == 0) {
-            console.warn('El enemigo se quedo sin ataques!')
+        console.log('la PC elegio:', movimientoTurnoEnemigo)
+        if (arrayMovimientosEnemigo.length == 0) {
+            console.warn('El enemigo se quedo sin movimientos!!')
         }
     } else {
         console.warn('enemigo pasa el turno')
-        objAtaqueEnemigo = null;
+        objMovimientoEnemigo = null;
     }
     numRonda++;
-    realizarCombate(objAtaqueJugador, objAtaqueEnemigo);
+    realizarCombate(objAtaqueJugador, objMovimientoEnemigo);
 }
 
 function checkIfAllAtacksAreDisabled(){
@@ -574,7 +576,7 @@ function checkIfAllAtacksAreDisabled(){
     let myMovements = arrayMovimientosJugador.every((button) => button.disabled == true)
     
     // check if all the enemy movements are disabled
-    let enemyMovements = arrayAtaquesEnemigo.length;
+    let enemyMovements = arrayMovimientosEnemigo.length;
     console.log('----result', myMovements, 'ataques dispo Enemigo:', enemyMovements)
 // todo: mejorar logica, llamados repetidos
     if (myMovements && enemyMovements == 0){
@@ -600,23 +602,23 @@ function determinateWhoWins (){
 }
 function allowEnemyToAtackWithAllEnergy(){
     let i = 0;
-    while (objAtaqueEnemigo !== null && i<10){ // i es un comodin por las dudas...
-        console.log('obj ataque', objAtaqueEnemigo)
+    while (objMovimientoEnemigo !== null && i<10){ // i es un comodin por las dudas...
+        console.log('obj ataque', objMovimientoEnemigo)
         console.log('ataque extra numero: ', i)
         i++;
-        seleccionarAtaquesPC();
+        seleccionarMovimientoEnemigo();
     }
 }
 // todo: modificar esta logica por completo, segun ataques y defensas
-function realizarCombate(objAtaquePlayer, objAtaqueEnemigo) {
+function realizarCombate(objAtaquePlayer, objMovimientoEnemigo) {
     console.log('arranca el combate!')
     let resultado;
 
-    if (movimientoTurnoJugador == ataqueTurnoEnemigo) {
+    if (movimientoTurnoJugador == movimientoTurnoEnemigo) {
         resultado = EMPATE;
-    } else if ((movimientoTurnoJugador == FUEGO && ataqueTurnoEnemigo == TIERRA)
-        || (movimientoTurnoJugador == AGUA && ataqueTurnoEnemigo == FUEGO)
-        || (movimientoTurnoJugador == TIERRA && ataqueTurnoEnemigo == AGUA)) {
+    } else if ((movimientoTurnoJugador == FUEGO && movimientoTurnoEnemigo == TIERRA)
+        || (movimientoTurnoJugador == AGUA && movimientoTurnoEnemigo == FUEGO)
+        || (movimientoTurnoJugador == TIERRA && movimientoTurnoEnemigo == AGUA)) {
         resultado = GANASTE;
         // actualizarVidasPC();
     } else {
@@ -771,7 +773,7 @@ function deshabilitarBotonesDeAtaque() {
 function crearMensajeCombate(resultado, suceso) {
     // actualiza valors tablas grid
     parrafoAtaqueJugador.innerHTML = movimientoTurnoJugador;
-    parrafoAtaqueEnemigo.innerHTML = ataqueTurnoEnemigo;
+    parrafoAtaqueEnemigo.innerHTML = movimientoTurnoEnemigo;
 
     //editamos el relato
    // console.log(suceso)
@@ -779,7 +781,8 @@ function crearMensajeCombate(resultado, suceso) {
 
     // creamos el elemento p
     let parrafo = document.createElement('p');
-    parrafo.innerHTML = `Atacas con ${movimientoTurnoJugador}, y el enemigo se defiende con ${ataqueTurnoEnemigo} --> ${resultado}`;
+    /* parrafo.innerHTML = `Atacas con ${movimientoTurnoJugador}, y el enemigo se defiende con ${movimientoTurnoEnemigo} --> ${resultado}`; */
+    parrafo.innerHTML = `YO: ${movimientoTurnoJugador} -- PC: ${movimientoTurnoEnemigo} --> ${resultado}`;
     // insertamos el elemento en el HTML
     mensajesCombate.appendChild(parrafo);
 }

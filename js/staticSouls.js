@@ -178,45 +178,47 @@ function cargarAtaquesDefensasEnPantalla() {
     // creacion de botones de ataque en el front
     objPersonajeJugador.ataques.forEach((atack) => {
         let botonDeAtaque = `
-        <button class="boton-ataque" id="${atack.id}">${atack.icon}  ${atack.name} </button> 
+        <button class="boton-ataque" id="${atack.id}">${atack.icon}  ${atack.name} - ${atack.cant} </button> 
         `
         //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesJugador.innerHTML += botonDeAtaque;
 
+        /*
         // contadores , estan estaticos TODO : corregir
         let cantidadDeAtaques = `
-        <button class="boton-ataque" id="cant-ataques">${atack.icon}  ${atack.cant} </button> 
+        <button class="boton-ataque" id="cant-ataques">${atack.icon}  ${atack.cant}  </button> 
         `
         //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionCantidadAtaquesJugador.innerHTML += cantidadDeAtaques;
+        */    
     })
 
-    /* // creacion de botones de defensa en el front
+    // creacion de botones de defensa en el front
     objPersonajeJugador.defensas.forEach((defense) => {
        let botonDeDefensa = `
-       <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} </button> 
+       <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} - ${defense.cant} </button> 
        `
-       arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
+       //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
        seccionBotonesDefensaJugador.innerHTML += botonDeDefensa;
-   }) */
+   })
 
     // creacion de botones de ataque en el front
     objPersonajeEnemigo.ataques.forEach((atack) => {
         let botonDeAtaque = `
-        <button class="boton-enemigo boton-ataque" id="enemigo-${atack.id}" >${atack.icon}  ${atack.name}  </button> 
+        <button class="boton-enemigo boton-ataque" id="enemigo-${atack.id}" >${atack.icon}  ${atack.name} - ${atack.cant} </button> 
         `
         //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionBotonesAtaquesEnemigo.innerHTML += botonDeAtaque;
     })
 
-    /*  // creacion de botones de defensa en el front
+    // creacion de botones de defensa en el front
      objPersonajeEnemigo.defensas.forEach((defense) => {
         let botonDeDefensa = `
-        <button class="boton-defensa" id="${defense.id} disabled">${defense.icon}  ${defense.name} </button> 
+        <button class="boton-defensa" id="${defense.id} disabled">${defense.icon}  ${defense.name} - ${defense.cant} </button> 
         `
-        arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
+        //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
         seccionBotonesDefensaEnemigo.innerHTML += botonDeDefensa;
-    }) */
+    })
 
 
     //PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
@@ -299,8 +301,10 @@ function asociarBotonesHechiceroBadass() {
 }
 function ataquePiromancia() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-piromancia');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueFuego.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueFuego.disabled = true;
@@ -313,8 +317,10 @@ function ataquePiromancia() {
 
 function ataqueRayo() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-rayo');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueRayo.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueRayo.disabled = true;
@@ -327,8 +333,10 @@ function ataqueRayo() {
 
 function ataqueDobleRayo() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('doble-rayo');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueDobleRayo.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDobleRayo.disabled = true;
@@ -341,8 +349,10 @@ function ataqueDobleRayo() {
 
 function ataqueA2Manos() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('dos-manos');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueDosManos.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDosManos.disabled = true;
@@ -355,8 +365,10 @@ function ataqueA2Manos() {
 
 function ataqueFuerte() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-fuerte');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueFuerte.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueFuerte.disabled = true;
@@ -368,8 +380,10 @@ function ataqueFuerte() {
 }
 function ataqueDebil() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-debil');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueDebil.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDebil.disabled = true;
@@ -381,8 +395,10 @@ function ataqueDebil() {
 }
 function ataqueFlechaMagica() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('flecha-magica');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueFlechaMagica.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueFlechaMagica.disabled = true;
@@ -394,8 +410,10 @@ function ataqueFlechaMagica() {
 }
 function ataqueRafagaMagica() {
     objAtaqueJugador = objPersonajeJugador.getAtackById('rafaga-magica');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueRafagaMagica.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueRafagaMagica.disabled = true;
@@ -408,8 +426,10 @@ function ataqueRafagaMagica() {
 function ataqueDaga() {
 
     objAtaqueJugador = objPersonajeJugador.getAtackById('ataque-daga');
-    ataqueTurnoJugador = objAtaqueJugador.name
-    console.log('elegiste', ataqueTurnoJugador)
+    let buttonText = ` ${objAtaqueJugador.icon} ${objAtaqueJugador.name} - ${objAtaqueJugador.cant} `;
+    botonAtaqueDaga.innerHTML = buttonText; 
+    ataqueTurnoJugador = objAtaqueJugador.name;
+    console.log('elegiste', objAtaqueJugador.name)
     seleccionarAtaquesPC();
     if (objAtaqueJugador.cant == 0) {
         botonAtaqueDaga.disabled = true;

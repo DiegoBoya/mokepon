@@ -163,9 +163,9 @@ function seleccionarPersonajeJugador() {
 function seleccionarpersonajePC() {
     console.log('Se elige el guerrero de la PC de entre ', TOTAL_GUERREROS, ' disponibles.');
     let numRandom = Math.floor(Math.random() * (TOTAL_GUERREROS - MINIMO + 1))
-    let enemigo = personajesEnemigo[numRandom];
+   // let enemigo = personajesEnemigo[numRandom];
     //diego
-   /*  let enemigo = personajesEnemigo[1]; */
+    let enemigo = personajesEnemigo[0];
     objPersonajeEnemigo = new Personaje(enemigo.id, enemigo.nombre, enemigo.salud, enemigo.foto, enemigo.ataques, enemigo.defensas)
     nombrePersonajeEnemigoDOM.innerHTML = objPersonajeEnemigo.nombre;
     console.log('Tu enemigo sera el', objPersonajeEnemigo)

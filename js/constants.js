@@ -54,7 +54,7 @@ ataques
 defensas
 "id": "defensa-magica-1"
 "id": "defensa-rodar",
-"id": "escudo-madera",
+"id": "defensa-escudo-madera",
 "id": "milagro-salud",
 "id": "milagro-1", 
 

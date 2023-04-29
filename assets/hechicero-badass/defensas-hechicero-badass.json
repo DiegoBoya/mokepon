@@ -1,46 +1,37 @@
 {
     "defense": [
         {
-            "id": "escudo-madera",
+            "id": "defensa-escudo-madera",
             "name": "Escudo Madera",
-            "damage": 10,
             "icon": "🛡",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 3,
+            "type": "avoid",
+            "damgeAbsorption": 100,
+            "resistance": null,
+            "weakness": null
         },
         {
             "id": "defensa-rodar",
             "name": "Rodar",
-            "damage": 10,
             "icon": "🔄",
-            "specialEffect": null
-        },
-        {
-            "id": "defensa-rodar",
-            "name": "Rodar",
-            "damage": 10,
-            "icon": "🔄",
-            "specialEffect": null
-        },
-        {
-            "id": "defensa-rodar",
-            "name": "Rodar",
-            "damage": 10,
-            "icon": "🔄",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 3,
+            "type": "avoid",
+            "damgeAbsorption": 100,
+            "resistance": null,
+            "weakness": null 
         },
         {
             "id": "defensa-magica",
-            "name": "Escudo magico",
-            "damage": 20,
+            "name": "Escudo Magico",
             "icon": "🌀",
-            "specialEffect": null
-        },
-        {
-            "id": "defensa-magica",
-            "name": "Escudo magico",
-            "damage": 20,
-            "icon": "🌀",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 2,
+            "type": "magic",
+            "damgeAbsorption": 50,
+            "resistance": "magic",
+            "weakness": "pfysical"
         }
     ]
 }

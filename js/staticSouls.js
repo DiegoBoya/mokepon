@@ -71,6 +71,7 @@ const relato = document.getElementById('relato')
 const seccionBotonesAtaquesJugador = document.getElementById('seccion-botones-ataques-jugador');
 const seccionCantidadAtaquesJugador = document.getElementById('seccion-cantidad-ataques-jugador');
 const seccionBotonesDefensaJugador = document.getElementById('seccion-botones-defensa-jugador');
+const seccionBotonesHabilidadEspecialJugador = document.getElementById('seccion-botones-habilidad-especial-jugador');
 const seccionBotonesAtaquesEnemigo = document.getElementById('seccion-botones-ataques-enemigo');
 const seccionBotonesDefensaEnemigo = document.getElementById('seccion-botones-defensa-enemigo');
 const nombrePersonajeEnemigoDOM = document.getElementById('personaje-enemigo');
@@ -174,9 +175,9 @@ function seleccionarPersonajeJugador() {
 function seleccionarpersonajePC() {
     console.log('Se elige el guerrero de la PC de entre ', TOTAL_GUERREROS, ' disponibles.');
     let numRandom = Math.floor(Math.random() * (TOTAL_GUERREROS - MINIMO + 1))
-   // let enemigo = personajesEnemigo[numRandom];
+   let enemigo = personajesEnemigo[numRandom];
     //diego
-    let enemigo = personajesEnemigo[0];
+    //let enemigo = personajesEnemigo[0];
     objPersonajeEnemigo = new Personaje(enemigo.id, enemigo.nombre, enemigo.salud, enemigo.foto, enemigo.ataques, enemigo.defensas)
     nombrePersonajeEnemigoDOM.innerHTML = objPersonajeEnemigo.nombre;
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
@@ -208,11 +209,21 @@ function cargarAtaquesDefensasEnPantalla() {
 
     // creacion de botones de defensa en el front
     objPersonajeJugador.defensas.forEach((defense) => {
-       let botonDeDefensa = `
-       <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} | ${defense.cant} </button> 
-       `
-       //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
-       seccionBotonesDefensaJugador.innerHTML += botonDeDefensa;
+
+        // JSON de defensas: si no es una defensa, es una H.Especial
+        if (defense.id.includes('defensa-')){
+            let botonDeDefensa = `
+            <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} | ${defense.cant} </button> 
+            `
+            //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
+            seccionBotonesDefensaJugador.innerHTML += botonDeDefensa;
+        } else {
+            let botonHabilidadEspecial = `
+            <button class="boton-habilidad-especial" id="${defense.id}">${defense.icon}  ${defense.name} | ${defense.cant} </button> 
+            `
+            //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
+            seccionBotonesHabilidadEspecialJugador.innerHTML += botonHabilidadEspecial;
+        }
    })
 
     // creacion de botones de ataque en el front
@@ -287,7 +298,7 @@ function asociarBotonesCaballeroReal() {
     botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
 
     botonDefensaEscudoMagico = document.getElementById('defensa-magica');
-    botonDefensaEscudoMadera = document.getElementById('escudo-madera');
+    botonDefensaEscudoMadera = document.getElementById('defensa-escudo-madera');
     botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaEscudoMagico.addEventListener('click', defensaEscMagico)
     botonDefensaRodar.addEventListener('click', defensaRodar)
@@ -307,7 +318,7 @@ function asociarBotonesCaballeroTemplario() {
     botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
     botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
 
-    botonDefensaEscudoMadera = document.getElementById('escudo-madera');
+    botonDefensaEscudoMadera = document.getElementById('defensa-escudo-madera');
     botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaRodar.addEventListener('click', defensaRodar)
     botonDefensaEscudoMadera.addEventListener('click', defensaEscMadera)
@@ -325,7 +336,7 @@ function asociarBotonesHechiceroBadass() {
     botonAtaqueDaga.addEventListener('click', ataqueDaga);
 
     botonDefensaEscudoMagico = document.getElementById('defensa-magica');
-    botonDefensaEscudoMadera = document.getElementById('escudo-madera');
+    botonDefensaEscudoMadera = document.getElementById('defensa-escudo-madera');
     botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaEscudoMagico.addEventListener('click', defensaEscMagico)
     botonDefensaRodar.addEventListener('click', defensaRodar)
@@ -351,7 +362,7 @@ function ataquePiromancia() {
 }
 
 function defensaEscMadera() {
-    objDefensaJugador = objPersonajeJugador.getMovementById('escudo-madera');
+    objDefensaJugador = objPersonajeJugador.getMovementById('defensa-escudo-madera');
     let buttonText = ` ${objDefensaJugador.icon} ${objDefensaJugador.name} - ${objDefensaJugador.cant} `;
     botonDefensaEscudoMadera.innerHTML = buttonText; 
     movimientoTurnoJugador = objDefensaJugador.name;
@@ -658,7 +669,7 @@ async function crearPersonajes() {
     // todo: recibir de parametro cuantos guerreros diferentes crear
     PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];
 
-    await obtenerAtaquesDefensas();
+    await obtenerMovimientos();
 
     let caballeroNegro = new Personaje(ID_CABALLERO_NEGRO, 'Caballero Negro', 120,
         './../assets/img/personajes/caballero-negro.png', ataquesCaballeroNegro, defensasCaballeroNegro);
@@ -683,7 +694,7 @@ async function crearPersonajes() {
 
 }
 
-async function obtenerAtaquesDefensas() {
+async function obtenerMovimientos() {
 
     // Caballero Negro
     await fetch('./../assets/caballero-negro/ataques-caballero-negro.json')

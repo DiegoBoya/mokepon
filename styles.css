@@ -165,7 +165,7 @@ input:checked + label{
     margin: 20px;
 }
 /* igual que el 'p' del personaje de step1*/
-.boton-ataque, .boton-defensa{
+.boton-ataque, .boton-defensa, .boton-habilidad-especial{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -178,8 +178,17 @@ input:checked + label{
     margin : 1px;
 }
 
-.boton-ataque:disabled, .boton-defensa:disabled {
+.boton-habilidad-especial{
+    background-color: darkblue;
+}
+
+.boton-ataque:disabled, .boton-defensa:disabled , .boton-habilidad-especial:disabled{
     background-color: grey;
+}
+
+.boton-ataque:hover, .boton-defensa:hover, .boton-habilidad-especial:hover{
+    background-color: green;
+    color: yellow;
 }
 
 #grid-datos {

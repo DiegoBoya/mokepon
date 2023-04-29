@@ -32,6 +32,22 @@
             "damgeAbsorption": 80,
             "resistance": ["magic", "pfysical", "fuego"],
             "weakness": "rayo"
+        },
+        {
+            "id": "ira",
+            "name": "Ira",
+            "icon": "😡",
+            "specialEffect": {
+                "duration": 2,
+                "atack": 1.25,
+                "defense": 1,
+                "PS": -15
+            },
+            "cant": 2,
+            "type": "piromancia",
+            "damgeAbsorption": 35,
+            "resistance": ["magic", "pfysical", "fuego"],
+            "weakness": "rayo"
         }
     ]
 }

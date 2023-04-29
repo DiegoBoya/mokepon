@@ -12,14 +12,18 @@ export class Personaje {
 
 
    getAtackById(_atackID) {
-      console.log('ataques INICIAL', this.ataques)
+      console.log('ataques disponibles jugador:', this.ataques)
       console.log('se busca', _atackID)
-      let ataque = this.ataques.find(atack => atack.id.includes(_atackID))
-      console.log('opciones', ataque)
+      let ataque = this.ataques.find(atack => atack.id == _atackID)
       ataque.cant --;
-      //this.removeFirst(ataque)
-      console.log('se elimina el ataque seleccionado')
-      console.log(this.ataques)
+      return ataque;
+   }
+
+   deleteElementById(_atackID){
+      console.log('se eliminara:', _atackID);
+      let ataque = this.ataques.find(atack => atack.id == _atackID);
+      this.removeFirst(ataque);
+      console.log('ataques disponibles:', this.ataques);
       return ataque;
    }
 

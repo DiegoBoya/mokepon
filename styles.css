@@ -153,21 +153,29 @@ input:checked + label{
     display: flex;
     align-items: center;
 }
+/* #seccion-botones-ataques-jugador{
+    display: grid;
+    grid-template-columns: 200px;
+    text-align: center;
+    margin: 25px;
+} */
 
 .botones-ataques-jugador{
     display: flex;
     margin: 20px;
 }
 /* igual que el 'p' del personaje de step1*/
-.boton-ataque{
+.boton-ataque, .boton-defensa{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100px;
+    align-items: center;
+    height: 40px;
     background-color: black;
     color: white;
-    border-radius: 3px;
+    border-radius: 5px;
     font-family: 'Press Start 2P', cursive; 
+    margin : 1px;
 }
 
 .boton-ataque:disabled {

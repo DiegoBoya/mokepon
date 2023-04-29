@@ -9,17 +9,18 @@
     <link rel="stylesheet" href="./styles.css">
     <script type="module" src='./js/staticSouls.js' defer></script>
 </head>
+
 <body>
-    
+
     <section id="seleccionar-personaje">
         <h1 id="titulo-principal">StaticSouls</h1>
-       
+
         <h2 class="subtitulo">Elige tu personaje</h2>
 
         <div id="contenedor-personajes" class="bloque-tarjetas">
-           <!-- agregado dinamico de personajes -->
+            <!-- agregado dinamico de personajes -->
         </div>
-            
+
         <button id="boton-seleccionar-personaje" class="boton-tipo-1">seleccionar</button>
     </section>
 
@@ -28,11 +29,27 @@
 
         <h2 id="relato">Que comience el combate!!</h2>
         <br>
-       
+
         <div id="seccion-botones-ataques-jugador" class="botones-ataques-jugador">
             <!--    <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button> -->
         </div>
-       
+        
+        <div id="seccion-cantidad-ataques-jugador" class="botones-ataques-jugador">
+            <!--    <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button> -->
+        </div>
+
+        <div id="seccion-botones-defensa-jugador" class="botones-ataques-jugador">
+            <!--    <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button> -->
+
+        </div>
+
+        <div id="seccion-botones-ataques-enemigo" class="botones-ataques-jugador">
+            <!--    <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button> -->
+        </div>
+        <div id="seccion-botones-defensa-enemigo" class="botones-ataques-jugador">
+            <!--    <button class="boton-ataque" id="boton-fuego">Fuego 🔥</button> -->
+        </div>
+
         <div id="grid-datos">
             <!-- tabla Jugador -->
             <div id="grid-jugador">
@@ -47,11 +64,11 @@
                 <div id="ataque-enemigo"></div>
             </div>
         </div>
-        
+
         <section id="mensaje-final">
             <!--  VAMOOO GANASTE!! o Te derrotaron, vuelve a intentarlo, no te rindas!-->
         </section>
-        
+
         <section id="reiniciar">
             <button id="boton-reiniciar" class="boton-tipo-1">reiniciar</button>
             <br>
@@ -61,11 +78,11 @@
             <!-- este mensaje lo vamos a generar de forma dinamica con js mas adelante-->
             <!-- Atacas con FUEGO, y el enemigo se defiende con AGUA : perdiste 😕 -->
         </section>
-      
+
     </section> <!-- fin section seleccionar-ataque -->
 
- 
-   
+
+
 </body>
 
 </html>

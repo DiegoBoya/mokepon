@@ -3,23 +3,35 @@
         {
             "id": "defensa-debil",
             "name": "Escudo Magico",
-            "damage": 10,
             "icon": "🌀",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 3,
+            "type": "magic",
+            "damgeAbsorption": 50,
+            "resistance": "magic",
+            "weakness": "pfysical"
         },
         {
             "id": "rodar",
             "name": "Rodar",
-            "damage": 10,
             "icon": "🔄",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 3,
+            "type": "avoid",
+            "damgeAbsorption": 100,
+            "resistance": null,
+            "weakness": null
         },
         {
             "id": "defensa-fuerte",
             "name": "Escudo magico oscuro",
-            "damage": 20,
             "icon": "🎆",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 3,
+            "type": "magic",
+            "damgeAbsorption": 80,
+            "resistance": ["magic", "pfysical", "fuego"],
+            "weakness": "rayo"
         }
     ]
 }

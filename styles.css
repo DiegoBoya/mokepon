@@ -139,6 +139,12 @@ input:checked + label{
 }
 
 /* step 2 styles*/
+#botones-jugadores{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #seleccionar-ataque {
     /* display: flex; lo toma del js*/
     flex-direction: column;

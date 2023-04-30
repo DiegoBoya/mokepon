@@ -17,7 +17,7 @@
             "cant": 2
         },
         {
-            "id": "dos-manos",
+            "id": "ataque-dos-manos",
             "name": "A dos manos",
             "damage": 30,
             "icon": "⚔",

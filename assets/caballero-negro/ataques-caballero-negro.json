@@ -19,7 +19,7 @@
             "cant": 2
         },
         {
-            "id": "dos-manos",
+            "id": "ataque-dos-manos",
             "name": "a dos manos",
             "type": "fisico",
             "damage": 20,

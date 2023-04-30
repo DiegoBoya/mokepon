@@ -186,6 +186,12 @@ input:checked + label{
     background-color: grey;
 }
 
+.boton-ataque:disabled:hover, .boton-defensa:disabled:hover , .boton-habilidad-especial:disabled:hover{
+    background-color: grey;
+    color: white;
+
+}
+
 .boton-ataque:hover, .boton-defensa:hover, .boton-habilidad-especial:hover{
     background-color: green;
     color: yellow;

@@ -14,7 +14,6 @@ export class Personaje {
 
    getMovementById(_movimientoID){
       console.log('movimientos disponibles jugador:', this.movimientos)
-      console.log('se busca', _movimientoID)
       let mov = this.movimientos.find(mov => mov.id == _movimientoID)
       mov.cant --; // el get no deberia restar
       return mov;
@@ -37,10 +36,9 @@ export class Personaje {
    }
 
    deleteElementById(_movimientoID){
-      console.warn('se eliminara:', _movimientoID);
+    //  console.warn('se eliminara:', _movimientoID);
       let movimiento = this.movimientos.find(mov => mov.id == _movimientoID)
       this.removeFirst(movimiento);
-      //console.log('Movimientos disponibles:', this.movimientos);
       return movimiento;
    }
 
@@ -49,7 +47,7 @@ export class Personaje {
       if (index > -1) {
          this.movimientos.splice(index, 1);
       }
-      console.error('ataques restantes enemigo',this.movimientos)
+      console.warn(`Se elimino a ${movTarget.id}, ataques restantes enemigo`,this.movimientos)
       return this.movimientos;
    }
 

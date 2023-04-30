@@ -34,7 +34,7 @@
             "weakness": "rayo"
         },
         {
-            "id": "ira",
+            "id": "efecto-ira",
             "name": "Ira",
             "icon": "😡",
             "specialEffect": {

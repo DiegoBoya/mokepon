@@ -847,7 +847,7 @@ function crearMensajeCombate(resultado) {
 
 function obtenerFraseSegunMovimientos(movJ, movE) {
     let frase;
-    console.warn( '==================tipos de movimiento',movJ, movE)
+    console.warn( 'tipos de movimiento',movJ, movE)
     if (movJ == movE && movJ != ATAQUE) {
         frase = 'aumenta la tension...'
     } else if (movJ == ATAQUE && movJ == movE) {
@@ -876,6 +876,7 @@ function obtenerFraseSegunMovimientos(movJ, movE) {
 }
 
 function crearMensajeFinDeJuego(mensaje) {
+    relato.innerHTML = 'Pero que combate, lo dejaron todo en el campo de batalla!!'
     let mensajeFinal = document.createElement('p');
     if (mensaje == GANASTE) {
         mensajeFinal.innerHTML = 'VAMOOO GANASTE!!'
@@ -884,13 +885,14 @@ function crearMensajeFinDeJuego(mensaje) {
         mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
         contadorRachasDerrotas++;
     } else if (mensaje == EMPATE) {
-        mensajeFinal.innerHTML = 'qUE RESULTADO CULIAO!'
+        mensajeFinal.innerHTML = 'Este es un resultado inesperado!'
         contadorRachasDerrotas++;
     } else {
         console.error('entro aca, no deberia....')
         mensajeFinal.innerHTML = 'ERROR!!!!'
     }
     console.log(mensajeFinal)
+    seccionMensajeFinal.appendChild(mensajeFinal)
     deshabilitarBotonesDeMovimientos();
 
     // habilito boton reiniciar

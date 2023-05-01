@@ -655,9 +655,20 @@ function checkIfAllMovementsAreDisabled(){
         console.error('El jugador se queda sin movimientos')
         movimientoTurnoJugador = PIEDAD;
         allowEnemyToAtackWithAllEnergy();
-        determinateWhoWins();
+        //determinateWhoWins();
     }
 }
+
+function allowEnemyToAtackWithAllEnergy(){
+    let i = 0;
+    while (movimientoTurnoEnemigo !== PIEDAD && i<10){ // i es un comodin por las dudas...
+        console.log('--movimientoTurnoEnemigo', movimientoTurnoEnemigo)
+        console.log('ataque extra numero: ', i)
+        i++;
+        seleccionarMovimientoEnemigo();
+    }
+}
+
 function determinateWhoWins (){
     console.log('determinando quien gano...')
     let resultado;
@@ -672,23 +683,13 @@ function determinateWhoWins (){
     }
     crearMensajeFinDeJuego(resultado);
 }
-function allowEnemyToAtackWithAllEnergy(){
-    let i = 0;
-    while (movimientoTurnoEnemigo !== PIEDAD && i<10){ // i es un comodin por las dudas...
-        console.log('--movimientoTurnoEnemigo', movimientoTurnoEnemigo)
-        console.log('ataque extra numero: ', i)
-        i++;
-        seleccionarMovimientoEnemigo();
-    }
-}
 // todo: modificar esta logica por completo, segun ataques y defensas
 function realizarCombate(objAtaquePlayer, objMovimientoEnemigo) {
     numRonda == 1 ? console.log('arranca el combate!') : console.warn('================= ronda numero', numRonda ,'=================');
     let resultado;
 
-    // SI ENTRA ACA, ES QUE 1. yo me quede sin ataques primero, y 2. la PC se termina sus ataques, pero no me baja a 0 la vida
+    // SI ENTRA ACA, ES QUE 1. yo me quede sin ataques primero, y 2. la PC se termina sus ataques, pero no me baja a 0 la vida. Gana quien tenga mas PS
     if(movimientoTurnoEnemigo == PIEDAD && movimientoTurnoJugador == PIEDAD){
-        console.warn('------- entro aca!!!')
         determinateWhoWins();
         return;
     }
@@ -839,9 +840,8 @@ function crearMensajeFinDeJuego(mensaje) {
         console.error('entro aca, no deberia....')
         mensajeFinal.innerHTML = 'ERROR!!!!'
     }
+    console.log(mensajeFinal)
     deshabilitarBotonesDeMovimientos();
-    seccionMensajeFinal.appendChild(mensajeFinal)
-
 
     // habilito boton reiniciar
     botonReiniciar.style.display = 'block';

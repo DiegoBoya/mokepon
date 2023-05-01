@@ -48,8 +48,8 @@ ataques
        "id": "ataque-fuerte-1",
           "id": "ataque-fuerte-2
  "id": "ataque-daga",
- rafaga-magica
- "id": "flecha-magica",
+ ataque-rafaga-magica
+ "id": "ataque-flecha-magica",
 
 defensas
 "id": "defensa-magica-1"

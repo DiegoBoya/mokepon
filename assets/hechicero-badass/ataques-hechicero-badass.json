@@ -1,7 +1,7 @@
 {
     "atacks": [
         {
-            "id": "flecha-magica",
+            "id": "ataque-flecha-magica",
             "name": "Flecha de Alma",
             "damage": 10,
             "icon": "🌠",
@@ -9,7 +9,7 @@
             "cant": 3
         },
         {
-            "id": "rafaga-magica",
+            "id": "ataque-rafaga-magica",
             "name": "Rafaga Magica",
             "damage": 10,
             "icon": "🌠🌠🌠",

@@ -1,7 +1,6 @@
 import { Personaje } from './personaje.js';
 import { Constants } from './constants.js'
 
-const PIEDAD = 'piedad... piedad!!';
 const ID_CABALLERO_NEGRO = "caballeroNegro";
 const ID_CABALLERO_REAL = "caballeroReal";
 const ID_CABALLERO_TEMPLARIO = "caballeroTemplario";
@@ -19,10 +18,14 @@ let objPersonajeJugador;
 let TOTAL_GUERREROS;
 const MINIMO = 1;
 
-// vidas 
-const INICIO_VIDAS = 3;
-let vidasPC = INICIO_VIDAS;
-let vidasPlayer = INICIO_VIDAS;
+// tipos de movimientos
+const ATAQUE = 'ATAQUE';
+const DEFENSA = 'DEFENSA';
+const RODAR = 'RODAR';
+const EFECTO_ESPECIAL = 'EFECTO-ESPECIAL'
+const PIEDAD = 'piedad... piedad!!';
+const ERROR = '***** ERROR *****';
+
 
 // contadores
 let contadorRachasDerrotas = 0;
@@ -52,6 +55,8 @@ const arrayMovimientosJugador = [];
 let arrayMovimientosEnemigo = [];
 let objMovimientoEnemigo;
 let objMovimientoJugador;
+let saludJugador;
+let saludEnemigo;
 
 
 //resultados
@@ -77,8 +82,8 @@ const seccionBotonesAtaquesEnemigo = document.getElementById('seccion-botones-at
 const seccionBotonesDefensaEnemigo = document.getElementById('seccion-botones-defensa-enemigo');
 const nombrePersonajeEnemigoDOM = document.getElementById('personaje-enemigo');
 const nombrePersonajeJugadorDOM = document.getElementById('personaje-jugador');
-const vidasEnemigo = document.getElementById('barra-vidas-enemigo');
-const vidasJugador = document.getElementById('barra-vidas-jugador');
+const domBarraSaludEnemigo = document.getElementById('barra-vidas-enemigo');
+const domBarraSaludJugador = document.getElementById('barra-vidas-jugador');
 const parrafoAtaqueJugador = document.getElementById('ataque-jugador');
 const parrafoAtaqueEnemigo = document.getElementById('ataque-enemigo');
 const seccionMensajeFinal = document.getElementById('mensaje-final')
@@ -168,6 +173,8 @@ function seleccionarPersonajeJugador() {
         // oculto seccion elegir personaje
         seccionElegirpersonaje.style.display = 'none';
 
+        saludJugador = objPersonajeJugador.salud;
+        domBarraSaludJugador.innerHTML = saludJugador;
         // PC elige personaje
         seleccionarpersonajePC();
 
@@ -179,7 +186,7 @@ function seleccionarPersonajeJugador() {
 function seleccionarpersonajePC() {
     console.log('Se elige el guerrero de la PC de entre ', TOTAL_GUERREROS, ' disponibles.');
     let numRandom = Math.floor(Math.random() * (TOTAL_GUERREROS - MINIMO + 1))
-   let enemigo = personajesEnemigo[numRandom];
+    let enemigo = personajesEnemigo[numRandom];
     //diego
     //let enemigo = personajesEnemigo[0];
     objPersonajeEnemigo = new Personaje(enemigo.id, enemigo.nombre, enemigo.salud, enemigo.foto, enemigo.ataques, enemigo.defensas)
@@ -187,7 +194,8 @@ function seleccionarpersonajePC() {
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
 
     arrayMovimientosEnemigo = objPersonajeEnemigo.movimientos;
-
+    saludEnemigo = objPersonajeEnemigo.salud;
+    domBarraSaludEnemigo.innerHTML = saludEnemigo;
     cargarAtaquesDefensasEnPantalla();
 }
 
@@ -208,14 +216,14 @@ function cargarAtaquesDefensasEnPantalla() {
         `
         //arrayIDsBotonesDeAtaqueEnPantalla.push(atack.id);
         seccionCantidadAtaquesJugador.innerHTML += cantidadDeAtaques;
-        */    
+        */
     })
 
     // creacion de botones de defensa en el front
     objPersonajeJugador.defensas.forEach((defense) => {
 
         // JSON de defensas: si no es una defensa, es una H.Especial
-        if (defense.id.includes('defensa-')){
+        if (defense.id.includes('defensa-')) {
             let botonDeDefensa = `
             <button class="boton-defensa" id="${defense.id}">${defense.icon}  ${defense.name} | ${defense.cant} </button> 
             `
@@ -228,7 +236,7 @@ function cargarAtaquesDefensasEnPantalla() {
             //arrayIDsBotonesDeDefensaEnPantalla.push(defense.id);
             seccionBotonesHabilidadEspecialJugador.innerHTML += botonHabilidadEspecial;
         }
-   })
+    })
 
     // creacion de botones de ataque en el front
     objPersonajeEnemigo.ataques.forEach((atack) => {
@@ -240,7 +248,7 @@ function cargarAtaquesDefensasEnPantalla() {
     })
 
     // creacion de botones de defensa en el front
-     objPersonajeEnemigo.defensas.forEach((defense) => {
+    objPersonajeEnemigo.defensas.forEach((defense) => {
         let botonDeDefensa = `
         <button class="boton-defensa" id="enemigo-${defense.id}">${defense.icon}  ${defense.name} | ${defense.cant} </button> 
         `
@@ -280,7 +288,7 @@ function asociarBotonesCaballeroNegro() {
     botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
     botonAtaqueDaga.addEventListener('click', ataqueDaga)
     botonAtaqueFuego.addEventListener('click', ataquePiromancia);
-    
+
     botonEfectoIra = document.getElementById('efecto-ira')
     botonEfectoIra.addEventListener('click', efectoIra);
 
@@ -292,14 +300,14 @@ function asociarBotonesCaballeroNegro() {
     botonDefensaRodar.addEventListener('click', defensaRodar)
     botonDefensaEscudoMagicoOscuro.addEventListener('click', defensaEscMagicoOscuro)
 
-    arrayMovimientosJugador.push(botonAtaqueDaga, botonAtaqueDebil, botonAtaqueFuerte, botonAtaqueFuego, botonAtaqueDosManos,botonDefensaEscudoMagico, botonDefensaRodar,botonDefensaEscudoMagicoOscuro,botonEfectoIra);
-    console.log('diego',arrayMovimientosJugador);
+    arrayMovimientosJugador.push(botonAtaqueDaga, botonAtaqueDebil, botonAtaqueFuerte, botonAtaqueFuego, botonAtaqueDosManos, botonDefensaEscudoMagico, botonDefensaRodar, botonDefensaEscudoMagicoOscuro, botonEfectoIra);
+    console.log('diego', arrayMovimientosJugador);
 
 }
 
 function asociarBotonesCaballeroReal() {
     botonAtaqueRayo = document.getElementById('ataque-rayo');
-    botonAtaqueDobleRayo = document.getElementById('doble-rayo');
+    botonAtaqueDobleRayo = document.getElementById('ataque-doble-rayo');
     botonAtaqueFuerte = document.getElementById('ataque-fuerte');
     botonAtaqueRayo.addEventListener('click', ataqueRayo);
     botonAtaqueDobleRayo.addEventListener('click', ataqueDobleRayo)
@@ -317,8 +325,8 @@ function asociarBotonesCaballeroReal() {
     botonMilagroAnularAtaque.addEventListener('click', milagroAnularAtaque);
     botonMilagroSalud.addEventListener('click', milagroRestaurarPS);
 
-    arrayMovimientosJugador.push(botonAtaqueRayo, botonAtaqueDobleRayo, botonAtaqueFuerte,botonDefensaEscudoMagico,botonDefensaEscudoMadera,botonDefensaRodar);
-    console.log('diego',arrayMovimientosJugador);
+    arrayMovimientosJugador.push(botonAtaqueRayo, botonAtaqueDobleRayo, botonAtaqueFuerte, botonDefensaEscudoMagico, botonDefensaEscudoMadera, botonDefensaRodar);
+    console.log('diego', arrayMovimientosJugador);
 }
 
 function asociarBotonesCaballeroTemplario() {
@@ -336,8 +344,8 @@ function asociarBotonesCaballeroTemplario() {
     botonDefensaRodar.addEventListener('click', defensaRodar)
     botonDefensaEscudoMadera.addEventListener('click', defensaEscMadera)
 
-    arrayMovimientosJugador.push(botonAtaqueDaga, botonAtaqueDebil, botonAtaqueFuerte, botonAtaqueDosManos,botonDefensaEscudoMadera, botonDefensaRodar);
-    console.log('diego',arrayMovimientosJugador);
+    arrayMovimientosJugador.push(botonAtaqueDaga, botonAtaqueDebil, botonAtaqueFuerte, botonAtaqueDosManos, botonDefensaEscudoMadera, botonDefensaRodar);
+    console.log('diego', arrayMovimientosJugador);
 }
 
 function asociarBotonesHechiceroBadass() {
@@ -355,13 +363,13 @@ function asociarBotonesHechiceroBadass() {
     botonDefensaRodar.addEventListener('click', defensaRodar)
     botonDefensaEscudoMadera.addEventListener('click', defensaEscMadera)
 
-    arrayMovimientosJugador.push(botonAtaqueFlechaMagica, botonAtaqueRafagaMagica, botonAtaqueDaga,botonDefensaEscudoMagico,botonDefensaRodar,botonDefensaEscudoMadera);
-    console.log('diego',arrayMovimientosJugador);
+    arrayMovimientosJugador.push(botonAtaqueFlechaMagica, botonAtaqueRafagaMagica, botonAtaqueDaga, botonDefensaEscudoMagico, botonDefensaRodar, botonDefensaEscudoMadera);
+    console.log('diego', arrayMovimientosJugador);
 }
 function ataquePiromancia() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-piromancia');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueFuego.innerHTML = buttonText; 
+    botonAtaqueFuego.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name, 'id', objMovimientoJugador.id)
     seleccionarMovimientoEnemigo();
@@ -374,10 +382,10 @@ function ataquePiromancia() {
     }
 }
 
-function milagroAnularAtaque(){
+function milagroAnularAtaque() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('milagro-de-paz');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonMilagroAnularAtaque.innerHTML = buttonText; 
+    botonMilagroAnularAtaque.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -390,10 +398,10 @@ function milagroAnularAtaque(){
     }
 }
 
-function milagroRestaurarPS(){
+function milagroRestaurarPS() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('milagro-salud');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonMilagroSalud.innerHTML = buttonText; 
+    botonMilagroSalud.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -406,10 +414,10 @@ function milagroRestaurarPS(){
     }
 }
 
-function efectoIra(){
+function efectoIra() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('efecto-ira');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonEfectoIra.innerHTML = buttonText; 
+    botonEfectoIra.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -425,7 +433,7 @@ function efectoIra(){
 function defensaEscMadera() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('defensa-escudo-madera');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonDefensaEscudoMadera.innerHTML = buttonText; 
+    botonDefensaEscudoMadera.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -440,7 +448,7 @@ function defensaEscMadera() {
 function defensaEscMagico() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('defensa-magica');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonDefensaEscudoMagico.innerHTML = buttonText; 
+    botonDefensaEscudoMagico.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -456,7 +464,7 @@ function defensaEscMagico() {
 function defensaEscMagicoOscuro() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('defensa-oscura');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonDefensaEscudoMagicoOscuro.innerHTML = buttonText; 
+    botonDefensaEscudoMagicoOscuro.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -472,7 +480,7 @@ function defensaEscMagicoOscuro() {
 function defensaRodar() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('defensa-rodar');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonDefensaRodar.innerHTML = buttonText; 
+    botonDefensaRodar.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -487,7 +495,7 @@ function defensaRodar() {
 function ataqueRayo() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-rayo');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueRayo.innerHTML = buttonText; 
+    botonAtaqueRayo.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -501,9 +509,9 @@ function ataqueRayo() {
 }
 
 function ataqueDobleRayo() {
-    objMovimientoJugador = objPersonajeJugador.getMovementById('doble-rayo');
+    objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-doble-rayo');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueDobleRayo.innerHTML = buttonText; 
+    botonAtaqueDobleRayo.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -519,7 +527,7 @@ function ataqueDobleRayo() {
 function ataqueA2Manos() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-dos-manos');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueDosManos.innerHTML = buttonText; 
+    botonAtaqueDosManos.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -535,7 +543,7 @@ function ataqueA2Manos() {
 function ataqueFuerte() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-fuerte');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueFuerte.innerHTML = buttonText; 
+    botonAtaqueFuerte.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -550,7 +558,7 @@ function ataqueFuerte() {
 function ataqueDebil() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-debil');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueDebil.innerHTML = buttonText; 
+    botonAtaqueDebil.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -565,7 +573,7 @@ function ataqueDebil() {
 function ataqueFlechaMagica() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-flecha-magica');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueFlechaMagica.innerHTML = buttonText; 
+    botonAtaqueFlechaMagica.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -580,7 +588,7 @@ function ataqueFlechaMagica() {
 function ataqueRafagaMagica() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-rafaga-magica');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueRafagaMagica.innerHTML = buttonText; 
+    botonAtaqueRafagaMagica.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -596,7 +604,7 @@ function ataqueDaga() {
 
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-daga');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
-    botonAtaqueDaga.innerHTML = buttonText; 
+    botonAtaqueDaga.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
     console.log('elegiste', objMovimientoJugador.name)
     seleccionarMovimientoEnemigo();
@@ -615,8 +623,8 @@ function seleccionarMovimientoEnemigo() {
         objMovimientoEnemigo = arrayMovimientosEnemigo[numRandom];
         objMovimientoEnemigo.cant--;
         movimientoTurnoEnemigo = objMovimientoEnemigo.name;
-         //obtengo el boton para manipularlo luego
-         let botonSeleccionado = document.getElementById(`enemigo-${objMovimientoEnemigo.id}`);
+        //obtengo el boton para manipularlo luego
+        let botonSeleccionado = document.getElementById(`enemigo-${objMovimientoEnemigo.id}`);
 
         // actualiza el texto del boton del enemigo
         let buttonText = ` ${objMovimientoEnemigo.icon} ${objMovimientoEnemigo.name} | ${objMovimientoEnemigo.cant} `;
@@ -638,30 +646,31 @@ function seleccionarMovimientoEnemigo() {
         objMovimientoEnemigo = null;
         movimientoTurnoEnemigo = PIEDAD // todo: incorporar un array de frases, y en cada turno imprimir una random
     }
-    realizarCombate(objMovimientoJugador, objMovimientoEnemigo);
+    realizarCombate();
 }
 
-function checkIfAllMovementsAreDisabled(){
+function checkIfAllMovementsAreDisabled() {
     // check si mis ataques estan agotados
     let myMovements = arrayMovimientosJugador.every((button) => button.disabled == true)
-    
+
     // check if all the enemy movements are disabled
     let enemyMovements = arrayMovimientosEnemigo.length;
     console.log('----result', myMovements, 'ataques dispo Enemigo:', enemyMovements)
-// todo: mejorar logica, llamados repetidos
-    if (myMovements && enemyMovements == 0){
+    // todo: mejorar logica, llamados repetidos
+    if (myMovements && enemyMovements == 0) {
         determinateWhoWins();
     } else if (myMovements) {
         console.error('El jugador se queda sin movimientos')
         movimientoTurnoJugador = PIEDAD;
+        objMovimientoJugador = null;
         allowEnemyToAtackWithAllEnergy();
         //determinateWhoWins();
     }
 }
 
-function allowEnemyToAtackWithAllEnergy(){
+function allowEnemyToAtackWithAllEnergy() {
     let i = 0;
-    while (movimientoTurnoEnemigo !== PIEDAD && i<10){ // i es un comodin por las dudas...
+    while (movimientoTurnoEnemigo !== PIEDAD && i < 10) { // i es un comodin por las dudas...
         console.log('--movimientoTurnoEnemigo', movimientoTurnoEnemigo)
         console.log('ataque extra numero: ', i)
         i++;
@@ -669,53 +678,64 @@ function allowEnemyToAtackWithAllEnergy(){
     }
 }
 
-function determinateWhoWins (){
+function determinateWhoWins() {
     console.log('determinando quien gano...')
     let resultado;
-    let saludEnemigo = objPersonajeEnemigo.salud; 
-    let saludJugador = objPersonajeJugador.salud;
-    if(saludEnemigo == saludJugador){
+
+    // opc 1
+    if (saludEnemigo == saludJugador) {
         resultado = EMPATE;
-    } else if (saludJugador > saludEnemigo){
+    } else if (saludJugador > saludEnemigo) {
         resultado = GANASTE;
     } else {
         resultado = PERDISTE;
     }
+
+    // opc 2
+    if (saludJugador <= 0 || saludEnemigo <= 0) {
+        console.error('alguien murio')
+
+        if (saludEnemigo == saludJugador) {
+            // todo: mostrar animacion que ganaste
+            crearMensajeFinDeJuego(EMPATE);
+        }
+
+        if (saludEnemigo < saludJugador) {
+            // mostrar animacion que ganaste
+            crearMensajeFinDeJuego(GANASTE);
+        }
+
+        if (saludJugador < saludEnemigo) {
+            // mostrar animacion que perdiste
+            crearMensajeFinDeJuego(PERDISTE);
+        }
+    }
+
     crearMensajeFinDeJuego(resultado);
 }
 
-/* const contieneAtaque = (movimientoId) => {
-    movimientoId.includes('ataque-') ? true : false;
+function aumentarNumRonda() {
+    if (numRonda > 1) {
+        console.warn('================= ronda numero', numRonda, '=================');
+    } else {
+        console.warn('arranca el combate!');
+    }
+    numRonda++;
 }
 
-const contieneDefensa = (movimientoId) => {
-    movimientoId.includes('defensa-') ? true : false;
-}
- */
 // todo: modificar esta logica por completo, segun ataques y defensas
-function realizarCombate(objAtaquePlayer, objMovimientoEnemigo) {
-    numRonda == 1 ? console.log('arranca el combate!') : console.warn('================= ronda numero', numRonda ,'=================');
+function realizarCombate() {
+    aumentarNumRonda();
+
     let resultado;
 
     // SI ENTRA ACA, ES QUE 1. yo me quede sin ataques primero, y 2. la PC se termina sus ataques, pero no me baja a 0 la vida. Gana quien tenga mas PS
-    if(movimientoTurnoEnemigo == PIEDAD && movimientoTurnoJugador == PIEDAD){
+    if (movimientoTurnoEnemigo == PIEDAD && movimientoTurnoJugador == PIEDAD) {
         determinateWhoWins();
         return;
     }
 
-    console.log(objAtaquePlayer.id)
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaa', objMovimientoJugador.name, objMovimientoJugador.id)
-    if (objMovimientoJugador.id.includes('ataque-')){
-        console.log('contiene ataqueeeeee===============================')
-    } else if (objMovimientoJugador.id.includes('defensa-')){
-        console.log('contiene defensasss==============================')
-    } else if (objMovimientoJugador.id.includes('milagro-') || objMovimientoJugador.id.includes('efecto-')){
-        console.log('ataque especialllll============================')
-    } else {
-        console.log('contiene error ==============================')
-    }
-
-
+    //seccion para descontar los PS
     if (movimientoTurnoJugador == movimientoTurnoEnemigo) {
         resultado = EMPATE;
     } else if ((movimientoTurnoJugador == FUEGO && movimientoTurnoEnemigo == TIERRA)
@@ -728,38 +748,163 @@ function realizarCombate(objAtaquePlayer, objMovimientoEnemigo) {
         //actualizarVidasPlayer();
     }
 
+    // crea elemento con texto del combate
+    crearMensajeCombate();
+
+    /**
+     * alguien murio?
+     */
+    if (saludJugador <= 0 || saludEnemigo <= 0) {
+        console.error('alguien murio')
+
+        if (saludEnemigo == saludJugador) {
+            // todo: mostrar animacion que ganaste
+            crearMensajeFinDeJuego(EMPATE);
+        }
+
+        if (saludEnemigo < saludJugador) {
+            // mostrar animacion que ganaste
+            crearMensajeFinDeJuego(GANASTE);
+        }
+
+        if (saludJugador < saludEnemigo) {
+            // mostrar animacion que perdiste
+            crearMensajeFinDeJuego(PERDISTE);
+        }
+    }
+}
+
+// todo: mejorar la semantica
+function crearMensajeCombate(resultado) {
+    let sucesoEnemigo;
+    let sucesoJugador;
+    let tipoMovJugador;
+    let tipoMovEnemigo;
+
+    // parte del player
+    if (objMovimientoJugador == null) {
+        sucesoJugador = 'estas agotado, comienza a rezar!'
+        tipoMovJugador = PIEDAD;
+    } else if (objMovimientoJugador.id.includes('ataque-')) {
+        sucesoJugador = `atacas con ${movimientoTurnoJugador}`;
+        tipoMovJugador = ATAQUE;
+    } else if (objMovimientoJugador.id.includes('-rodar')) {
+        sucesoJugador = 'ruedas para evitar morir,';
+        tipoMovJugador = RODAR;
+    } else if (objMovimientoJugador.id.includes('defensa-')) {
+        sucesoJugador = `te cubris con ${movimientoTurnoJugador}`;
+        tipoMovJugador = DEFENSA;
+    } else if (objMovimientoJugador.id.includes('milagro-') || objMovimientoJugador.id.includes('efecto-')) {
+        sucesoJugador = `utilizas ${movimientoTurnoJugador}`;
+        tipoMovJugador = EFECTO_ESPECIAL;
+    } else {
+        console.error('contiene error ==============================');
+        tipoMovJugador = ERROR;
+    }
+
+    // parte del enemigo
+    if (objMovimientoEnemigo == null) {
+        sucesoEnemigo = ' aunque te ruegan piedad!!'
+        tipoMovEnemigo = PIEDAD;
+    } else if (objMovimientoEnemigo.id.includes('ataque-')) {
+        tipoMovEnemigo = ATAQUE;
+        sucesoEnemigo = ` y te atacan con ${movimientoTurnoEnemigo}`
+    } else if (objMovimientoEnemigo.id.includes('-rodar')) {
+        tipoMovEnemigo = RODAR;
+        sucesoEnemigo = `y tu enemigo te esquiva limpiamente...`
+    } else if (objMovimientoEnemigo.id.includes('defensa-')) {
+        tipoMovEnemigo = DEFENSA;
+        sucesoEnemigo = `pero tu enemigo se cubre usando ${movimientoTurnoEnemigo}`
+    } else if (objMovimientoEnemigo.id.includes('milagro-') || objMovimientoEnemigo.id.includes('efecto-')) {
+        tipoMovEnemigo = EFECTO_ESPECIAL;
+        sucesoEnemigo = `, pero tu oponente utiliza ${movimientoTurnoEnemigo}`
+    } else {
+        console.error('contiene error ==============================')
+    }
+
+    // TODO: validar opcion de SUCESO
+    // el suceso sale de la convinacion de tipo de movimientos realizados
     // TODO: el suceso es la convinacion de los dos movimientos seleccionados. 
     // pendiente, funcion que compara ataques y determina que suceso salio.
-    let suceso = 'espadazo OK';
+    let frase = obtenerFraseSegunMovimientos(tipoMovJugador, tipoMovEnemigo);
+    //editamos el relato
+    relato.innerHTML = frase;
 
-    // crea elemento con texto del combate
-    crearMensajeCombate(resultado, suceso);
+    // MODIFICAMOS EL DOM
+    // creamos el elemento p
+    let parrafo = document.createElement('p');
+    /* parrafo.innerHTML = `Atacas con ${movimientoTurnoJugador}, y el enemigo se defiende con ${movimientoTurnoEnemigo} --> ${resultado}`; */
+    //parrafo.innerHTML = `YO: ${movimientoTurnoJugador} -- PC: ${movimientoTurnoEnemigo} --> ${resultado}
+    parrafo.innerHTML = `${sucesoJugador} ${sucesoEnemigo}
+    `;
+    // insertamos el elemento en el HTML
+    mensajesCombate.appendChild(parrafo);
 
-    if (vidasPC == 0 && vidasPlayer == 0) {
-        // mostrar animacion que ganaste
-        crearMensajeFinDeJuego(EMPATE);
+    // actualiza valors tablas grid
+    parrafoAtaqueJugador.innerHTML = movimientoTurnoJugador;
+    parrafoAtaqueEnemigo.innerHTML = movimientoTurnoEnemigo;
+}
+
+function obtenerFraseSegunMovimientos(movJ, movE) {
+    let frase;
+    console.warn( '==================tipos de movimiento',movJ, movE)
+    if (movJ == movE && movJ != ATAQUE) {
+        frase = 'aumenta la tension...'
+    } else if (movJ == ATAQUE && movJ == movE) {
+        frase = 'Woo!! pero que cruce!!'
+    } else if (movJ == ATAQUE && movE == DEFENSA) {
+        frase = 'La anticipaste mucho, te vieron venir...'
+    } else if (movJ == ATAQUE && movE == RODAR) {
+        frase = 'Te esquivaron limpiamente';
+    } else if (movJ == ATAQUE && objMovimientoEnemigo.id == 'milagro-de-paz') {
+        frase = 'JA! no cuentes con eso!'
+    } else if (movJ == RODAR && movE == ATAQUE) {
+        frase = 'Esquivaste justo! sigue asi!!';
+    } else if (movJ == DEFENSA && movE == ATAQUE) {
+        frase = 'Buen bloqueo! pero ten cuidado!!'
+    } else if (movJ == PIEDAD) {
+        frase = 'comienza a rezar...'
+    } else if (movE == PIEDAD) {
+        frase = 'Es tu oportunidad!! LIQUIDALO!!!'
+    } else if (objMovimientoEnemigo.id == 'efecto-ira' || objMovimientoJugador.id == 'efecto-ira') {
+        frase = 'Se viene una fuerte! atentos!!';
+    } else {
+        frase = 'siga !! sigaaa!!! '
     }
 
-    if (vidasPC == 0) {
-        // mostrar animacion que ganaste
-        crearMensajeFinDeJuego(GANASTE);
-    }
+    return frase;
+}
 
-    if (vidasPlayer == 0) {
-        // mostrar animacion que perdiste
-        crearMensajeFinDeJuego(PERDISTE);
+function crearMensajeFinDeJuego(mensaje) {
+    let mensajeFinal = document.createElement('p');
+    if (mensaje == GANASTE) {
+        mensajeFinal.innerHTML = 'VAMOOO GANASTE!!'
+        contadorRachasVictorias++;
+    } else if (mensaje == PERDISTE) {
+        mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
+        contadorRachasDerrotas++;
+    } else if (mensaje == EMPATE) {
+        mensajeFinal.innerHTML = 'qUE RESULTADO CULIAO!'
+        contadorRachasDerrotas++;
+    } else {
+        console.error('entro aca, no deberia....')
+        mensajeFinal.innerHTML = 'ERROR!!!!'
     }
-    numRonda++;
+    console.log(mensajeFinal)
+    deshabilitarBotonesDeMovimientos();
+
+    // habilito boton reiniciar
+    botonReiniciar.style.display = 'block';
 }
 
 function actualizarVidasPC() {
     vidasPC--;
-    vidasEnemigo.innerHTML = vidasPC;
+    domBarraSaludEnemigo.innerHTML = vidasPC;
 }
 
 function actualizarVidasPlayer() {
     vidasPlayer--;
-    vidasJugador.innerHTML = vidasPlayer;
+    domBarraSaludJugador.innerHTML = vidasPlayer;
 
 }
 async function crearPersonajes() {
@@ -847,26 +992,8 @@ async function obtenerMovimientos() {
 
 }
 
-function crearMensajeFinDeJuego(mensaje) {
-    let mensajeFinal = document.createElement('p');
-    if (mensaje == GANASTE) {
-        mensajeFinal.innerHTML = 'VAMOOO GANASTE!!'
-        contadorRachasVictorias++;
-    } else if (mensaje == PERDISTE) {
-        mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
-        contadorRachasDerrotas++;
-    } else if (mensaje == EMPATE) {
-        mensajeFinal.innerHTML = 'qUE RESULTADO CULIAO!'
-        contadorRachasDerrotas++;
-    } else {
-        console.error('entro aca, no deberia....')
-        mensajeFinal.innerHTML = 'ERROR!!!!'
-    }
-    console.log(mensajeFinal)
-    deshabilitarBotonesDeMovimientos();
-
-    // habilito boton reiniciar
-    botonReiniciar.style.display = 'block';
+function reiniciarJuego() {
+    location.reload();
 }
 
 /**
@@ -876,44 +1003,6 @@ function deshabilitarBotonesDeMovimientos() {
     console.warn('se inhabilitan los botones de ataque')
     //seccionBotonesAtaquesJugador.style.display = 'none';
     divBotonesMovimientosPersonajes.style.display = 'none';
-}
-
-function crearMensajeCombate(resultado, suceso) {
-    // actualiza valors tablas grid
-    parrafoAtaqueJugador.innerHTML = movimientoTurnoJugador;
-    parrafoAtaqueEnemigo.innerHTML = movimientoTurnoEnemigo;
-
-    //editamos el relato
-   // console.log(suceso)
-    relato.innerHTML = obtenerFraseSegunSuceso(suceso)
-
-    // creamos el elemento p
-    let parrafo = document.createElement('p');
-    /* parrafo.innerHTML = `Atacas con ${movimientoTurnoJugador}, y el enemigo se defiende con ${movimientoTurnoEnemigo} --> ${resultado}`; */
-    parrafo.innerHTML = `YO: ${movimientoTurnoJugador} -- PC: ${movimientoTurnoEnemigo} --> ${resultado}`;
-    // insertamos el elemento en el HTML
-    mensajesCombate.appendChild(parrafo);
-}
-
-function obtenerFraseSegunSuceso(suceso) {
-    let relato;
-    if (suceso == 'rodo OK') {
-        relato = 'Esquivaste justo! sigue asi!!';
-    } else if (suceso == 'defensa efectiva') {
-        relato = 'El escudo te salvo justo! Ten cuidado!!'
-    } else if (suceso == 'espadazo OK') {
-        relato = 'Como entro esa estocada!';
-    } else if (suceso == 'espadazo-no-OK') {
-        relato = 'La anticipaste mucho, te vieron venir...'
-    } else {
-        relato = 'siga !! sigaaa!!! '
-    }
-   // console.log(relato)
-    return relato;
-}
-
-function reiniciarJuego() {
-    location.reload();
 }
 
 

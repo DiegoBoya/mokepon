@@ -9,7 +9,7 @@
             "cant": 3
         },
         {
-            "id": "doble-rayo",
+            "id": "ataque-doble-rayo",
             "name": "Doble Rayo",
             "damage": 45,
             "icon": "⚡⚡",

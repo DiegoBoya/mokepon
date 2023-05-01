@@ -11,7 +11,7 @@
         },
         {
             "id": "ataque-fuerte",
-            "name": "A romper...",
+            "name": "a romper...",
             "type": "fisico",
             "damage": 20,
             "icon": "🗡",

@@ -10,7 +10,7 @@
         },
         {
             "id": "ataque-fuerte",
-            "name": "A romperlo todo",
+            "name": "a romper todo",
             "damage": 20,
             "icon": "🗡",
             "specialEffect": null,

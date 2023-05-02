@@ -6,10 +6,10 @@
             "icon": "🛡",
             "specialEffect": null,
             "cant": 5,
-            "type": "avoid",
+            "type": "fisico",
             "damgeAbsorption": 100,
             "resistance": null,
-            "weakness": null
+            "weakness": "fuego"
         },
         {
             "id": "defensa-rodar",

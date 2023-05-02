@@ -9,7 +9,7 @@
             "type": "avoid",
             "damgeAbsorption": 100,
             "resistance": null,
-            "weakness": null
+            "weakness": "fuego"
         },
         {
             "id": "defensa-rodar",
@@ -31,7 +31,7 @@
             "type": "magic",
             "damgeAbsorption": 50,
             "resistance": "magic",
-            "weakness": "pfysical"
+            "weakness": "fisico"
         }
     ]
 }

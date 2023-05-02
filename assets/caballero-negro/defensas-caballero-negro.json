@@ -9,7 +9,7 @@
             "type": "magic",
             "damgeAbsorption": 50,
             "resistance": "magic",
-            "weakness": "pfysical"
+            "weakness": "fisico"
         },
         {
             "id": "defensa-rodar",
@@ -30,7 +30,7 @@
             "cant": 3,
             "type": "magic",
             "damgeAbsorption": 80,
-            "resistance": ["magic", "pfysical", "fuego"],
+            "resistance": ["magic", "fisico", "fuego"],
             "weakness": "rayo"
         },
         {
@@ -46,7 +46,7 @@
             "cant": 2,
             "type": "piromancia",
             "damgeAbsorption": 35,
-            "resistance": ["magic", "pfysical", "fuego"],
+            "resistance": ["magic", "fisico", "fuego"],
             "weakness": "rayo"
         }
     ]

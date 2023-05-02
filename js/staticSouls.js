@@ -19,6 +19,8 @@ let TOTAL_GUERREROS;
 const MINIMO = 1;
 
 // tipos de movimientos
+let tipoMovJugador;
+let tipoMovEnemigo;
 const ATAQUE = 'ATAQUE';
 const DEFENSA = 'DEFENSA';
 const RODAR = 'RODAR';
@@ -691,26 +693,6 @@ function determinateWhoWins() {
         resultado = PERDISTE;
     }
 
-    // opc 2
-    if (saludJugador <= 0 || saludEnemigo <= 0) {
-        console.error('alguien murio')
-
-        if (saludEnemigo == saludJugador) {
-            // todo: mostrar animacion que ganaste
-            crearMensajeFinDeJuego(EMPATE);
-        }
-
-        if (saludEnemigo < saludJugador) {
-            // mostrar animacion que ganaste
-            crearMensajeFinDeJuego(GANASTE);
-        }
-
-        if (saludJugador < saludEnemigo) {
-            // mostrar animacion que perdiste
-            crearMensajeFinDeJuego(PERDISTE);
-        }
-    }
-
     crearMensajeFinDeJuego(resultado);
 }
 
@@ -724,62 +706,142 @@ function aumentarNumRonda() {
 }
 
 // todo: modificar esta logica por completo, segun ataques y defensas
+// todo: revisar el orden de llamado a metodos y las validaciones
 function realizarCombate() {
     aumentarNumRonda();
-
-    let resultado;
-
-    // SI ENTRA ACA, ES QUE 1. yo me quede sin ataques primero, y 2. la PC se termina sus ataques, pero no me baja a 0 la vida. Gana quien tenga mas PS
-    if (movimientoTurnoEnemigo == PIEDAD && movimientoTurnoJugador == PIEDAD) {
-        determinateWhoWins();
-        return;
-    }
-
-    //seccion para descontar los PS
-    if (movimientoTurnoJugador == movimientoTurnoEnemigo) {
-        resultado = EMPATE;
-    } else if ((movimientoTurnoJugador == FUEGO && movimientoTurnoEnemigo == TIERRA)
-        || (movimientoTurnoJugador == AGUA && movimientoTurnoEnemigo == FUEGO)
-        || (movimientoTurnoJugador == TIERRA && movimientoTurnoEnemigo == AGUA)) {
-        resultado = GANASTE;
-        // actualizarVidasPC();
-    } else {
-        resultado = PERDISTE;
-        //actualizarVidasPlayer();
-    }
 
     // crea elemento con texto del combate
     crearMensajeCombate();
 
-    /**
-     * alguien murio?
-     */
+    // SI ENTRA ACA, ES QUE: 1. yo me quede sin ataques primero, y 2. la PC se termina sus ataques, pero no me baja a 0 la vida. Gana quien tenga mas PS
+    if (movimientoTurnoEnemigo == PIEDAD && movimientoTurnoJugador == PIEDAD) {
+        console.warn('nadie murio, tenemos un vencedor?')
+        determinateWhoWins();
+        return;
+    }
+
+    let danioRecibido = actualizarSaludJugador();
+    let danioRealizado = actualizarSaludEnemigo();
+
     if (saludJugador <= 0 || saludEnemigo <= 0) {
         console.error('alguien murio')
-
-        if (saludEnemigo == saludJugador) {
-            // todo: mostrar animacion que ganaste
-            crearMensajeFinDeJuego(EMPATE);
-        }
-
-        if (saludEnemigo < saludJugador) {
-            // mostrar animacion que ganaste
-            crearMensajeFinDeJuego(GANASTE);
-        }
-
-        if (saludJugador < saludEnemigo) {
-            // mostrar animacion que perdiste
-            crearMensajeFinDeJuego(PERDISTE);
-        }
+        determinateWhoWins();
     }
 }
 
+function actualizarSaludJugador() {
+    let puntosDeAtaque;
+    let tipoAtaque;
+    let porcDefensaJugador;
+    let tipoDefensa;
+    let porcResistencia;
+    let porcDebilidad;
+    let danioRecibido;
+
+    saludJugador
+    objMovimientoJugador
+    objMovimientoEnemigo
+
+
+    // se revisa el tipo de movimiento del jugador y del enemigo para popular los datos de la formula
+    if (tipoMovEnemigo != ATAQUE) {
+        danioRecibido = 0;
+        puntosDeAtaque = 0;
+    } else {
+        puntosDeAtaque = objMovimientoEnemigo.damage;
+        tipoAtaque = objMovimientoEnemigo.type;
+    }
+
+    if (tipoMovJugador == DEFENSA) {
+        porcDefensaJugador = objMovimientoJugador.damgeAbsorption;
+        resistencias = objMovimientoJugador.resistance;
+        porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
+        porcDebilidad = determinarPorcDebilidad(tipoAtaque, tipoDefensa);
+        danioRecibido = puntosDeAtaque - (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100))
+    }
+
+    if (tipoMovJugador == RODAR) {
+        danioRecibido = 0;
+    }
+
+    if (tipoMovJugador == ATAQUE || tipoMovJugador == PIEDAD) {
+        danioRecibido = puntosDeAtaque
+    }
+
+    if (tipoMovJugador == EFECTO_ESPECIAL) {
+        let idMovEspecial = objMovimientoJugador.id;
+        let movEspecial = objMovimientoJugador.specialEffect;
+
+        switch (idMovEspecial) {
+            case 'efecto-ira':
+                porcDefensaJugador = objMovimientoJugador.damgeAbsorption;
+                resistencias = objMovimientoJugador.resistance;
+                porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
+                porcDebilidad = determinarPorcDebilidad(tipoAtaque, tipoDefensa);
+                let danioParcial =  puntosDeAtaque - (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100));
+                danioRecibido = danioParcial + (- movEspecial.PS)
+            case 'milagro-salud':
+                danioRecibido = puntosDeAtaque - movEspecial.PS;
+            case 'milagro-de-paz':
+                danioRecibido = 0;
+        }
+
+    }
+    console.warn(danioRecibido)
+}
+
+// todo revisar que funcione ok la recurisivdad
+function determinarPorcResistencia(tipoAtaque, resistencias){
+    let valorResist;
+    // reviso si es un array
+    let isArray = Array.isArray(resistencias);
+
+    if (isArray){
+        let arrayResist = resistencias.map( resistencia => determinarPorcResistencia(tipoAtaque, resistencia))
+        let valorResistFiltrado = arrayResist.filter( value => value > 0);
+
+        if (valorResistFiltrado.length > 0){
+            valorResist = valorResistFiltrado[0]
+        }
+    } else {
+        if (tipoAtaque == resistencias){
+            valorResist = 20;
+        } else {
+            valorResist = 0;
+        }
+    }
+
+    return valorResist;
+}
+
+// todo revisar que funcione ok la recurisivdad
+function determinarPorcDebilidad(tipoAtaque, debilidades){
+    let valorDebilidad;
+    // reviso si es un array
+    let isArray = Array.isArray(debilidades);
+
+    if (isArray){
+        let arrayDebi = debilidades.map( debilidad => determinarPorcResistencia(tipoAtaque, debilidad))
+        let valorDebilidadFiltrado = arrayDebi.filter( value => value > 0);
+
+        if (valorDebilidadFiltrado.length > 0){
+            valorDebilidad = valorDebilidadFiltrado[0]
+        }
+    } else {
+        if (tipoAtaque == debilidades){
+            valorDebilidad = 15;
+        } else {
+            valorDebilidad = 0;
+        }
+    }
+
+    return valorDebilidad;
+}
+
 // todo: mejorar la semantica
-function crearMensajeCombate(resultado) {
+function crearMensajeCombate() {
     let sucesoEnemigo;
     let sucesoJugador;
-    let tipoMovJugador;
-    let tipoMovEnemigo;
 
     // parte del player
     if (objMovimientoJugador == null) {
@@ -833,10 +895,8 @@ function crearMensajeCombate(resultado) {
     // MODIFICAMOS EL DOM
     // creamos el elemento p
     let parrafo = document.createElement('p');
-    /* parrafo.innerHTML = `Atacas con ${movimientoTurnoJugador}, y el enemigo se defiende con ${movimientoTurnoEnemigo} --> ${resultado}`; */
     //parrafo.innerHTML = `YO: ${movimientoTurnoJugador} -- PC: ${movimientoTurnoEnemigo} --> ${resultado}
-    parrafo.innerHTML = `${sucesoJugador} ${sucesoEnemigo}
-    `;
+    parrafo.innerHTML = `${sucesoJugador} ${sucesoEnemigo}`;
     // insertamos el elemento en el HTML
     mensajesCombate.appendChild(parrafo);
 
@@ -847,7 +907,7 @@ function crearMensajeCombate(resultado) {
 
 function obtenerFraseSegunMovimientos(movJ, movE) {
     let frase;
-    console.warn( 'tipos de movimiento',movJ, movE)
+    console.warn('tipos de movimiento', movJ, movE)
     if (movJ == movE && movJ != ATAQUE) {
         frase = 'aumenta la tension...'
     } else if (movJ == ATAQUE && movJ == movE) {
@@ -879,13 +939,14 @@ function crearMensajeFinDeJuego(mensaje) {
     relato.innerHTML = 'Pero que combate, lo dejaron todo en el campo de batalla!!'
     let mensajeFinal = document.createElement('p');
     if (mensaje == GANASTE) {
-        mensajeFinal.innerHTML = 'VAMOOO GANASTE!!'
+        mensajeFinal.innerHTML = 'VICTORIA!! Vives un dia mas...'
         contadorRachasVictorias++;
     } else if (mensaje == PERDISTE) {
-        mensajeFinal.innerHTML = 'Te derrotaron, vuelve a intentarlo, no te rindas!'
+        mensajeFinal.innerHTML = 'Peleaste con honor! Este es un buen lugar para morir...'
         contadorRachasDerrotas++;
     } else if (mensaje == EMPATE) {
-        mensajeFinal.innerHTML = 'Este es un resultado inesperado!'
+        mensajeFinal.innerHTML = 'Este es un resultado inesperado! Escapa o da el golpe final...'
+        //todo: habilitar botn de escapar o liquidar -> nueva forma de combate, solo 3 movs con la vida que quedo: ataque debil, rodar, escudo
         contadorRachasDerrotas++;
     } else {
         console.error('entro aca, no deberia....')

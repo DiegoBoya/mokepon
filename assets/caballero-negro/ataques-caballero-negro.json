@@ -39,7 +39,7 @@
         {
             "id": "ataque-piromancia",
             "name": "llamarada",
-            "type": "piromancia",
+            "type": "fuego",
             "damage": 32,
             "icon": "🔥",
             "specialEffect": null,

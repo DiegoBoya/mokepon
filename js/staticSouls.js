@@ -728,7 +728,9 @@ function realizarCombate() {
         determinateWhoWins();
     }
 }
-
+function actualizarSaludEnemigo(){
+    console.warn('todo: development')
+}
 function actualizarSaludJugador() {
     let puntosDeAtaque;
     let tipoAtaque;
@@ -737,6 +739,7 @@ function actualizarSaludJugador() {
     let porcResistencia;
     let porcDebilidad;
     let danioRecibido;
+    let resistencias;
 
     saludJugador
     objMovimientoJugador
@@ -788,6 +791,8 @@ function actualizarSaludJugador() {
 
     }
     console.warn(danioRecibido)
+    objPersonajeJugador.salud = objPersonajeJugador.salud - danioRecibido
+    domBarraSaludJugador.innerHTML = objPersonajeJugador.salud;
 }
 
 // todo revisar que funcione ok la recurisivdad

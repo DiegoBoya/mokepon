@@ -7,7 +7,7 @@
             "specialEffect": null,
             "cant": 3,
             "type": "avoid",
-            "damgeAbsorption": 100,
+            "damgaeAbsorption": 60,
             "resistance": null,
             "weakness": "fuego"
         },
@@ -18,7 +18,7 @@
             "specialEffect": null,
             "cant": 3,
             "type": "avoid",
-            "damgeAbsorption": 100,
+            "damgaeAbsorption": 100,
             "resistance": null,
             "weakness": null 
         },
@@ -29,7 +29,7 @@
             "specialEffect": null,
             "cant": 2,
             "type": "magic",
-            "damgeAbsorption": 50,
+            "damgaeAbsorption": 50,
             "resistance": "magic",
             "weakness": "fisico"
         }

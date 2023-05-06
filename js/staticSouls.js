@@ -750,7 +750,7 @@ function actualizarSaludJugador() {
         tipoAtaque = objMovimientoEnemigo.type;
 
         if (tipoMovJugador == DEFENSA) {
-            porcDefensaJugador = objMovimientoJugador.damgeAbsorption;
+            porcDefensaJugador = objMovimientoJugador.damgaeAbsorption;
             resistencias = objMovimientoJugador.resistance;
             debilidades = objMovimientoJugador.weakness;
             console.warn('----', 'tipoAtaque', tipoAtaque, 'resist', resistencias, 'debi', debilidades)
@@ -772,6 +772,7 @@ function actualizarSaludJugador() {
         }
     } else {
         danioRecibido = 0;
+        danioAbsorbido = 0;
         puntosDeAtaque = 0;
     }
 
@@ -781,7 +782,7 @@ function actualizarSaludJugador() {
 
         switch (idMovEspecial) {
             case 'efecto-ira':
-                porcDefensaJugador = objMovimientoJugador.damgeAbsorption;
+                porcDefensaJugador = objMovimientoJugador.damgaeAbsorption;
                 resistencias = objMovimientoJugador.resistance;
                 debilidades = objMovimientoJugador.weakness;
                 porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
@@ -794,7 +795,10 @@ function actualizarSaludJugador() {
                 console.error(danioRecibido ,puntosDeAtaque, danioAbsorbido ,movEspecial.PS)
                 break;
             case 'milagro-salud':
-                danioRecibido = puntosDeAtaque - movEspecial.PS;
+                // recupera 30 PS y abs el 50% del danio
+                danioAbsorbido = puntosDeAtaque * (objMovimientoJugador.damgaeAbsorption/100)
+                console.log('cuenta milagro:', puntosDeAtaque, danioAbsorbido, movEspecial.PS)
+                danioRecibido = puntosDeAtaque - danioAbsorbido - movEspecial.PS;
                 break;
             case 'milagro-de-paz':
                 danioRecibido = 0;
@@ -857,7 +861,9 @@ function determinarPorcDebilidad(tipoAtaque, debilidades) {
     console.log('valor debi', valorDebilidad)
     return valorDebilidad;
 }
-
+/**
+ * Aca se determina el tipo de movimiento seleccionado
+ */
 // todo: mejorar la semantica
 function crearMensajeCombate() {
     let sucesoEnemigo;
@@ -980,16 +986,6 @@ function crearMensajeFinDeJuego(mensaje) {
     botonReiniciar.style.display = 'block';
 }
 
-function actualizarVidasPC() {
-    vidasPC--;
-    domBarraSaludEnemigo.innerHTML = vidasPC;
-}
-
-function actualizarVidasPlayer() {
-    vidasPlayer--;
-    domBarraSaludJugador.innerHTML = vidasPlayer;
-
-}
 async function crearPersonajes() {
     // todo: recibir de parametro cuantos guerreros diferentes crear
     PERSONAJES_ID = [ID_CABALLERO_NEGRO, ID_CABALLERO_REAL, ID_CABALLERO_TEMPLARIO, ID_HECHICERO_BADASS];

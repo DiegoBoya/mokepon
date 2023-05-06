@@ -16,7 +16,7 @@
             "damage": 20,
             "icon": "🗡",
             "specialEffect": null,
-            "cant": 2
+            "cant": 21
         },
         {
             "id": "ataque-dos-manos",

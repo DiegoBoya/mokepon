@@ -57,8 +57,7 @@ const arrayMovimientosJugador = [];
 let arrayMovimientosEnemigo = [];
 let objMovimientoEnemigo;
 let objMovimientoJugador;
-let saludJugador;
-let saludEnemigo;
+
 
 
 //resultados
@@ -175,8 +174,7 @@ function seleccionarPersonajeJugador() {
         // oculto seccion elegir personaje
         seccionElegirpersonaje.style.display = 'none';
 
-        saludJugador = objPersonajeJugador.salud;
-        domBarraSaludJugador.innerHTML = saludJugador;
+        domBarraSaludJugador.innerHTML = objPersonajeJugador.salud;
         // PC elige personaje
         seleccionarpersonajePC();
 
@@ -196,8 +194,7 @@ function seleccionarpersonajePC() {
     console.log('Tu enemigo sera el', objPersonajeEnemigo)
 
     arrayMovimientosEnemigo = objPersonajeEnemigo.movimientos;
-    saludEnemigo = objPersonajeEnemigo.salud;
-    domBarraSaludEnemigo.innerHTML = saludEnemigo;
+    domBarraSaludEnemigo.innerHTML = objPersonajeEnemigo.salud;
     cargarAtaquesDefensasEnPantalla();
 }
 
@@ -681,8 +678,12 @@ function allowEnemyToAtackWithAllEnergy() {
 }
 
 function determinateWhoWins() {
+    let saludJugador = objPersonajeJugador.salud;
+    let saludEnemigo = objPersonajeEnemigo.salud;
+
     console.log('determinando quien gano...')
     let resultado;
+    console.error('salud jugado', saludJugador, 'salud enemigo', saludEnemigo)
 
     // opc 1
     if (saludEnemigo == saludJugador) {
@@ -708,6 +709,7 @@ function aumentarNumRonda() {
 // todo: modificar esta logica por completo, segun ataques y defensas
 // todo: revisar el orden de llamado a metodos y las validaciones
 function realizarCombate() {
+    
     aumentarNumRonda();
 
     // crea elemento con texto del combate
@@ -722,53 +724,55 @@ function realizarCombate() {
 
     let danioRecibido = actualizarSaludJugador();
     let danioRealizado = actualizarSaludEnemigo();
-
-    if (saludJugador <= 0 || saludEnemigo <= 0) {
+console.error('saludJugador',objPersonajeJugador.salud , 'saludEnemigo', objPersonajeEnemigo.salud)
+    if (objPersonajeJugador.salud <= 0 ||  objPersonajeEnemigo.salud <= 0) {
         console.error('alguien murio')
         determinateWhoWins();
     }
 }
-function actualizarSaludEnemigo(){
-    console.warn('todo: development')
+function actualizarSaludEnemigo() {
+    // console.warn('todo: development')
 }
 function actualizarSaludJugador() {
     let puntosDeAtaque;
     let tipoAtaque;
     let porcDefensaJugador;
-    let tipoDefensa;
     let porcResistencia;
     let porcDebilidad;
     let danioRecibido;
     let resistencias;
-
-    saludJugador
-    objMovimientoJugador
-    objMovimientoEnemigo
-
+    let debilidades;
+    let danioAbsorbido;
 
     // se revisa el tipo de movimiento del jugador y del enemigo para popular los datos de la formula
-    if (tipoMovEnemigo != ATAQUE) {
-        danioRecibido = 0;
-        puntosDeAtaque = 0;
-    } else {
+    if (tipoMovEnemigo == ATAQUE) {
         puntosDeAtaque = objMovimientoEnemigo.damage;
         tipoAtaque = objMovimientoEnemigo.type;
-    }
 
-    if (tipoMovJugador == DEFENSA) {
-        porcDefensaJugador = objMovimientoJugador.damgeAbsorption;
-        resistencias = objMovimientoJugador.resistance;
-        porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
-        porcDebilidad = determinarPorcDebilidad(tipoAtaque, tipoDefensa);
-        danioRecibido = puntosDeAtaque - (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100))
-    }
-
-    if (tipoMovJugador == RODAR) {
+        if (tipoMovJugador == DEFENSA) {
+            porcDefensaJugador = objMovimientoJugador.damgeAbsorption;
+            resistencias = objMovimientoJugador.resistance;
+            debilidades = objMovimientoJugador.weakness;
+            console.warn('----', 'tipoAtaque', tipoAtaque, 'resist', resistencias, 'debi', debilidades)
+            porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
+            porcDebilidad = determinarPorcDebilidad(tipoAtaque, debilidades);
+            console.log(puntosDeAtaque, porcDefensaJugador, porcResistencia, porcDebilidad)
+            danioAbsorbido = (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100))
+            console.log('danio abs:', danioAbsorbido)
+            danioRecibido = puntosDeAtaque - danioAbsorbido;
+            console.log('danio reci:', danioRecibido)
+            console.error('porcResistencia',porcResistencia,'porcDebilidad', porcDebilidad)
+            if (danioRecibido < 0) {
+                danioRecibido = 0;
+            }
+        } else if (tipoMovJugador == RODAR) {
+            danioRecibido = 0;
+        } else if (tipoMovJugador == ATAQUE || tipoMovJugador == PIEDAD) {
+            danioRecibido = puntosDeAtaque
+        }
+    } else {
         danioRecibido = 0;
-    }
-
-    if (tipoMovJugador == ATAQUE || tipoMovJugador == PIEDAD) {
-        danioRecibido = puntosDeAtaque
+        puntosDeAtaque = 0;
     }
 
     if (tipoMovJugador == EFECTO_ESPECIAL) {
@@ -779,67 +783,78 @@ function actualizarSaludJugador() {
             case 'efecto-ira':
                 porcDefensaJugador = objMovimientoJugador.damgeAbsorption;
                 resistencias = objMovimientoJugador.resistance;
+                debilidades = objMovimientoJugador.weakness;
                 porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
-                porcDebilidad = determinarPorcDebilidad(tipoAtaque, tipoDefensa);
-                let danioParcial =  puntosDeAtaque - (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100));
-                danioRecibido = danioParcial + (- movEspecial.PS)
+                porcDebilidad = determinarPorcDebilidad(tipoAtaque, debilidades);
+                danioAbsorbido = (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100));
+                console.error('se usa IRA')
+                console.log(puntosDeAtaque, porcDefensaJugador, porcResistencia, porcDebilidad)
+                console.log('danio abs:', danioAbsorbido)
+                danioRecibido = puntosDeAtaque - danioAbsorbido  - movEspecial.PS
+                console.error(danioRecibido ,puntosDeAtaque, danioAbsorbido ,movEspecial.PS)
+                break;
             case 'milagro-salud':
                 danioRecibido = puntosDeAtaque - movEspecial.PS;
+                break;
             case 'milagro-de-paz':
                 danioRecibido = 0;
+                break;
         }
-
     }
-    console.warn(danioRecibido)
-    objPersonajeJugador.salud = objPersonajeJugador.salud - danioRecibido
-    domBarraSaludJugador.innerHTML = objPersonajeJugador.salud;
-}
 
+        console.warn('danioRecibido', danioRecibido)
+        objPersonajeJugador.salud = objPersonajeJugador.salud - danioRecibido
+        console.log('vida restant =', objPersonajeJugador.salud)
+        domBarraSaludJugador.innerHTML = objPersonajeJugador.salud;
+}
 // todo revisar que funcione ok la recurisivdad
-function determinarPorcResistencia(tipoAtaque, resistencias){
-    let valorResist;
+function determinarPorcResistencia(tipoAtaque, resistencias) {
+    let valorResist = 0;
     // reviso si es un array
     let isArray = Array.isArray(resistencias);
 
-    if (isArray){
-        let arrayResist = resistencias.map( resistencia => determinarPorcResistencia(tipoAtaque, resistencia))
-        let valorResistFiltrado = arrayResist.filter( value => value > 0);
+    if (isArray) {
+        console.log('tiene un array de resistencias', resistencias)
+        let arrayResist = resistencias.map(resistencia => determinarPorcResistencia(tipoAtaque, resistencia))
+        let valorResistFiltrado = arrayResist.filter(value => value > 0);
 
-        if (valorResistFiltrado.length > 0){
+        if (valorResistFiltrado.length > 0) {
             valorResist = valorResistFiltrado[0]
         }
     } else {
-        if (tipoAtaque == resistencias){
+        console.log('se revisa la resistencia puntual', resistencias)
+        if (tipoAtaque == resistencias) {
             valorResist = 20;
         } else {
             valorResist = 0;
         }
     }
-
+    console.log('valorResist', valorResist)
     return valorResist;
 }
 
 // todo revisar que funcione ok la recurisivdad
-function determinarPorcDebilidad(tipoAtaque, debilidades){
+function determinarPorcDebilidad(tipoAtaque, debilidades) {
+    console.log('tipo ataque', tipoAtaque, 'debilidades', debilidades)
     let valorDebilidad;
     // reviso si es un array
     let isArray = Array.isArray(debilidades);
 
-    if (isArray){
-        let arrayDebi = debilidades.map( debilidad => determinarPorcResistencia(tipoAtaque, debilidad))
-        let valorDebilidadFiltrado = arrayDebi.filter( value => value > 0);
+    if (isArray) {
+        let arrayDebi = debilidades.map(debilidad => determinarPorcResistencia(tipoAtaque, debilidad))
+        let valorDebilidadFiltrado = arrayDebi.filter(value => value > 0);
 
-        if (valorDebilidadFiltrado.length > 0){
+        if (valorDebilidadFiltrado.length > 0) {
             valorDebilidad = valorDebilidadFiltrado[0]
         }
     } else {
-        if (tipoAtaque == debilidades){
+        if (tipoAtaque == debilidades) {
             valorDebilidad = 15;
         } else {
             valorDebilidad = 0;
         }
     }
-
+    console.log('valor debi', valorDebilidad)
     return valorDebilidad;
 }
 
@@ -917,6 +932,8 @@ function obtenerFraseSegunMovimientos(movJ, movE) {
         frase = 'aumenta la tension...'
     } else if (movJ == ATAQUE && movJ == movE) {
         frase = 'Woo!! pero que cruce!!'
+    } else if (movE == PIEDAD) {
+        frase = 'Es tu oportunidad!! LIQUIDALO!!!';
     } else if (movJ == ATAQUE && movE == DEFENSA) {
         frase = 'La anticipaste mucho, te vieron venir...'
     } else if (movJ == ATAQUE && movE == RODAR) {
@@ -929,8 +946,6 @@ function obtenerFraseSegunMovimientos(movJ, movE) {
         frase = 'Buen bloqueo! pero ten cuidado!!'
     } else if (movJ == PIEDAD) {
         frase = 'comienza a rezar...'
-    } else if (movE == PIEDAD) {
-        frase = 'Es tu oportunidad!! LIQUIDALO!!!'
     } else if (objMovimientoEnemigo.id == 'efecto-ira' || objMovimientoJugador.id == 'efecto-ira') {
         frase = 'Se viene una fuerte! atentos!!';
     } else {
@@ -1072,5 +1087,4 @@ function deshabilitarBotonesDeMovimientos() {
     //seccionBotonesAtaquesJugador.style.display = 'none';
     divBotonesMovimientosPersonajes.style.display = 'none';
 }
-
 

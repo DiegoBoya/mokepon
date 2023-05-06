@@ -3,6 +3,7 @@
         {
             "id": "ataque-flecha-magica",
             "name": "Flecha de Alma",
+            "type": "magic",
             "damage": 10,
             "icon": "🌠",
             "specialEffect": null,
@@ -11,6 +12,7 @@
         {
             "id": "ataque-rafaga-magica",
             "name": "Rafaga Magica",
+            "type": "magic",
             "damage": 10,
             "icon": "🌠🌠🌠",
             "specialEffect": null,
@@ -19,6 +21,7 @@
         {
             "id": "ataque-daga",
             "name": "Apuñalada de carne",
+            "type": "fisico",
             "damage": 10,
             "icon": "🔪",
             "specialEffect": null,

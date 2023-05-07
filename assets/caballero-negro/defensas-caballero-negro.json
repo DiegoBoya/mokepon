@@ -29,7 +29,7 @@
             "specialEffect": null,
             "cant": 3,
             "type": "magic",
-            "damgaeAbsorption": 80,
+            "damgaeAbsorption": 60,
             "resistance": ["magic", "fisico", "fuego"],
             "weakness": "rayo"
         },

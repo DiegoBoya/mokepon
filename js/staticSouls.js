@@ -282,27 +282,29 @@ function asociarBotonesCaballeroNegro() {
     botonAtaqueDosManos = document.getElementById('ataque-dos-manos');
     botonAtaqueDaga = document.getElementById('ataque-daga');
     botonAtaqueFuego = document.getElementById('ataque-piromancia');
-    botonAtaqueDebil.addEventListener('click', ataqueDebil);
-    botonAtaqueFuerte.addEventListener('click', ataqueFuerte);
-    botonAtaqueDosManos.addEventListener('click', ataqueA2Manos);
-    botonAtaqueDaga.addEventListener('click', ataqueDaga)
-    botonAtaqueFuego.addEventListener('click', ataquePiromancia);
-
     botonEfectoIra = document.getElementById('efecto-ira')
-    botonEfectoIra.addEventListener('click', efectoIra);
 
+    botonAtaqueDebil.addEventListener('click', () => { realizarMovimiento('ataque-debil') });
+    botonAtaqueFuerte.addEventListener('click', () => { realizarMovimiento('ataque-fuerte') });
+    botonAtaqueDosManos.addEventListener('click', () => { realizarMovimiento('ataque-dos-manos') });
+    botonAtaqueDaga.addEventListener('click',() => { realizarMovimiento('ataque-daga') });
+    botonAtaqueFuego.addEventListener('click', () => { realizarMovimiento('ataque-piromancia') });
+    botonEfectoIra.addEventListener('click',() => { realizarMovimiento('efecto-ira') });
 
     botonDefensaEscudoMagico = document.getElementById('defensa-magica');
     botonDefensaRodar = document.getElementById('defensa-rodar');
     botonDefensaEscudoMagicoOscuro = document.getElementById('defensa-oscura');
-    botonDefensaEscudoMagico.addEventListener('click', defensaEscMagico)
-    botonDefensaRodar.addEventListener('click', defensaRodar)
-    botonDefensaEscudoMagicoOscuro.addEventListener('click', defensaEscMagicoOscuro)
+
+    botonDefensaEscudoMagico.addEventListener('click',() => { realizarMovimiento('defensa-magica') });
+    botonDefensaRodar.addEventListener('click', () => { realizarMovimiento('defensa-rodar') });
+    botonDefensaEscudoMagicoOscuro.addEventListener('click',() => { realizarMovimiento('defensa-oscura') });
 
     arrayMovimientosJugador.push(botonAtaqueDaga, botonAtaqueDebil, botonAtaqueFuerte, botonAtaqueFuego, botonAtaqueDosManos, botonDefensaEscudoMagico, botonDefensaRodar, botonDefensaEscudoMagicoOscuro, botonEfectoIra);
-    console.log('diego', arrayMovimientosJugador);
+   // console.log('diego', arrayMovimientosJugador);
 
 }
+
+
 
 function asociarBotonesCaballeroReal() {
     botonAtaqueRayo = document.getElementById('ataque-rayo');
@@ -569,6 +571,9 @@ function ataqueDebil() {
         checkIfAllMovementsAreDisabled()
     }
 }
+
+
+
 function ataqueFlechaMagica() {
     objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-flecha-magica');
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
@@ -584,8 +589,10 @@ function ataqueFlechaMagica() {
         checkIfAllMovementsAreDisabled()
     }
 }
+
 function ataqueRafagaMagica() {
-    objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-rafaga-magica');
+    objPersonajeJugador.objMovimientoSeleccionado = objPersonajeJugador.getMovementById('ataque-rafaga-magica');
+    objMovimientoJugador = objPersonajeJugador.objMovimientoSeleccionado;
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
     botonAtaqueRafagaMagica.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
@@ -599,9 +606,11 @@ function ataqueRafagaMagica() {
         checkIfAllMovementsAreDisabled()
     }
 }
-function ataqueDaga() {
+function ataqueDagas() {
 
-    objMovimientoJugador = objPersonajeJugador.getMovementById('ataque-daga');
+    objPersonajeJugador.objMovimientoSeleccionado = objPersonajeJugador.getMovementById('ataque-daga');
+    objMovimientoJugador = objPersonajeJugador.objMovimientoSeleccionado;
+    console.warn(' diego ---------======', objPersonajeJugador.objMovimientoSeleccionado)
     let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
     botonAtaqueDaga.innerHTML = buttonText;
     movimientoTurnoJugador = objMovimientoJugador.name;
@@ -615,11 +624,43 @@ function ataqueDaga() {
 }
 
 
+function realizarMovimiento(ataque) {
+    console.log('---------ataque:', ataque)
+    switch (ataque) {
+        case 'ataque-debil':
+            console.log('------------ ataque debil')
+            break;
+        case 'ataque-fuerte':
+            console.log('----------- ataque fuerte')
+            break;
+            case 'ataque-daga':
+            console.log('----------- ataque daga')
+            objPersonajeJugador.objMovimientoSeleccionado = objPersonajeJugador.getMovementById('ataque-daga');
+            objMovimientoJugador = objPersonajeJugador.objMovimientoSeleccionado;
+            let buttonText = ` ${objMovimientoJugador.icon} ${objMovimientoJugador.name} | ${objMovimientoJugador.cant} `;
+            botonAtaqueDaga.innerHTML = buttonText;
+    }
+
+    // parte general
+    console.warn(' diego ---------======', objPersonajeJugador.objMovimientoSeleccionado)
+    movimientoTurnoJugador = objMovimientoJugador.name;
+    console.log('elegiste', objMovimientoJugador.name)
+    seleccionarMovimientoEnemigo();
+    if (objMovimientoJugador.cant == 0) {
+        botonAtaqueDaga.disabled = true;
+        //botonAtaqueRafagaMagica.style.display = 'none';
+        checkIfAllMovementsAreDisabled()
+    }
+
+}
+
 function seleccionarMovimientoEnemigo() {
+    arrayMovimientosEnemigo = objPersonajeEnemigo.movimientos;
 
     if (arrayMovimientosEnemigo.length != 0) {
         let numRandom = Math.floor(Math.random() * (arrayMovimientosEnemigo.length - MIN_ATAQUES + 1));
-        objMovimientoEnemigo = arrayMovimientosEnemigo[numRandom];
+        objPersonajeEnemigo.objMovimientoSeleccionado = arrayMovimientosEnemigo[numRandom];
+        objMovimientoEnemigo = objPersonajeEnemigo.objMovimientoSeleccionado;
         objMovimientoEnemigo.cant--;
         movimientoTurnoEnemigo = objMovimientoEnemigo.name;
         //obtengo el boton para manipularlo luego
@@ -709,7 +750,7 @@ function aumentarNumRonda() {
 // todo: modificar esta logica por completo, segun ataques y defensas
 // todo: revisar el orden de llamado a metodos y las validaciones
 function realizarCombate() {
-    
+
     aumentarNumRonda();
 
     // crea elemento con texto del combate
@@ -722,16 +763,104 @@ function realizarCombate() {
         return;
     }
 
-    let danioRecibido = actualizarSaludJugador();
-    let danioRealizado = actualizarSaludEnemigo();
-console.error('saludJugador',objPersonajeJugador.salud , 'saludEnemigo', objPersonajeEnemigo.salud)
-    if (objPersonajeJugador.salud <= 0 ||  objPersonajeEnemigo.salud <= 0) {
+    //let danioRecibido = actualizarSaludJugador();
+    // el primer objeto es el Personaje que ataca, por ende, el dato devuelto es el danio que recibe el Personaje que defiende
+    let danioJugador = actualizarSalud(objPersonajeEnemigo, objPersonajeJugador);
+    // 
+    //let danioEnemigo = actualizarSalud(objPersonajeJugador, objPersonajeEnemigo);
+
+    console.error('saludJugador', objPersonajeJugador.salud, 'saludEnemigo', objPersonajeEnemigo.salud)
+
+    if (objPersonajeJugador.salud <= 0 || objPersonajeEnemigo.salud <= 0) {
         console.error('alguien murio')
         determinateWhoWins();
     }
 }
 function actualizarSaludEnemigo() {
     // console.warn('todo: development')
+}
+
+function actualizarSalud(objPersonajeAtacante, objPersonajeDefensor) {
+    let puntosDeAtaque = objPersonajeAtacante.objMovimientoSeleccionado.damage;
+    let tipoAtaque = objPersonajeAtacante.objMovimientoSeleccionado.type;
+    // diego contiuar revisando desde aca
+    let porcDefensaJugador;
+    let porcResistencia;
+    let porcDebilidad;
+    let danioRecibido;
+    let resistencias;
+    let debilidades;
+    let danioAbsorbido;
+    /*  console.log('==== actualizarSalid', objPersonajeAtacante.objMovimientoSeleccionado)
+     console.log('==== actualizarSalid', objPersonajeAtacante.objMovimientoSeleccionado.movementType) */
+    // se revisa el tipo de movimiento del jugador y del enemigo para popular los datos de la formula
+    if (objPersonajeAtacante.objMovimientoSeleccionado.movementType == ATAQUE) {
+        console.log('---- entro en ataque por el enemigo')
+        puntosDeAtaque;
+        tipoAtaque;
+
+        console.error(objPersonajeDefensor.tipoMovimiento)
+        if (objPersonajeDefensor.tipoMovimiento == DEFENSA) {
+            porcDefensaJugador = objMovimientoJugador.damgaeAbsorption;
+            resistencias = objMovimientoJugador.resistance;
+            debilidades = objMovimientoJugador.weakness;
+            console.warn('----', 'tipoAtaque', tipoAtaque, 'resist', resistencias, 'debi', debilidades)
+            porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
+            porcDebilidad = determinarPorcDebilidad(tipoAtaque, debilidades);
+            console.log(puntosDeAtaque, porcDefensaJugador, porcResistencia, porcDebilidad)
+            danioAbsorbido = (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100))
+            console.log('danio abs:', danioAbsorbido)
+            danioRecibido = puntosDeAtaque - danioAbsorbido;
+            console.log('danio reci:', danioRecibido)
+            console.error('porcResistencia', porcResistencia, 'porcDebilidad', porcDebilidad)
+            if (danioRecibido < 0) {
+                danioRecibido = 0;
+            }
+        } else if (objPersonajeDefensor.tipoMovimiento == RODAR) {
+            danioRecibido = 0;
+        } else if (objPersonajeDefensor.tipoMovimiento == ATAQUE || objPersonajeDefensor.tipoMovimiento == PIEDAD) {
+            danioRecibido = puntosDeAtaque
+        }
+    } else {
+        danioRecibido = 0;
+        danioAbsorbido = 0;
+        puntosDeAtaque = 0;
+    }
+
+    if (objPersonajeDefensor.tipoMovimiento == EFECTO_ESPECIAL) {
+        let idMovEspecial = objMovimientoJugador.id;
+        let movEspecial = objMovimientoJugador.specialEffect;
+
+        switch (idMovEspecial) {
+            case 'efecto-ira':
+                porcDefensaJugador = objMovimientoJugador.damgaeAbsorption;
+                resistencias = objMovimientoJugador.resistance;
+                debilidades = objMovimientoJugador.weakness;
+                porcResistencia = determinarPorcResistencia(tipoAtaque, resistencias);
+                porcDebilidad = determinarPorcDebilidad(tipoAtaque, debilidades);
+                danioAbsorbido = (puntosDeAtaque * ((porcDefensaJugador + porcResistencia - porcDebilidad) / 100));
+                console.error('se usa IRA')
+                console.log(puntosDeAtaque, porcDefensaJugador, porcResistencia, porcDebilidad)
+                console.log('danio abs:', danioAbsorbido)
+                danioRecibido = puntosDeAtaque - danioAbsorbido - movEspecial.PS
+                console.error(danioRecibido, puntosDeAtaque, danioAbsorbido, movEspecial.PS)
+                break;
+            case 'milagro-salud':
+                // recupera 30 PS y abs el 50% del danio
+                danioAbsorbido = puntosDeAtaque * (objMovimientoJugador.damgaeAbsorption / 100)
+                console.log('cuenta milagro:', puntosDeAtaque, danioAbsorbido, movEspecial.PS)
+                danioRecibido = puntosDeAtaque - danioAbsorbido - movEspecial.PS;
+                break;
+            case 'milagro-de-paz':
+                danioRecibido = 0;
+                break;
+        }
+    }
+
+    console.warn('danioRecibido', danioRecibido)
+    objPersonajeJugador.salud = objPersonajeJugador.salud - danioRecibido
+    console.log('vida restant =', objPersonajeJugador.salud)
+    domBarraSaludJugador.innerHTML = objPersonajeJugador.salud;
 }
 function actualizarSaludJugador() {
     let puntosDeAtaque;
@@ -761,7 +890,7 @@ function actualizarSaludJugador() {
             console.log('danio abs:', danioAbsorbido)
             danioRecibido = puntosDeAtaque - danioAbsorbido;
             console.log('danio reci:', danioRecibido)
-            console.error('porcResistencia',porcResistencia,'porcDebilidad', porcDebilidad)
+            console.error('porcResistencia', porcResistencia, 'porcDebilidad', porcDebilidad)
             if (danioRecibido < 0) {
                 danioRecibido = 0;
             }
@@ -791,12 +920,12 @@ function actualizarSaludJugador() {
                 console.error('se usa IRA')
                 console.log(puntosDeAtaque, porcDefensaJugador, porcResistencia, porcDebilidad)
                 console.log('danio abs:', danioAbsorbido)
-                danioRecibido = puntosDeAtaque - danioAbsorbido  - movEspecial.PS
-                console.error(danioRecibido ,puntosDeAtaque, danioAbsorbido ,movEspecial.PS)
+                danioRecibido = puntosDeAtaque - danioAbsorbido - movEspecial.PS
+                console.error(danioRecibido, puntosDeAtaque, danioAbsorbido, movEspecial.PS)
                 break;
             case 'milagro-salud':
                 // recupera 30 PS y abs el 50% del danio
-                danioAbsorbido = puntosDeAtaque * (objMovimientoJugador.damgaeAbsorption/100)
+                danioAbsorbido = puntosDeAtaque * (objMovimientoJugador.damgaeAbsorption / 100)
                 console.log('cuenta milagro:', puntosDeAtaque, danioAbsorbido, movEspecial.PS)
                 danioRecibido = puntosDeAtaque - danioAbsorbido - movEspecial.PS;
                 break;
@@ -806,10 +935,10 @@ function actualizarSaludJugador() {
         }
     }
 
-        console.warn('danioRecibido', danioRecibido)
-        objPersonajeJugador.salud = objPersonajeJugador.salud - danioRecibido
-        console.log('vida restant =', objPersonajeJugador.salud)
-        domBarraSaludJugador.innerHTML = objPersonajeJugador.salud;
+    console.warn('danioRecibido', danioRecibido)
+    objPersonajeJugador.salud = objPersonajeJugador.salud - danioRecibido
+    console.log('vida restant =', objPersonajeJugador.salud)
+    domBarraSaludJugador.innerHTML = objPersonajeJugador.salud;
 }
 // todo revisar que funcione ok la recurisivdad
 function determinarPorcResistencia(tipoAtaque, resistencias) {
@@ -909,6 +1038,10 @@ function crearMensajeCombate() {
     } else {
         console.error('contiene error ==============================')
     }
+
+    objPersonajeEnemigo.objMovimientoSeleccionado.movementType = tipoMovEnemigo;
+    // diego 
+    objPersonajeJugador.objMovimientoSeleccionado.movementType = tipoMovJugador;
 
     // TODO: validar opcion de SUCESO
     // el suceso sale de la convinacion de tipo de movimientos realizados

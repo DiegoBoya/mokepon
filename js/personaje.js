@@ -9,7 +9,8 @@ export class Personaje {
       this.resistencias = null;
       this.debilidades = null;
       //this.sepecialEffect
-      this.movimientos = [...this.ataques, ...this.defensas]
+      this.movimientos = [...this.ataques, ...this.defensas];
+      this.objMovimientoSeleccionado = null;
    }   
 
    getMovementById(_movimientoID){

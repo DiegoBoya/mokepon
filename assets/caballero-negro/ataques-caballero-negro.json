@@ -7,7 +7,8 @@
             "damage": 10,
             "icon": "🗡",
             "specialEffect": null,
-            "cant": 2
+            "cant": 2,
+            "movementType": "ATAQUE"
         },
         {
             "id": "ataque-fuerte",
@@ -16,7 +17,8 @@
             "damage": 20,
             "icon": "🗡",
             "specialEffect": null,
-            "cant": 21
+            "cant": 21,
+            "movementType": "ATAQUE"
         },
         {
             "id": "ataque-dos-manos",
@@ -25,7 +27,8 @@
             "damage": 20,
             "icon": "⚔",
             "specialEffect": null,
-            "cant": 2
+            "cant": 2,
+            "movementType": "ATAQUE"
         },
         {
             "id": "ataque-daga",
@@ -34,7 +37,8 @@
             "damage": 10,
             "icon": "🔪",
             "specialEffect": null,
-            "cant": 2
+            "cant": 21,
+            "movementType": "ATAQUE"
         },
         {
             "id": "ataque-piromancia",
@@ -43,7 +47,8 @@
             "damage": 32,
             "icon": "🔥",
             "specialEffect": null,
-            "cant": 1
+            "cant": 1,
+            "movementType": "ATAQUE"
         }
     ]
 }

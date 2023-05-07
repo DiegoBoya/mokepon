@@ -17,7 +17,7 @@
             "damage": 20,
             "icon": "🗡",
             "specialEffect": null,
-            "cant": 21,
+            "cant": 2,
             "movementType": "ATAQUE"
         },
         {
@@ -37,7 +37,7 @@
             "damage": 10,
             "icon": "🔪",
             "specialEffect": null,
-            "cant": 21,
+            "cant": 2,
             "movementType": "ATAQUE"
         },
         {

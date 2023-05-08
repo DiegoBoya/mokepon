@@ -557,9 +557,9 @@ function realizarCombate() {
 
     //let danioRecibido = actualizarSaludJugador();
     // el primer objeto es el Personaje que ataca, por ende, el dato devuelto es el danio que recibe el Personaje que defiende
-    let danioJugador = actualizarSalud(objPersonajeEnemigo, objPersonajeJugador);
+    let danioJugador = actualizarSalud(objPersonajeEnemigo, objPersonajeJugador, 'defensor-ME');
     // 
-    //let danioEnemigo = actualizarSalud(objPersonajeJugador, objPersonajeEnemigo);
+    let danioEnemigo = actualizarSalud(objPersonajeJugador, objPersonajeEnemigo, 'defensor-Enemigo');
 
     console.error('saludJugador', objPersonajeJugador.salud, 'saludEnemigo', objPersonajeEnemigo.salud)
 
@@ -590,7 +590,7 @@ function determinateWhoWins() {
     crearMensajeFinDeJuego(resultadoFinal);
 }
 
-function actualizarSalud(objPersonajeAtacante, objPersonajeDefensor) {
+function actualizarSalud(objPersonajeAtacante, objPersonajeDefensor, defensor) {
     // el DEFENSOR ES EL QUE RECIBE EL DAñO
 
     // ATACANTE
@@ -679,7 +679,14 @@ function actualizarSalud(objPersonajeAtacante, objPersonajeDefensor) {
     console.warn('danioRecibido', danioRecibido)
     objPersonajeDefensor.salud = objPersonajeDefensor.salud - danioRecibido
     console.log('vida restant =', objPersonajeDefensor.salud)
-    domBarraSaludJugador.innerHTML = objPersonajeDefensor.salud;
+
+    // modifico el DOM segun corresponda
+    if (defensor == 'defensor-Enemigo') {
+        domBarraSaludEnemigo.innerHTML = objPersonajeDefensor.salud;
+    } else {
+        // defensor == yo
+        domBarraSaludJugador.innerHTML = objPersonajeDefensor.salud;
+    }
 }
 
 
@@ -854,8 +861,8 @@ function crearMensajeFinDeJuego(mensaje) {
     }
     console.log(mensajeFinal)
 
-    if (!partidaFinalizada){
-        seccionMensajeFinal.appendChild(mensajeFinal)   
+    if (!partidaFinalizada) {
+        seccionMensajeFinal.appendChild(mensajeFinal)
         deshabilitarBotonesDeMovimientos();
     }
     return;

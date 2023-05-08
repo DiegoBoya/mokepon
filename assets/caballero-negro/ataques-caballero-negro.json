@@ -7,25 +7,28 @@
             "damage": 10,
             "icon": "🗡",
             "specialEffect": null,
-            "cant": 2
+            "cant": 2,
+            "movementType": "ATAQUE"
         },
         {
             "id": "ataque-fuerte",
-            "name": "A romper...",
+            "name": "a romper...",
             "type": "fisico",
             "damage": 20,
             "icon": "🗡",
             "specialEffect": null,
-            "cant": 2
+            "cant": 2,
+            "movementType": "ATAQUE"
         },
         {
-            "id": "dos-manos",
+            "id": "ataque-dos-manos",
             "name": "a dos manos",
             "type": "fisico",
             "damage": 20,
             "icon": "⚔",
             "specialEffect": null,
-            "cant": 2
+            "cant": 2,
+            "movementType": "ATAQUE"
         },
         {
             "id": "ataque-daga",
@@ -34,16 +37,18 @@
             "damage": 10,
             "icon": "🔪",
             "specialEffect": null,
-            "cant": 2
+            "cant": 2,
+            "movementType": "ATAQUE"
         },
         {
             "id": "ataque-piromancia",
             "name": "llamarada",
-            "type": "piromancia",
+            "type": "fuego",
             "damage": 32,
             "icon": "🔥",
             "specialEffect": null,
-            "cant": 1
+            "cant": 3,
+            "movementType": "ATAQUE"
         }
     ]
 }

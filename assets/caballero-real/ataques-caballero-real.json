@@ -3,14 +3,16 @@
         {
             "id": "ataque-rayo",
             "name": "Rayo",
+            "type": "rayo",
             "damage": 17,
             "icon": "⚡",
             "specialEffect": null,
             "cant": 3
         },
         {
-            "id": "doble-rayo",
+            "id": "ataque-doble-rayo",
             "name": "Doble Rayo",
+            "type": "rayo",
             "damage": 45,
             "icon": "⚡⚡",
             "specialEffect": null,
@@ -19,6 +21,7 @@
         {
             "id": "ataque-fuerte",
             "name": "Espadon Dorado",
+            "type": "fisico",
             "damage": 20,
             "icon": "🗡",
             "specialEffect": null,

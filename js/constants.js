@@ -10,7 +10,7 @@ export class Constants {
 Constants.espadaSimple = 'espada 🗡';
 Constants.espadaDoble = 'espada doble ⚔';
 Constants.daga = 'daga 🔪';
-Constants.rodar = 'rodar 🔄';
+Constants.rodar = 'defensa-rodar 🔄';
 Constants.arcoFlecha = 'Flecha de madera 🏹';
 Constants.rayo = 'rayo ⚡';
 Constants.piromancia = 'fuego 🔥';
@@ -48,13 +48,13 @@ ataques
        "id": "ataque-fuerte-1",
           "id": "ataque-fuerte-2
  "id": "ataque-daga",
- rafaga-magica
- "id": "flecha-magica",
+ ataque-rafaga-magica
+ "id": "ataque-flecha-magica",
 
 defensas
 "id": "defensa-magica-1"
-"id": "rodar",
-"id": "escudo-madera",
+"id": "defensa-rodar",
+"id": "defensa-escudo-madera",
 "id": "milagro-salud",
 "id": "milagro-1", 
 

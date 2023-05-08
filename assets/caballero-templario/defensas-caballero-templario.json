@@ -1,46 +1,26 @@
 {
     "defense": [
         {
-            "id": "escudo-madera",
+            "id": "defensa-escudo-madera",
             "name": "Escudo Madera",
-            "damage": 10,
             "icon": "🛡",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 5,
+            "type": "fisico",
+            "damageAbsorption": 100,
+            "resistance": null,
+            "weakness": "fuego"
         },
         {
-            "id": "escudo-madera",
-            "name": "Escudo Madera",
-            "damage": 10,
-            "icon": "🛡",
-            "specialEffect": null
-        },
-        {
-            "id": "escudo-madera",
-            "name": "Escudo Madera",
-            "damage": 10,
-            "icon": "🛡",
-            "specialEffect": null
-        },
-        {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
-            "damage": 10,
             "icon": "🔄",
-            "specialEffect": null
-        },
-        {
-            "id": "rodar",
-            "name": "Rodar",
-            "damage": 10,
-            "icon": "🔄",
-            "specialEffect": null
-        },
-        {
-            "id": "rodar",
-            "name": "Rodar",
-            "damage": 10,
-            "icon": "🔄",
-            "specialEffect": null
+            "specialEffect": null,
+            "cant": 4,
+            "type": "avoid",
+            "damageAbsorption": 100,
+            "resistance": null,
+            "weakness": null
         }
     ]
 }

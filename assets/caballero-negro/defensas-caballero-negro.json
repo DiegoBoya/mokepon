@@ -1,36 +1,52 @@
 {
     "defense": [
         {
-            "id": "defensa-debil",
+            "id": "defensa-magica",
             "name": "Escudo Magico",
             "icon": "🌀",
             "specialEffect": null,
             "cant": 3,
             "type": "magic",
-            "damgeAbsorption": 50,
+            "damageAbsorption": 50,
             "resistance": "magic",
-            "weakness": "pfysical"
+            "weakness": "fisico"
         },
         {
-            "id": "rodar",
+            "id": "defensa-rodar",
             "name": "Rodar",
             "icon": "🔄",
             "specialEffect": null,
             "cant": 3,
             "type": "avoid",
-            "damgeAbsorption": 100,
+            "damageAbsorption": 100,
             "resistance": null,
             "weakness": null
         },
         {
-            "id": "defensa-fuerte",
+            "id": "defensa-oscura",
             "name": "Escudo magico oscuro",
             "icon": "🎆",
             "specialEffect": null,
             "cant": 3,
             "type": "magic",
-            "damgeAbsorption": 80,
-            "resistance": ["magic", "pfysical", "fuego"],
+            "damageAbsorption": 60,
+            "resistance": ["magic", "fisico", "fuego"],
+            "weakness": "rayo"
+        },
+        {
+            "id": "efecto-ira",
+            "name": "Ira",
+            "icon": "😡",
+            "specialEffect": {
+                "duration": 2,
+                "atack": 1.25,
+                "defense": 1,
+                "PS": -15
+            },
+            "cant": 2,
+            "type": "piromancia",
+            "damageAbsorption": 35,
+            "resistance": ["magic", "fisico", "fuego"],
             "weakness": "rayo"
         }
     ]

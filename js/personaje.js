@@ -14,7 +14,7 @@ export class Personaje {
    }   
 
    getMovementById(_movimientoID){
-      console.log('movimientos disponibles jugador:', this.movimientos)
+      //console.log('movimientos disponibles jugador:', this.movimientos)
       let mov = this.movimientos.find(mov => mov.id == _movimientoID)
       mov.cant --; // el get no deberia restar
       return mov;

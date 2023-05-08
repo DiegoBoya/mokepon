@@ -47,7 +47,7 @@
             "damage": 32,
             "icon": "🔥",
             "specialEffect": null,
-            "cant": 1,
+            "cant": 3,
             "movementType": "ATAQUE"
         }
     ]

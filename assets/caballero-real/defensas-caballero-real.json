@@ -7,7 +7,7 @@
             "specialEffect": null,
             "cant": 3,
             "type": "avoid",
-            "damgaeAbsorption": 100,
+            "damageAbsorption": 100,
             "resistance": null,
             "weakness": "fuego"
         },
@@ -18,7 +18,7 @@
             "specialEffect": null,
             "cant": 3,
             "type": "avoid",
-            "damgaeAbsorption": 100,
+            "damageAbsorption": 100,
             "resistance": null,
             "weakness": null
         },
@@ -29,7 +29,7 @@
             "specialEffect": null,
             "cant": 3,
             "type": "magic",
-            "damgaeAbsorption": 50,
+            "damageAbsorption": 50,
             "resistance": "magic",
             "weakness": "fisico"
         },
@@ -45,7 +45,7 @@
             },
             "cant": 2,
             "type": "miracle",
-            "damgaeAbsorption": 100,
+            "damageAbsorption": 100,
             "resistance": null,
             "weakness": null
         },
@@ -61,7 +61,7 @@
             },
             "cant": 2,
             "type": "miracle",
-            "damgaeAbsorption": 50,
+            "damageAbsorption": 50,
             "resistance": null,
             "weakness": null
         }

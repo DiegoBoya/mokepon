@@ -1,3 +1,5 @@
-status: en desarrollo
+Videojuego (en desarrollo) de estrategia por turnos al mejor estilo Souls
+
+
+
 autor: Diego Boyatjian
-resumen: videojuego de estrategia por turnos al mejor estilo Souls
